@@ -30,7 +30,7 @@ __all__ = ("cache", "page")
 _cache_condition = {}
 _mem_caches = {}
 
-def cache(expire=7200, condition=None, key=None, anonymous=False):
+def cache(expire=7200, condition="", key="", anonymous=False):
     """Decorator which caches the value of a method in a handler or a module.    
     
     expire: Cache will be expired time from now in seconds.
@@ -40,15 +40,14 @@ def cache(expire=7200, condition=None, key=None, anonymous=False):
     """
     def wrapper(func, self, *args, **kwargs):
         now = datetime.now()
-        if key is None:
-            c = self.__class__.__name__ + func.__name__
-        else:
+        if key:
             c = key
-        k = key_gen(c, *args, **kwargs)
+        else:
+            c = self.__class__.__name__ + func.__name__
+        k, handler, cond = key_gen(self, condition, c, *args, **kwargs)
 
         value = Cache().findby_key(k)
-
-        if _valid_cache(self, k, value, condition, anonymous, now):
+        if _valid_cache(k, value, handler, cond, anonymous, now):
             return value["value"]
         else:
             val = func(self, *args, **kwargs)
@@ -67,7 +66,7 @@ def cache(expire=7200, condition=None, key=None, anonymous=False):
 
     return decorator(wrapper)
 
-def page(expire=7200, condition=None, key=None, anonymous=False):
+def page(expire=7200, condition="", key="", anonymous=False):
     """Decorator which caches a whole page(headers + html) in a handler
     
     expire: Cache will be expired time from now in seconds.   
@@ -77,14 +76,14 @@ def page(expire=7200, condition=None, key=None, anonymous=False):
     """
     def wrapper(func, self, *args, **kwargs):
         now = datetime.now()
-        if key is None:
-            c = self.__class__.__name__ + func.__name__
-        else:
+        if key:
             c = key
-        k = key_gen(c, *args, **kwargs)
-        value = Cache().findby_key(k)
+        else:
+            c = self.__class__.__name__ + func.__name__
+        k, handler, cond = key_gen(self, condition, c, *args, **kwargs)
 
-        if _valid_cache(self, k, value, condition, anonymous, now) and value["status"] in (200, 304):
+        value = Cache().findby_key(k)
+        if _valid_cache(k, value, handler, cond, anonymous, now) and value["status"] in (200, 304):
             # finish request with cache chunk and headers         
             self.set_status(value["status"])
             self.set_header("Content-Type", utf8(value["headers"]["Content-Type"]))
@@ -106,18 +105,18 @@ def page(expire=7200, condition=None, key=None, anonymous=False):
     return decorator(wrapper)
 
 
-def mem(expire=7200, key=None):
-    """Mem cache to python dict"""
+def mem(expire=7200, key=""):
+    """Mem cache to python dict by key"""
     def wrapper(func, self, *args, **kwargs):
         now = datetime.now()
-        if key is None:
-            c = self.__class__.__name__ + func.__name__
-        else:
+        if key:
             c = key
-        k = key_gen(c, *args, **kwargs)
-        value = _mem_caches.get(k, None)
+        else:
+            c = self.__class__.__name__ + func.__name__
+        k, handler, cond = key_gen(self, "", c, *args, **kwargs)
 
-        if _valid_cache(self, k, value, None, False, now):
+        value = _mem_caches.get(k, None)
+        if _valid_cache(k, value, handler, cond, False, now):
             return value["value"]
         else:
             val = func(self, *args, **kwargs)
@@ -128,7 +127,7 @@ def mem(expire=7200, key=None):
     return decorator(wrapper)
 
 
-def key_gen(key, *args, **kwargs):
+def key_gen(self, condition, key, *args, **kwargs):
     code = hashlib.md5()
 
     code.update(str(key))
@@ -145,11 +144,22 @@ def key_gen(key, *args, **kwargs):
     c.sort()
     code.update("".join(c))
 
-    return code.hexdigest()
+    if isinstance(self, BaseHandler):
+        handler = self
+    else:
+        handler = getattr(self, "handler", None)
 
-def remove(key, *args, **kwargs):
+    if not condition and handler is not None:
+        condition = getattr(handler, "cache_condition", "")
+
+    # also update condition to key, so the same func 
+    # has diff caches if there condition is diff(cache_condtion)
+    code.update(condition)
+
+    return code.hexdigest(), handler, condition
+
+def remove(key):
     """Remove a cache's value."""
-    k = key_gen(key, *args, **kwargs)
     try:
         del _cache_condition[k]
     except KeyError:
@@ -160,23 +170,15 @@ def remove(key, *args, **kwargs):
     if v:
         c.remove(v["_id"])
 
-def _valid_cache(self, k, value, condition, anonymous, now):
+def _valid_cache(k, value, handler, condition, anonymous, now):
     if not options.cache_enabled:
         return False
-
-    if isinstance(self, BaseHandler):
-        handler = self
-    else:
-        handler = getattr(self, "handler", None)
 
     if anonymous and handler.current_user:
         return False
 
-    if condition is None and handler is not None:
-        condition = getattr(handler, "cache_condition", None)
-
     if value:
-        if condition is not None:
+        if condition:
             cond = _cache_condition.get(k, NoDefault)
             if cond is NoDefault:
                 # update condition result                
