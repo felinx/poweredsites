@@ -171,7 +171,7 @@ class WebsiteIndexHandler(BaseHandler):
     _ws_count_query = "select count(*) as c from site"
     _context_title = "Latest sites"
 
-    @cache.page(3600, anonymous=True)
+    @cache.page(3600, condition="select id from site order by id DESC")
     def get(self):
         self._context.ws_count_query = self._ws_count_query
         self._context.ws_query = "select site.*, user.username, user.openid_name "\
@@ -225,7 +225,16 @@ class WebsiteHandler(BaseHandler):
 class WebsitesModule(UIModule, PaginationMixin):
     def render(self, count_query, query, page):
         pagination = self.get_pagination(count_query, query, page)
+
         return self.render_string("modules/websites.html", pagination=pagination)
+
+class WebsitePoweredsModule(UIModule):
+    @cache.cache()
+    def render(self, site_id):
+        powereds = self.handler.db.query("select project.* from project_sites, project "\
+                                 "where project_sites.site_id = %s and project_sites.project_id = project.id", site_id)
+
+        return self.render_string("modules/website_powereds.html", powereds=powereds)
 
 
 class WebsitesIndexModule(UIModule):
@@ -271,4 +280,5 @@ ui_modules = {"websites":WebsitesModule,
               "websites_ar":WebsitesArModule,
               "websites_pr":WebsitesPrModule,
               "websites_opensource":WebsitesOpensourceModule,
+              "website_powereds":WebsitePoweredsModule,
               }

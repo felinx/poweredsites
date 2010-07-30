@@ -84,7 +84,7 @@ def page(expire=7200, condition=None, key=None, anonymous=False):
         k = key_gen(c, *args, **kwargs)
         value = Cache().findby_key(k)
 
-        if _valid_cache(self, k, value, condition, anonymous, now) and 200 == value["status"]:
+        if _valid_cache(self, k, value, condition, anonymous, now) and value["status"] in (200, 304):
             # finish request with cache chunk and headers         
             self.set_status(value["status"])
             self.set_header("Content-Type", utf8(value["headers"]["Content-Type"]))
@@ -179,7 +179,7 @@ def _valid_cache(self, k, value, condition, anonymous, now):
         if condition is not None:
             cond = _cache_condition.get(k, NoDefault)
             if cond is NoDefault:
-                # update condition result
+                # update condition result                
                 _cache_condition[k] = conn.mysql.query(condition)
             else:
                 new_cond = conn.mysql.query(condition)

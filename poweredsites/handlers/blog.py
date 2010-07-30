@@ -125,7 +125,6 @@ class ComposeHandler(BlogBaseHandler):
 
 class EntryModule(UIModule):
     def render(self, entry):
-        print entry
         return self.render_string("modules/entry.html", entry=entry)
 
 

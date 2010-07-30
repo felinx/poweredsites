@@ -110,7 +110,7 @@ class ProjectIndexHandler(ProjectHandler):
     _handler_template = "site/index.html"
     _ws_count_query = "select count(*) as c from project_sites where project_id = %s"
 
-    @cache.page(3600, anonymous=True)
+    @cache.page(3600, condition="select id from project_sites order by id DESC")
     def get(self):
         subdomain = self.request.host.split(".")[0]
         if not subdomain.islower():
