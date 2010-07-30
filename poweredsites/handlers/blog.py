@@ -32,6 +32,7 @@ class BlogBaseHandler(BaseHandler):
         super(BlogBaseHandler, self).prepare()
         self._context.title = "PoweredSites' Blog"
         self._context.keywords = self._context.keywords + ", blog"
+        self._context.is_help = False
 
     @property
     @cache.mem(6 * 3600, "blog/bloggers")
@@ -68,7 +69,7 @@ class ArchiveHandler(BlogBaseHandler):
         self.render("blog/archive.html", entries=entries)
 
 
-class FeedHandler(BaseHandler):
+class FeedHandler(BlogBaseHandler):
     @cache.page(condition="select id from entries ORDER BY id DESC")
     def get(self):
         entries = self.db.query("SELECT * FROM entries where is_help = 0 ORDER BY created "
@@ -124,6 +125,7 @@ class ComposeHandler(BlogBaseHandler):
 
 class EntryModule(UIModule):
     def render(self, entry):
+        print entry
         return self.render_string("modules/entry.html", entry=entry)
 
 

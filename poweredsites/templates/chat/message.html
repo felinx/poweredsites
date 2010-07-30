@@ -1,6 +1,6 @@
-<div class="message" id="m{{ message["id"] }}">
+<div class="message" id="m{{ message["uuid_"] }}">
     <a target="_blank" href="http://poweredsites.org/user/{{ escape(message['username']) }}">
-        <b>{{ escape(message["from_"]) }}: </b>
-    </a>
+        {{ escape(message["from_"]) }}:
+    </a>&nbsp;&nbsp;
     {{ escape(message["body"]) }}
 </div>

@@ -513,10 +513,12 @@ body {
     padding:10px 5px;
     width:618px;
     border:1px solid #ccc;
+    margin-bottom:1em;
 }
 
 #message {
     margin-top:10px;
+    overflow:hidden;
 }
 
 #chat-body .project {

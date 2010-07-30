@@ -50,11 +50,11 @@ class MessageMixin(object):
 
         messages = cache
         if not messages:
-            messages = self.db.query("select messages.*,uername from messages,user "
+            messages = self.db.query("select messages.*,username from messages,user "
                                      "where messages.user_id = user.id and project = %s "
                                      "order by messages.created limit 0, 200", project)
             if messages:
-                messages = [{"id":m.uuid_, "from_":m.from_, "username":m.username, "body":m.body} for m in messages]
+                messages = [{"uuid_":m.uuid_, "from_":m.from_, "username":m.username, "body":m.body} for m in messages]
                 cache = messages
 
         return messages
@@ -74,7 +74,7 @@ class MessageMixin(object):
             index = 0
             for i in xrange(len(cache)):
                 index = len(cache) - i - 1
-                if cache[index]["id"] == cursor: break
+                if cache[index]["uuid_"] == cursor: break
             recent = cache[index + 1:]
             if recent:
                 callback(recent)
@@ -127,7 +127,7 @@ class MessageNewHandler(BaseHandler, MessageMixin):
         from_ = self.current_user.openid_name
         username = self.current_user.username
         message = {
-            "id": uuid_,
+            "uuid_": uuid_,
             "from_": from_,
             "username":username,
             "body": body,
