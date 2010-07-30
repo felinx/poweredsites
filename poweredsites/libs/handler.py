@@ -16,6 +16,7 @@
 
 import re
 import httplib
+import urllib
 import traceback
 
 from tornado.web import RequestHandler, HTTPError
@@ -197,7 +198,10 @@ class AdminBaseHandler(BaseHandler):
     def prepare(self):
         if not self.current_user:
             if self.request.method == "GET":
-                self.redirect(self.get_login_url())
+                url = self.get_login_url()
+                if "?" not in url:
+                    url += "?" + urllib.urlencode(dict(next=self.request.full_url()))
+                self.redirect(url)
                 return
             raise HTTPError(403)
         elif not self.is_admin:
@@ -220,7 +224,10 @@ class StaffBaseHandler(BaseHandler):
     def prepare(self):
         if not self.current_user:
             if self.request.method == "GET":
-                self.redirect(self.get_login_url())
+                url = self.get_login_url()
+                if "?" not in url:
+                    url += "?" + urllib.urlencode(dict(next=self.request.full_url()))
+                self.redirect(url)
                 return
             raise HTTPError(403)
         elif not self.is_staff:
