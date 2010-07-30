@@ -35,7 +35,13 @@ _next = {}
 
 class LoginHandler(BaseHandler):
     def get(self):
-        self._context.next = self.get_argument("next", options.home_url)
+        next = self.get_argument("next", options.home_url)
+        if next.startswith(options.login_url):
+            self.redirect("/login")
+            return
+
+        self._context.next = next
+
         self._context.title = "OpenID login"
         self.render("user/login.html", url_escape=escape.url_escape)
 
