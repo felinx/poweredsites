@@ -20,7 +20,7 @@ import traceback
 
 from tornado.web import RequestHandler, HTTPError
 from tornado.options import options
-from tornado import template, ioloop
+from tornado import template, ioloop, escape
 
 from poweredsites.libs import mail, const
 from poweredsites.libs.exceptions import TemplateContextError
@@ -64,6 +64,7 @@ class BaseHandler(RequestHandler):
         assert "context" not in kwargs, "context is a reserved word for \
                 template context valuable."
         kwargs['context'] = self._context
+        kwargs['url_escape'] = escape.url_escape
 
         return super(BaseHandler, self).render_string(template_name, **kwargs)
 

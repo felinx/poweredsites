@@ -15,11 +15,11 @@
 # under the License.
 
 from datetime import datetime
-from tornado.web import HTTPError, authenticated
+from tornado.web import HTTPError
 
 from poweredsites.libs.utils import url
 from poweredsites.libs.handler import BaseHandler
-from poweredsites.libs.decorators import cache, staff
+from poweredsites.libs.decorators import cache, staff, authenticated
 
 class HelpHandler(BaseHandler):
     @cache.page(anonymous=True)

@@ -16,10 +16,10 @@
 
 import logging
 import uuid
-from tornado.web import authenticated, asynchronous, HTTPError
+from tornado.web import asynchronous, HTTPError
 
 from poweredsites.libs.handler import BaseHandler
-from poweredsites.libs.decorators import cache
+from poweredsites.libs.decorators import cache, authenticated
 
 
 class ChatBaseHandler(BaseHandler):

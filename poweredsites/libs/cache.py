@@ -44,7 +44,7 @@ def cache(expire=7200, condition="", key="", anonymous=False):
             c = key
         else:
             c = self.__class__.__name__ + func.__name__
-        k, handler, cond = key_gen(self, condition, c, *args, **kwargs)
+        k, handler, cond = key_gen(self, condition, anonymous, c, *args, **kwargs)
 
         value = Cache().findby_key(k)
         if _valid_cache(k, value, handler, cond, anonymous, now):
@@ -80,7 +80,7 @@ def page(expire=7200, condition="", key="", anonymous=False):
             c = key
         else:
             c = self.__class__.__name__ + func.__name__
-        k, handler, cond = key_gen(self, condition, c, *args, **kwargs)
+        k, handler, cond = key_gen(self, condition, anonymous, c, *args, **kwargs)
 
         value = Cache().findby_key(k)
         if _valid_cache(k, value, handler, cond, anonymous, now) and value["status"] in (200, 304):
@@ -113,7 +113,7 @@ def mem(expire=7200, key=""):
             c = key
         else:
             c = self.__class__.__name__ + func.__name__
-        k, handler, cond = key_gen(self, "", c, *args, **kwargs)
+        k, handler, cond = key_gen(self, "", False, c, *args, **kwargs)
 
         value = _mem_caches.get(k, None)
         if _valid_cache(k, value, handler, cond, False, now):
@@ -127,7 +127,7 @@ def mem(expire=7200, key=""):
     return decorator(wrapper)
 
 
-def key_gen(self, condition, key, *args, **kwargs):
+def key_gen(self, condition, anonymous, key, *args, **kwargs):
     code = hashlib.md5()
 
     code.update(str(key))
@@ -155,6 +155,10 @@ def key_gen(self, condition, key, *args, **kwargs):
     # also update condition to key, so the same func 
     # has diff caches if there condition is diff(cache_condtion)
     code.update(condition)
+
+    # cache for every users if anonymous is False
+    if not anonymous and handler.current_user:
+        code.update(str(handler.current_user.id))
 
     return code.hexdigest(), handler, condition
 

@@ -15,7 +15,7 @@
 # under the License.
 
 import logging
-from tornado.web import authenticated, asynchronous
+from tornado.web import asynchronous
 from tornado import escape
 from tornado.httpclient import AsyncHTTPClient
 from tornado.web import UIModule
@@ -25,7 +25,7 @@ from BeautifulSoup import BeautifulSoup
 
 from poweredsites.libs.handler import BaseHandler, StaffBaseHandler
 from poweredsites.forms.submit import ProjectForm, ProjectPreForm
-from poweredsites.libs.decorators import cache
+from poweredsites.libs.decorators import cache, authenticated
 
 
 class ProjectHandler(BaseHandler):

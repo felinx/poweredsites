@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from tornado.web import authenticated, asynchronous, HTTPError
+from tornado.web import asynchronous, HTTPError
 from tornado import escape
 from tornado.options import options
 from tornado.web import UIModule
@@ -24,7 +24,7 @@ from poweredsites.libs.alexarank import AlexaRankMixin
 from poweredsites.libs.pagerank import PageRankMinxin
 from poweredsites.libs.snapshot import SnapShotMinxin
 from poweredsites.libs.pagination import PaginationMixin
-from poweredsites.libs.decorators import cache
+from poweredsites.libs.decorators import cache, authenticated
 from poweredsites.forms.submit import SiteForm, SitePreForm, SitePoweredForm
 from poweredsites.handlers.project import SubmitProjectHandler
 

@@ -28,7 +28,7 @@
                 </div>
                 <div id="usernav">
                     {% if current_user is None %}					  
-					    <a href="http://poweredsites.org/login">OpenID Login</a>
+					    <a href="http://poweredsites.org/login?next={{url_escape(request.full_url())}}">OpenID Login</a>
                     {% else %}					
                         <a class='orange' title="{{escape(current_user.openid_name)}}" href="http://poweredsites.org/user/{{current_user.username}}">Welcome,{{escape(current_user.openid_name[0:40])}}</a>
 						<a href="http://poweredsites.org/user/profile">Edit profile</a>

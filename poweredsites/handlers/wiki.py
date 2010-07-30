@@ -15,10 +15,10 @@
 # under the License.
 
 from datetime import datetime
-from tornado.web import HTTPError, authenticated
+from tornado.web import HTTPError
 
 from poweredsites.libs.handler import BaseHandler
-from poweredsites.libs.decorators import cache
+from poweredsites.libs.decorators import cache, authenticated
 
 class WikiIndexHandler(BaseHandler):
     @cache.page(3600 * 24)

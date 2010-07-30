@@ -20,12 +20,13 @@ import hashlib
 from datetime import datetime, timedelta
 
 import tornado.auth
-from tornado.web import authenticated, asynchronous, HTTPError
+from tornado.web import asynchronous, HTTPError
 from tornado.options import options
 from tornado import escape
 
 from poweredsites.libs.handler import BaseHandler
 from poweredsites.libs import const
+from poweredsites.libs.decorators import authenticated
 from poweredsites.forms.profile import ProfileForm
 
 _chinese_character_re = re.compile(u"[\u4e00-\u9fa5]")
@@ -34,7 +35,7 @@ _next = {}
 
 class LoginHandler(BaseHandler):
     def get(self):
-        self._context.next = self.get_argument("next", "/")
+        self._context.next = self.get_argument("next", options.home_url)
         self._context.title = "OpenID login"
         self.render("user/login.html", url_escape=escape.url_escape)
 
