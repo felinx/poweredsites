@@ -86,7 +86,7 @@ function newMessage(form) {
     disabled.disable();
     $.postJSON("/{{context.current_project.subdomain}}/a/message/new", message, function(response) {
         updater.showMessage(response);
-        if (message.id) {
+        if (message.uuid_) {
             form.parent().remove();
         } else {
             form.find("input[type=text]").val("").select();
@@ -152,7 +152,7 @@ var updater = {
         if (!response.messages) return;
         updater.cursor = response.cursor;
         var messages = response.messages;
-        updater.cursor = messages[messages.length - 1].id;
+        updater.cursor = messages[messages.length - 1].uuid_;
         console.log(messages.length, "new messages, cursor:", updater.cursor);
         for (var i = 0; i < messages.length; i++) {
             updater.showMessage(messages[i]);
@@ -160,7 +160,7 @@ var updater = {
     },
 
     showMessage: function(message) {
-        var existing = $("#m" + message.id);
+        var existing = $("#m" + message.uuid_);
         if (existing.length > 0) return;
         var node = $(message.html);
         node.hide();
