@@ -92,6 +92,6 @@ class MongodbModel(dict):
 
     def remove(self, _id=None):
         if _id is not None:
-            self._id = id
+            self._id = _id
 
         self.db.remove(self._id)

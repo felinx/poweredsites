@@ -26,12 +26,12 @@ from tornado import escape
 
 from poweredsites.libs.handler import BaseHandler
 from poweredsites.libs import const
+from poweredsites.db.caches import Cache
 from poweredsites.libs.decorators import authenticated
 from poweredsites.forms.profile import ProfileForm
 
 _chinese_character_re = re.compile(u"[\u4e00-\u9fa5]")
 
-_next = {}
 
 class LoginHandler(BaseHandler):
     def get(self):
@@ -57,19 +57,26 @@ class OpenidLoginHandler(BaseHandler):
 
     def _cache_next(self):
         now = datetime.now()
-        keys = _next.keys()
-        for k in keys:
-            # clear unused login redirect next cache
-            if now > _next[k][1] + timedelta(seconds=3600):
-                del _next[k]
+        key = self._next_key_gen()
+        val = self.get_argument("next", "/")
 
-        _next[self._next_key_gen()] = (self.get_argument("next", "/"), now)
+        c = Cache()
+        c.key = key
+        c.value = val
+        c.expire = now + timedelta(seconds=600)
+
+        value = c.findby_key(key)
+        if value:
+            c.save(value["_id"])
+        else:
+            c.insert()
 
     def _next_key_gen(self):
         code = hashlib.md5()
 
         # make a unique id for a un-logined user
         # it may be duplicated for different users
+        code.update("user/next")
         code.update(self.request.remote_ip)
         code.update(self.request.headers.get("User-Agent", "Unknown-Agent"))
         code.update(self.request.headers.get("Accept-Language", "en-us,en;q=0.5"))
@@ -104,11 +111,15 @@ class OpenidLoginHandler(BaseHandler):
 
     def _login_redirect(self, status_):
         key = self._next_key_gen()
-        next = _next.get(key, ("/",))[0]
-        try:
-            del _next[key]
-        except KeyError:
-            pass
+
+        c = Cache()
+        value = c.findby_key(key)
+        if value:
+            next = escape.utf8(value["value"])
+            c.remove(value["_id"])
+        else:
+            next = "/"
+
         #next = self.get_argument("next", "/")
         if status_ == const.Status.INIT:
             self.redirect("/user/profile?next=%s" % next)
