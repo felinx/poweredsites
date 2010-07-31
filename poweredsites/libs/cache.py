@@ -165,12 +165,12 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
 def remove(key):
     """Remove a cache's value."""
     try:
-        del _cache_condition[k]
+        del _cache_condition[key]
     except KeyError:
         pass
 
     c = Cache()
-    v = c.findby_key(k)
+    v = c.findby_key(key)
     if v:
         c.remove(v["_id"])
 
