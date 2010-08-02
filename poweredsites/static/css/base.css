@@ -1,0 +1,634 @@
+.fleft {
+	float: left;
+}
+
+.fright {
+	float: right;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.center {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.al-center {
+	text-align: center;
+}
+
+.button {
+	background: #2b76c9;
+	border-color: #DDD #BBB #BBB #DDD;
+	border-style: solid;
+	border-width: 1px;
+	color: #FFF;
+	padding: 3px 10px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.gray {
+	color: gray;
+}
+
+.orange {
+	color: #f60;
+}
+
+.highlight {
+	color: #E28822;
+	background: #fff;
+}
+
+.comments {
+    float:left;
+    width:620px;
+    padding:5px;
+}
+
+.error,.notice,.success {
+	border: none;
+	margin: 0.5em 0;
+	padding: 0 10px;
+	color: #FF3300;
+	background: #fff;
+	height: 25px;
+}
+
+textarea {
+	height: 150px;
+}
+
+textarea .error {
+	border: 1px solid #f60;
+}
+
+/* for formencode */
+.error-message {
+	color: red;
+}
+
+.red {
+	color: red;
+}
+
+a {
+	color: #06c;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #f60;
+}
+
+body {
+	background: #D5DDE6;
+	line-height: 1.5;
+	font-family: helvetica, arial, sans-serif;
+}
+
+#topnav {
+	margin: 0 auto;
+	width: 100%;
+	float: left;
+	min-width: 400px;
+	padding-top: 3px;
+}
+
+#topnav a {
+	padding: 0 2px;
+}
+
+#topnav .select {
+	color: #f60;
+	font-weight: bold;
+}
+
+#hot-projects {
+	margin-left: 5px;
+	float: left;
+	height: 20px;
+}
+
+#hot-projects a {
+	text-decoration: underline;
+}
+
+#usernav {
+	float: right;
+	text-align: right;
+	margin-right: 5px;
+}
+
+#body {
+	width: 910px;
+	margin: 0 auto;
+}
+
+#header {
+	width: 906px;
+	float: left;
+}
+
+#header-body a:hover {
+	color: #bc2a4d;
+}
+
+#slogan {
+	padding: 25px 40px 25px 0;
+	height: 150px;
+	overflow: hidden;
+}
+
+#slogan h2 {
+	margin-bottom: 0.25em;
+}
+
+#slogan p {
+	margin: 0;
+}
+
+#header-body {
+	padding-bottom: 1em;
+}
+
+#site-tab {
+	width: 906px;
+	float: left;
+	height: 50px;
+	clear: both;
+}
+
+#site-tab a {
+	height: 50px;
+	color: #fff;
+	line-height: 50px;
+	padding: 0 15px;
+	float: left;
+	margin: 0 5px;
+}
+
+#site-links {
+	padding-left: 20px;
+	width: 600px;
+	float: left;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#cse-search-box {
+	height: 50px;
+	line-height: 50px;
+	float: right;
+	padding-right: 20px;
+	width: 266px;
+	text-align: right;
+}
+
+#header .header-div {
+	height: 25px;
+	margin-bottom: 1px;
+	padding: 2px 0;
+	font-size: 12px;
+}
+
+#footer {
+	border-top: 1px solid #C7CFD7;
+	clear: both;
+	padding-top: 1.5em;
+	width: 894px;
+	margin: 0 6px 20px 6px;
+}
+
+#siteinfo a {
+	padding: 2px;
+}
+
+#poweredby {
+	padding-top: 2px;
+}
+
+/*----------Submit Form---------*/
+#openid-links img {
+	border: 1px solid #ccc;
+	padding: 5px 10px;
+	margin: 10px;
+	background: #eee;
+}
+
+#openid-notes {
+	margin: 20px 0 10px 0;
+}
+
+.sidebar {
+	width: 180px;
+	float: left;
+	margin-bottom: 1em;
+	margin-right: 20px;
+}
+
+.sidebar h3 {
+	font-weight: bold;
+	padding: 6px 0;
+	color: #005fbd;
+	border-bottom: 1px solid #3c8ad4;
+}
+
+.sidebar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0 0 0 20px;
+}
+
+.sidebar li {
+	padding: 10px 0;
+	border-bottom: 1px solid #eee;
+}
+
+.sidebar .select {
+	text-decoration: underline;
+	color: #f60;
+}
+
+.wrapper {
+	width: 670px;
+	float: left;
+	margin-right: 0px;
+}
+
+.wrapperL {
+	width: 630px;
+	float: left;
+	margin-right: 10px;
+}
+
+#submit-div .label {
+	margin: 2em 0 0 0;
+}
+
+#submit-div .first {
+	margin-top: 0;
+}
+
+#submit-div .notes {
+	color: gray;
+	width: 670px;
+	float: left;
+	margin-right: 0px;
+}
+
+#submit-div h3 {
+	padding: 6px 0;
+}
+
+#btnSubmit {
+	margin-top: 20px;
+}
+
+#submit-div .markedit {
+	float: left;
+	margin: 0px;
+	padding: 0px;
+	width: 470px;
+}
+
+#markedit {
+	padding: 0px;
+}
+
+#preview {
+	float: left;
+	width: 470px;
+}
+
+#projects .project {
+	float: left;
+	width: 150px;
+	overflow: hidden;
+	margin: 2px 0px 2px 10px;;
+}
+
+/* sites css*/
+#websites .website {
+	float: left;
+	width: 630px;
+	margin-bottom: 1.5em;
+}
+
+#websites .ws-label {
+	float: left;
+	width: 630px;
+	font-size: 15px;
+}
+
+#websites .ws-logo {
+	width: 250px;
+	text-align: center;
+	float: left;
+	padding: 10px;
+	overflow: hidden;
+}
+
+#websites .ws-logo a {
+	font-size: 18px;
+}
+
+#websites .ws-desc {
+	float: left;
+	width: 350px;
+	margin: 3px 0 3px 10px;
+}
+
+#websites .ws-desc a {
+	color: #222;
+}
+
+#websites .ws-desc a:hover {
+	color: #f60;
+}
+
+#websites .ws-user {
+	float: left;
+	text-align: right;
+	width: 620px;
+	border-bottom: 1px solid #ccc;
+	padding: 2px 5px;
+}
+
+#websites .ws-user a {
+	padding: 0 5px;
+}
+
+#websites-tab {
+	float: left;
+	list-style-type: none;
+	margin: 0 0 1em 0;
+	padding: 0;
+	border-bottom: 1px solid #3366AA;
+}
+
+#websites-tab li {
+	background-color: #F7F7F7;
+	border-color: #CCCCCC #CCCCCC #FFFFFF;
+	border-style: solid solid none;
+	border-width: 1px 1px 0;
+	margin-bottom: -1px;
+	float: left;
+	margin-left: 15px;
+	height: 22px;
+	padding: 5px 8px 0 8px;
+	max-width: 200px;
+	overflow: hidden;
+}
+
+#websites-tab li.selected {
+	background-color: transparent;
+	border-color: #3366AA #3366AA #FFFFFF;
+	border-style: solid;
+	border-width: 1px;
+}
+
+#websites-tab a {
+	float: left;
+	text-align: center;
+}
+
+.ws-user span {
+	padding: 0 5px;
+	width: 70px;
+	float: left;
+}
+
+#websites .ws-content
+{
+    width:620px;
+    float:left;
+    padding:5px;
+    margin-top:10px;
+}
+
+#websites .label{
+    color:#06c;
+    font-size:16px;
+    font-weight:bold;
+}
+
+#websites .powered {
+    padding:2px 5px;
+}
+
+#side-projects a {
+	color: #222;
+}
+
+#side-projects a:hover {
+	color: #f60;
+}
+
+#side-projects .hot {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.side-project {
+	padding: 2px;
+}
+
+#submit-links .sl-link {
+	text-align: center;
+	font-size: 16px;
+	color: #fff;
+	background: #d3e5f9;
+	padding: 8px 0;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+#submit-links .first {
+	margin-top: 0px;
+}
+
+.sidebox {
+	overflow: hidden;
+	width: 218px;
+	padding: 5px;
+	border: 1px solid #ccc;
+	float: left;
+	margin-bottom: 1em;
+}
+
+.sidebox h3 {
+	text-align: center;
+	padding: 8px 0;
+	margin-bottom: 0.25em;
+	background: #d3e5f9;
+}
+
+.pagination {
+	float: left;
+	width: 630px;
+	text-align: center;
+}
+
+.pager_curpage {
+	border: 1px solid #0E509E;
+	background: #2e6ab1;
+	color: #fff;
+	padding: 1px 4px;
+}
+
+.pager_link {
+	border: 1px solid #ccc;
+	padding: 1px 4px;
+	border: 1px solid #9aafe5;
+}
+
+.pagination a:hover {
+	border: 1px solid #0E509E;
+}
+
+/* ---homepage----*/
+.chart {
+	width: 435px;
+	float: left;
+}
+/* ---homepage end----*/ 
+
+/* ---chat----*/
+#inbox .message {
+  padding-top: 0.25em;
+}
+
+#chat-body {
+    padding:10px 5px;
+    width:618px;
+    border:1px solid #ccc;
+}
+
+#message {
+    margin-top:10px;
+}
+
+#chat-body .project {
+    padding 2px 5px;
+}
+
+/* ---chat end----*/
+
+
+/* ---blog----*/
+#blog-content .entry {
+	margin-bottom: 1.25em;
+	border-bottom:1px solid #ddd;
+	padding:2px 0;
+}
+
+#blog-content a {
+    text-decoration:underline;
+}
+
+/* ---blog end----*/
+
+/* ---highlight----*/
+pre code {
+	background: #F8F8FF none repeat scroll 0 0;
+	color: #000000;
+	display: block;
+}
+
+pre .comment,pre .template_comment,pre .diff .header,pre .javadoc {
+	color: #999988;
+	font-style: italic;
+}
+
+pre .keyword,pre .css .rule .keyword,pre .winutils,pre .javascript .title,pre .lisp .title,pre .subst
+	{
+	color: #000000;
+	font-weight: bold;
+}
+
+pre .number,pre .hexcolor {
+	color: #40A070;
+}
+
+pre .string,pre .attribute .value,pre .phpdoc,pre .tex .formula {
+	color: #DD1144;
+}
+
+pre .title,pre .id {
+	color: #990000;
+	font-weight: bold;
+}
+
+pre .javascript .title,pre .lisp .title,pre .subst {
+	font-weight: normal;
+}
+
+pre .class .title,pre .tex .command {
+	color: #445588;
+	font-weight: bold;
+}
+
+pre .tag,pre .css .keyword,pre .html .keyword,pre .tag .title,pre .django .tag .keyword
+	{
+	color: #000080;
+	font-weight: normal;
+}
+
+pre .attribute,pre .variable,pre .instancevar,pre .lisp .body {
+	color: #008080;
+}
+
+pre .regexp {
+	color: #009926;
+}
+
+pre .class {
+	color: #445588;
+	font-weight: bold;
+}
+
+pre .symbol,pre .ruby .symbol .string,pre .ruby .symbol .keyword,pre .ruby .symbol .keymethods,pre .lisp .keyword,pre .tex .special
+	{
+	color: #990073;
+}
+
+pre .builtin,pre .built_in,pre .lisp .title {
+	color: #0086B3;
+}
+
+pre .preprocessor,pre .pi,pre .doctype,pre .shebang,pre .cdata {
+	color: #999999;
+	font-weight: bold;
+}
+
+pre .deletion {
+	background: #FFDDDD none repeat scroll 0 0;
+}
+
+pre .addition {
+	background: #DDFFDD none repeat scroll 0 0;
+}
+
+pre .diff .change {
+	background: #0086B3 none repeat scroll 0 0;
+}
+
+pre .chunk {
+	color: #AAAAAA;
+}
+
+pre .tex .formula {
+	opacity: 0.5;
+}
+/* ---highligt end----*/

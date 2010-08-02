@@ -1,0 +1,13 @@
+{% extends ../base.html %}
+{% block body %}
+<div id="account" class="center">
+    <h2>Login using your OpenID</h2>
+	<h3>Login through twitter,facebook,friendfeed are not well tested yet for those websites are blocked in China!</h3>
+    <div id="openid-links">
+        <a class='openid' href="http://poweredsites.org/login/google?next={{url_escape(context.next)}}" title="Login using Google Account"><img width='64' height='64' alt="Google Account" src="{{static_url('img/google.gif')}}" /></a>
+		<a class='openid' href="http://poweredsites.org/login/facebook?next={{url_escape(context.next)}}" title="Login using Facebook Account"><img width='64' height='64' alt="Facebook Account" src="{{static_url('img/facebook.gif')}}" /></a>
+		<a class='openid' href="http://poweredsites.org/login/twitter?next={{url_escape(context.next)}}" title="Login using Twitter Account"><img width='64' height='64' alt="Twitter Account" src="{{static_url('img/twitter.gif')}}" /></a>
+		<a class='openid' href="http://poweredsites.org/login/friendfeed?next={{url_escape(context.next)}}" title="Login using Friendfeed Account"><img width='64' height='64' alt="Friendfeed Account" src="{{static_url('img/friendfeed.gif')}}" /></a>
+    </div>
+</div>
+{% end %}

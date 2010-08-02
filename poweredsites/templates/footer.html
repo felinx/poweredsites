@@ -1,0 +1,53 @@
+<div id="siteinfo" class="center">
+    <div id="links">
+        <a href="http://blog.poweredsites.org">Blog</a>
+        <!--
+        |<a href="http://poweredsites.org/feeds">Feeds</a>
+        -->
+        |<a target="_blank" href="http://www.google.com/profiles/poweredsites#buzz">Buzz</a>
+        |<a href="http://www.bitbucket.org/felinx/poweredsites">Code</a>        
+        |<a href="http://poweredsites.org/help/about">About</a>
+        |<a href="http://poweredsites.org/help/terms">Terms</a>                       
+        |<a href="http://poweredsites.org/help/contact">Contact</a>
+    </div>
+    <div id="poweredby">
+        <span>&copy;2010&nbsp;PoweredSites. All rights reserved.</span>
+        <span>Powered by</span>
+        <a href="http://python.poweredsites.org/" title="Poweredby Python">Python</a>
+        <a href="http://tornado.poweredsites.org/" title="Poweredby Tornado">Tornado</a>                                                 
+    </div>
+</div>
+<div id="_bottom">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js">
+    </script>
+    {% if context.options.combined_media %}
+        <script type="text/javascript" src="{{static_url('js/combined.js')}}"> </script>
+    {% else %}
+        {% for js in context.js %}
+        <script type="text/javascript" src="{{static_url('js/' + js)}}">
+        </script>
+        {% end %}
+    {% end %} 
+    <script type="text/javascript">
+        //<![CDATA[
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        //]]>
+    </script>
+    <script type="text/javascript">
+        //<![CDATA[
+        try {
+            var pageTracker = _gat._getTracker("{{context.options.gaNo}}");
+            pageTracker._trackPageview();
+        } 
+        catch (err) {
+        }
+        //]]>
+    </script>
+    <noscript>
+        <div style="color:#ff0000;">
+            JavaScript is turned off in your web browser. Turn it on to take full advantage of PoweredSites, then refresh the page.
+        </div>
+    </noscript>
+    {% block bottom %}{% end %}
+</div>

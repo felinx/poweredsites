@@ -1,0 +1,22 @@
+<div class="sidebox">
+    <form method="post" action="https://www.paypal.com/cgi-bin/webscr">
+        <input type="hidden" value="_xclick" name="cmd"/>
+		Donate for PoweredSites' Hosting!
+        <br/>
+        <input type="hidden" value="felinx.lee@gmail.com" name="business"/>
+		<input type="hidden" value="PoweredSites Project Donation" name="item_name"/>
+		<input type="hidden" value="" name="item_number"/>
+		<input type="radio" checked="" value="25.00" name="amount"/>$25
+		<input type="radio" value="50.00" name="amount"/>$50
+		<input type="radio" value="100.00" name="amount"/>$100
+		<input type="hidden" value="2" name="no_shipping"/>
+		<input type="hidden" value="1" name="no_note"/>
+		<input type="hidden" value="USD" name="currency_code"/>
+		<input type="hidden" value="0" name="tax"/>
+		<input type="hidden" value="IC_Sample" name="bn"/>
+        <br/>
+        <center>
+            <input border="0" type="image" alt="Send a donation" name="submit" src="{{static_url('img/x-click-but04.gif')}}"/>
+        </center>
+    </form>
+</div>

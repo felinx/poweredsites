@@ -1,0 +1,85 @@
+{% extends ../base.html %}
+{% block body %}
+<div id="submit-div">
+    <div class="prepend-1 wrapper">
+        <h2>Edit your profile information</h2>
+        <form id='profile-fm' action="/user/profile" method="post">
+            <div class="wrapper label first">
+                <div class="span-3">
+                    {{context.openid_name}} OpenID:
+                </div>
+                <img width='64' height='64' alt="{{context.openid_name}} Account" src="{{static_url('img/' + context.openid_name.lower() + '.gif')}}" />
+            </div>
+            <div class="wrapper label">
+                <div class="span-3">
+                    Username:<span class='red'>*</span>
+                </div>
+                <input id="username" class="span-6" name="username" maxlength="60" type="text" value="{{current_user.username}}">
+                <div id='username_n' class='span-7 error hide last'>
+                </div>
+            </div>
+            <div class="wrapper label">
+                <div class="span-3">
+                    Email address:<span class='red'>*</span>
+                </div>
+                {% if current_user.openid_api == const.OpenID.GOOGLE %}
+                    <span class="span-6">{{current_user.email}}</span>
+                    <input id="email" class="span-6 hide" name="email" maxlength="120" type="text" value="{{current_user.email}}">
+                {% else %}
+                    <input id="email" class="span-6" name="email" maxlength="120" type="text" value="{{current_user.email}}">
+                    <div id='email_n' class='span-7 error hide last'></div>                
+                {% end %}
+            </div>
+            <div class="wrapper label">
+                <div class="span-3">
+                    OpenID name:
+                </div>               
+                <span class="span-6">{{current_user.openid_name}}</span>                    
+            </div>
+             <div class="wrapper label">
+                <div class="span-3">
+                    Blog name:
+                </div>
+                <input id="blog_name" class="span-6" name="blog_name" maxlength="60" type="text" value="{{current_user.blog_name}}">
+            </div>
+             <div class="wrapper label">
+                <div class="span-3">
+                    Blog url:
+                </div>
+                <input id="blog_url" class="span-6" name="blog_url" maxlength="60" type="text" value="{{current_user.blog_url}}">
+            </div>
+            {% if current_user.status_ == const.Status.INIT %}
+            <div class="wrapper label">
+                <div class="span-10">
+                    <input type="checkbox" name="agree" id="agree"/>I have read and agree to the <a target="_blank" href="http://poweredsites.org/help/terms">Terms of Services</a>.<span class='red'>*</span>
+                </div>
+                <div id="agree_n" class="span-10 error hide">
+                    You should accept the terms.
+                </div>
+            </div>
+            {% end %}
+            <div class="wrapper label">
+                <input id='btnSubmit' value="Save" class="button" type="submit">
+            </div>{{ xsrf_form_html() }}
+        </form>
+    </div>
+</div> {% end %}
+{% block bottom %}
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function(){
+        $("#username").focus();
+        $("#email").blur(function(){
+            ck_email();
+        });
+        $("#username").blur(function(){
+            ck_name();
+        });
+        
+        $("#profile-fm").submit(function(){
+            return ck_agree();
+        });
+    });
+    //]]>
+</script>
+{% end %}

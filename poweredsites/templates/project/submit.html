@@ -1,0 +1,91 @@
+{% extends ../submit.html %} 
+{% block sidebar %}
+<div class="sidebar">
+    <h3>Submit something</h3>
+    <ul>
+        <li>
+            <a href="http://poweredsites.org/submit/sitepre">Submit Website</a>
+        </li>
+        <li>
+            <a class="select" href="http://poweredsites.org/submit/projectpre">Submit Project</a>
+        </li>
+        <li>
+            <a href="http://wiki.poweredsites.org/compose">Compose Wiki</a>
+        </li>
+        {% if handler.is_staff %}
+        <li>
+            <a href="http://blog.poweredsites.org/compose">Compose Blog</a>
+        </li>
+        {% end %}
+    </ul>
+</div>
+{% end %}
+{% block content %} 
+<div id="submit-div" class="wrapper">
+    <h3>Submit a powerful project to Powered Sites</h3>
+    {% block submitform %}
+    <form id='submit-fm' action="http://poweredsites.org/submit/project" method="post">
+        <div class="wrapper">
+            <div class="label first">
+                Category:<span class="red">*</span>
+            </div>
+            <div class="prepend-1">
+                <input type="radio" name="category" value="{{handler.categories[0].id}}" checked="checked" title="{{escape(handler.categories[0].category)}}" />{{escape(handler.categories[0].category)}}
+            </div> 
+			{% for category in handler.categories[1:] %}
+            <div class="prepend-1">
+                <input type="radio" name="category" value="{{category.id}}" title="{{escape(category.category)}}" />{{escape(category.category)}}
+            </div> 
+			{% end %}
+        </div>
+        <div class="wrapper">
+            <div class="label">
+                Name:<span class="red">*</span>
+            </div>
+            <input id="sf-subdomain" class="span-6" name="subdomain" maxlength="20" type="text">
+			<span class="notes">It will be used as the subdomain of this project.</span>
+        </div>
+        <div class="wrapper">
+            <div class="label">
+                Full name:<span class="red">*</span>
+            </div>
+            <input id="sf-name" class="span-6" name="name" maxlength="30" type="text">
+			<span class="notes">Full name for screen show.</span>
+        </div>
+        <div class="wrapper">
+            <div class="label">
+                Website(url):
+            </div>
+            <input id="sf-website" class="span-12" name="website" maxlength="600" type="text" value="{{context.metainfos.get('website', '')}}">
+            <span class="notes">The url of the project website or homepage.</span>
+		</div>
+        <div class="wrapper">
+            <div class="label">
+                LOGO(url):
+            </div>
+            <input id="sf-logo" class="span-12" name="logo" maxlength="600" type="text">
+			<span class="notes">Logo image location(url), be sure smaller than 225 * 120.</span>
+        </div>
+        <div class="wrapper">
+            <div class="label">
+                Keywords:
+            </div>
+            <textarea style="height:80px;" id="sf-keywords" class="span-12" name="keywords" maxlength="100">
+                {{escape(context.metainfos.get('keywords', ''))[0:100]}}
+            </textarea>
+        </div>
+        <div class="wrapper">
+            <div class="label">
+                Description:
+            </div>
+            <textarea id="sf-desc" class="span-12" name="desc" maxlength="400">
+                {{escape(context.metainfos.get('description', ''))[0:400]}}
+            </textarea>
+        </div>
+        <div class="wrapper">
+            <input id='btnSubmit' value="Submit" class="button" type="submit">
+        </div>
+		{{ xsrf_form_html() }}
+    </form>
+	{% end %}
+</div>{% end %}

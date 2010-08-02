@@ -1,0 +1,36 @@
+{% extends ../submit.html %} 
+{% block sidebar %}
+<div class="sidebar">
+    <h3>Submit something</h3>
+    <ul>
+        <li>
+            <a class="select" href="http://poweredsites.org/submit/sitepre">Submit Website</a>
+        </li>
+        <li>
+            <a href="http://poweredsites.org/submit/projectpre">Submit Project</a>
+        </li>
+        <li>
+            <a href="http://wiki.poweredsites.org/compose">Compose Wiki</a>
+        </li>
+        {% if handler.is_staff %}
+        <li>
+            <a href="http://blog.poweredsites.org/compose">Compose Blog</a>
+        </li>
+        {% end %}
+    </ul>
+</div>
+{% end %}
+{% block content %} 
+<div id="submit-div" class="wrapper">
+    <h3>Submit your site to
+    {% if handler.current_project is not None %}
+       <a target href="http://{{handler.current_project.subdomain}}.poweredsites.org">{{escape(handler.current_project.project)}}</a>
+    {%end%} Powered Sites
+    </h3>
+	<form id='submit-fm' action="{{request.full_url()}}" method="post">
+    {% block submitform %}
+    {% end %}
+	{{ xsrf_form_html() }}
+	</form>
+</div> 
+{% end %}

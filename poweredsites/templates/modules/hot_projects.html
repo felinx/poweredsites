@@ -1,0 +1,7 @@
+{% for project in hot_projects %}
+    {% if context.current_project and context.current_project.id == project.id %}
+        <a class='select' href="http://{{project.subdomain}}.poweredsites.org/">{{project.subdomain}}</a>
+	{% else %}
+	    <a href="http://{{project.subdomain}}.poweredsites.org/">{{project.subdomain}}</a>
+	{% end %}
+{% end %}

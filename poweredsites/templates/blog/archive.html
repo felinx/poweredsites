@@ -1,0 +1,37 @@
+{% extends "blog.html" %}
+
+{% block head %}
+  <style type="text/css">
+    ul.archive {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;	  
+    }
+	
+    ul.archive li {
+      margin-bottom: 1.25em;
+	  border-bottom:1px solid #ddd;
+	  padding:2px 0;
+    }
+
+    ul.archive .title {
+      font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
+      font-size: 14pt;
+	}
+	
+	ul.archive .date {
+	   padding-right:5px;
+    }
+  </style>
+{% end %}
+
+{% block blog_content %}
+  <ul class="archive">
+    {% for entry in entries %}
+      <li>
+        <div class="title"><a href="/entry/{{ entry.slug }}">{{ escape(entry.title) }}</a></div>
+        <div class="date right">{{ locale.format_date(entry.created, full_format=True, shorter=True) }}</div>
+      </li>
+    {% end %}
+  </ul>
+{% end %}

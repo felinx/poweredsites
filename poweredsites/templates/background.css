@@ -1,0 +1,82 @@
+/* CSS with image background, using static_url set the image url */         
+#header-bottom {
+    background: url({{static_url('img/header-bottom.gif')}})
+        no-repeat left bottom;
+    width: 906px;
+    float: left;
+}
+
+#header {
+    background: url({{static_url('img/content-top.gif')}})
+        no-repeat left top;
+    float: left;
+    padding-top: 1em;
+    width: 906px;
+}
+
+#header-body {
+    padding: 0 18px 0 18px;
+    width: 870px;
+    background: url({{static_url('img/content.gif')}}) repeat-y top left;           
+    float: left;
+    color: #444;
+}
+
+#site-tab a:hover {
+    color: #ffc554;
+    background: url({{static_url('img/header-bottom-bg.gif')}})
+        no-repeat -100px 0px;
+    text-decoration: none;
+}
+
+#site-tab .select {
+    color: #f60;                
+    background: url({{static_url('img/header-bottom-bg.gif')}})
+        no-repeat -100px 0px;                   
+}
+
+#logo .logo-bg {
+    background: url({{static_url('img/logo-bg.gif')}});
+    float:left;
+    width:400px;
+    height:200px;
+}
+
+#logo .logo-box {
+    margin-left:75px;
+    margin-top:40px;
+    width:225px;
+    height:100px;
+    text-align:center;
+    float:left;
+    overflow:hidden; 
+    font-size:32px;
+    font-weight:bold;
+    color:#222;  
+}
+
+#content {
+    background: url({{static_url('img/content-top.gif')}})
+        no-repeat left top;
+    float: left;
+    margin: 20px 0;
+    padding-top: 22px;
+    width: 906px;
+}
+
+#content-bottom {
+	background: url({{static_url('img/content-bottom.gif')}}) 
+        no-repeat left bottom;
+    float: left;
+    padding-bottom: 35px;
+    width: 906px;
+}
+
+#content-body {
+    padding: 0 18px 0 18px;
+    width: 870px;
+    background: url({{static_url('img/content.gif')}}) repeat-y 
+        top left;
+    float: left;
+    color: #444;
+}

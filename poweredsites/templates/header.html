@@ -1,0 +1,51 @@
+<div id="header-body">
+    <div id="logo" class="span-11">
+        {% if context.current_project %}
+            <a class='logo-bg' href="http://{{context.current_project.subdomain}}.poweredsites.org/">
+                <span class="logo-box">
+            {% if context.current_project.logo %}                                   
+                <img alt="{{escape(context.current_project.project)}}" src="{{context.current_project.logo}}">
+            {% else %}
+                {{escape(context.current_project.project)}}
+            {% end %}
+                </span>
+            </a>
+        {% else %}
+            <a class='fleft' href="http://poweredsites.org/"><img alt="Powered Sites" src="{{static_url('img/logo.gif')}}"></a>
+        {% end %}
+    </div>
+    <div id="slogan" class="span-10 last">
+        {% if context.current_project %}
+        <h2>
+            <a target="_blank" href="{{context.current_project.website}}">
+            {{escape(context.current_project.project)}}
+            </a>
+        </h2>
+        <p>
+            {{escape(context.current_project.description).replace("\n", "&nbsp;")}}
+        </p>    
+        {% else %}
+        <h2>
+            <a target="_blank" href="http://poweredsites.org/">
+            {{escape(context.project_name)}}
+            </a>
+        </h2>
+        <p>
+            {{escape(context.project_slogan).replace("\n", "&nbsp;")}}
+        </p>                                
+        {% end %}
+    </div>
+</div>                        
+<div id="site-tab" class="center">
+    {% block sitelinks %}
+    <div id="site-links">                   
+        <a class="select" href="http://poweredsites.org/">Home</a>
+        <a href="http://sites.poweredsites.org">Sites</a>
+		<a href="http://chat.poweredsites.org">Chat</a>  
+        <a href="http://blog.poweredsites.org">Blog</a>
+        <a href="http://wiki.poweredsites.org">Wiki</a>                           
+        <a target="_blank" href="http://www.google.com/profiles/poweredsites#buzz">Buzz</a>
+    </div>
+    {% end %}
+    {% include search_form.html %}
+</div>

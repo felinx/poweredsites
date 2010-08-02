@@ -1,0 +1,73 @@
+{% extends ../base.html %}
+{% block sitelinks %}
+<div id="site-links">
+    <a href="http://poweredsites.org/">Home</a>
+    <a class="select" href="http://sites.poweredsites.org">Sites</a>
+	<a href="http://chat.poweredsites.org">Chat</a>
+	<a href="http://blog.poweredsites.org">Blog</a>
+    <a href="http://wiki.poweredsites.org">Wiki</a>
+    <a target="_blank" href="http://www.google.com/profiles/poweredsites#buzz">Buzz</a>
+</div>
+{% end %}
+{% block body %}
+<div id="websites">
+    <div class="wrapperL">       
+		<h2 class="span-9" style="overflow:hidden;"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a></h2>
+		<div class="span-7 last right">
+			AR:&nbsp;{{"unknown" if site.ar == -1 else site.ar}}&nbsp;&nbsp;
+			PR:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
+			Author:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
+		</div>
+		<a class="span-16 last center" style="border:1px solid #ccc;" target="_blank" href="{{site.website}}" title="{{escape(site.sitename)}}"><img width="600" height="450" src="http://poweredsites.org/static/snapshot/{{site.uuid_[0:2]}}/{{site.uuid_}}.png"></a>
+		<div class="ws-content">           
+            <span class="span-16 last label">Description:</span>{{site.description}}
+        </div>
+		<div class="ws-content">       
+            <span class="span-16 last label">Usecase:</span>{{site.usecase_md}}
+        </div>
+		<div class="ws-content">            
+            <span class="span-16 last label">Powered by:</span>
+			{% for p in powereds %}
+			    <a class="powered" href="http://{{p.subdomain}}.poweredsites.org/">{{escape(p.project)}}</a>
+			{% end %}
+        </div>
+		<div class="comments">
+		    <div id="disqus_thread"></div>
+		    <script type="text/javascript">
+		      /**
+		        * var disqus_identifier; [Optional but recommended: Define a unique identifier (e.g. post id or slug) for this thread] 
+		        */
+		      (function() {
+		       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		       dsq.src = 'http://poweredsites.disqus.com/embed.js';
+		       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		      })();
+		    </script>
+	        <a href="{{request.full_url().replace('#disqus_thread', '')}}#disqus_thread">Comments</a>
+			<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+		</div>
+    </div>
+</div>
+<div id="websites-r" class="span-6 last">
+    {% include ../submit_links.html %}
+    {{modules.side_projects()}}
+</div>
+{% end %}
+
+{% block bottom %}
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=poweredsites">comments powered by Disqus.</a></noscript>
+    <script type="text/javascript">
+    var disqus_shortname = 'poweredsites';
+    (function () {
+      var s = document.createElement('script'); s.async = true;
+      s.src = 'http://disqus.com/forums/poweredsites/count.js';
+      (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+
+    <script type="text/javascript" src="{{static_url('js/highlight.js')}}"> </script>
+	<script>
+		  hljs.tabReplace = '    ';
+		  hljs.initHighlightingOnLoad();
+    </script>                        
+{% end %}

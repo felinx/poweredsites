@@ -1,0 +1,44 @@
+{% extends "../base.html" %}
+{% block sitelinks %}
+<div id="site-links">
+    <a href="http://poweredsites.org/">Home</a>
+    <a href="http://sites.poweredsites.org">Sites</a>
+    <a href="http://chat.poweredsites.org">Chat</a>
+    <a class="select" href="http://blog.poweredsites.org">Blog</a>
+    <a href="http://wiki.poweredsites.org">Wiki</a>
+    <a target="_blank" href="http://www.google.com/profiles/poweredsites#buzz">Buzz</a>
+</div>
+{% end %}
+
+{% block body %}	
+	<div id="blog-content" class="span-16">
+		{% block blog_content %}{% end %}
+    </div>	
+
+	{% block blog_r %}
+	<div id="blog-r" class="span-6 last">
+		<div id="submit-links" class="sidebox">
+		    <div class="sl-link first">
+		        <a href="http://poweredsites.org/submit/sitepre">Submit a website</a>
+		    </div>
+		    <div class="sl-link">
+		        <a href="http://poweredsites.org/submit/projectpre">Submit a project</a>
+		    </div>
+	        {% if handler.is_staff %}
+	        <div class="sl-link">
+	            <a href="http://blog.poweredsites.org/compose">Compose Blog</a>
+	        </div>
+			{% end %}
+		</div>
+		
+		<div id="bloggers" class="sidebox">
+			<h4>Bloggers</h4>
+			<ul>
+			{% for blogger in handler.bloggers%}
+			<li><a href="http://poweredsites.org/user/{{blogger.username}}">{{escape(blogger.openid_name)}}</a></li>
+			{% end %}
+			</ul>
+		</div>
+	</div>
+    {% end %}	
+{% end %}

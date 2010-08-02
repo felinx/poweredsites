@@ -1,0 +1,13 @@
+{% extends submit_base.html %}
+{% block submitform %}
+<div class="wrapper">
+    <div class="label first">
+        Website(url):
+    </div>
+    <input id="sf-website" class="span-12" name="website" maxlength="600" type="text">
+	<span class="notes">The homepage url of your website.</span>
+</div>
+<div class="wrapper">
+    <input id='btnSubmit' value="Next" class="button" type="submit">
+</div>
+{% end %}

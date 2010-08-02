@@ -1,0 +1,22 @@
+{% if not entry.is_help or handler.is_staff%}
+<div class="entry wrapperL">
+    <h3 class="span-12">
+    	{% if entry.is_help%}
+    	   <a href="http://poweredsites.org/help/{{ entry.slug }}">{{ escape(entry.title) }}</a>
+		{% else %}
+		    <a href="/entry/{{ entry.slug }}">{{ escape(entry.title) }}</a>
+		{% end %}
+	</h3>
+	{% if handler.is_staff %}	
+    <div class="span-4 last right">
+        <a href="http://blog.poweredsites.org/compose?id={{ entry.id }}">{{ _("Edit this post") }}</a>
+    </div>
+	{% end %}
+    <div class="wrapperL">
+        {{ entry.markdown }}
+    </div>
+    <div class="wrapperL right">
+        {{ locale.format_date(entry.created, full_format=True, shorter=True) }}
+    </div>
+</div>
+{% end %}

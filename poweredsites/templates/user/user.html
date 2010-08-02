@@ -1,0 +1,37 @@
+{% extends ../base.html %}
+{% block body %}
+ <div id="websites" class="span-16">
+ 	<h3>{{escape(user.openid_name)}}'s sites</h3>
+	{% for site in sites %}
+    <div class='website'>
+        <div class="ws-logo">
+            <a target="_blank" href="{{escape(site.website)}}" title="{{escape(site.sitename)}}">
+            {% if site.logo is None %}
+                {{escape(site.sitename[0:25])}}
+            {% else %}
+                <img src="{{site.logo}}" />
+            {% end %}
+            </a>
+        </div>
+        <div class="ws-desc">
+            <a target="_blank" href="http://sites.poweredsites.org/{{site.uuid_}}" title="{{escape(site.sitename)}}">
+            {{escape(site.description)}}
+            </a>
+        </div>
+        <div class="ws-user">
+            <div class="span-7 left">
+                <span>AR:{{"unknown" if site.ar == -1 else site.ar}}</span>
+                <span>PR:{{"unknown" if site.pr == -1 else site.pr}}</span>
+                <span><a target="_blank" href="http://sites.poweredsites.org/{{site.uuid_}}">Comments</a></span>
+            </div>
+            <div class="span-8 fright">
+                {{site.created}}
+            </div>                
+        </div>
+    </div>
+	{% end %}  
+</div>	
+ <div id="userR" class="span-6 last">
+    {% include ../submit_links.html %}
+ </div>
+{% end %}

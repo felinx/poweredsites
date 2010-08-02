@@ -1,0 +1,8 @@
+{% extends "blog.html" %}
+
+{% block blog_content %}
+  {% for entry in entries %}
+    {{ modules.entry(entry) }}
+  {% end %}
+  <div><a href="/archive">{{ _("Archive") }}</a></div>
+{% end %}

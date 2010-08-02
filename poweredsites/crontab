@@ -1,0 +1,6 @@
+# Crontab for poweredsites.org
+# Symlink into /etc/cron.d/
+
+# web sites backup
+
+# ec2 bundle

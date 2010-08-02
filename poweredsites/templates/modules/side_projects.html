@@ -1,0 +1,12 @@
+<div id="side-projects" class="sidebox">
+	<h3>Projects</h3>	
+    {% for project in projects %}
+	<span class='side-project'>		
+	    {% if project.id in hot_projects %}
+		    <a class="hot" href="http://{{project.subdomain}}.poweredsites.org/" title="{{escape(project.project)}}">{{project.subdomain}}</a> 
+		{% else %}
+		    <a href="http://{{project.subdomain}}.poweredsites.org/" title="{{escape(project.project)}}">{{project.subdomain}}</a> 
+	    {% end %}
+	</span>
+    {% end %}
+</div>
