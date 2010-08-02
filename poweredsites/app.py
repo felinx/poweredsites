@@ -76,8 +76,8 @@ def main():
         port = getattr(options, "chat_app_port", options.port + 1)
         num_processes = 1
 
-    http_server.bind(port)
-    http_server.start(num_processes)
+    http_server.bind(int(port))
+    http_server.start(int(num_processes))
 
     IOLoop.instance().start()
 

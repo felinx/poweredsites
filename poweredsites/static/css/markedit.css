@@ -10,8 +10,8 @@
 
 .markedit-toolbar button { height: 22px; outline: 0; cursor: pointer; }
 .markedit-toolbar button.icon { width: 22px; background-repeat: no-repeat; margin: 0 5px 0 0; }
-.markedit .light-bg button.icon { background-image: url(http://poweredsites.org/static/css/images/wmd-buttons.png); }
-.markedit .dark-bg button.icon { background-image: url(http://poweredsites.org/static/css/images/wmd-buttons-dark.png); }
+.markedit .light-bg button.icon { background-image: url(http://static.poweredsites.org/css/images/wmd-buttons.png); }
+.markedit .dark-bg button.icon { background-image: url(http://static.poweredsites.org/css/images/wmd-buttons-dark.png); }
 
 .markedit-toolbar button.bold { background-position: 0px 0px; }
 .markedit-toolbar button.italic { background-position: -20px 0px; }
