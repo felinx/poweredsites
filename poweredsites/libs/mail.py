@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 import logging
 import smtplib
@@ -25,6 +25,8 @@ from tornado.options import options
 
 __all__ = ("send_email", "Address")
 
+_session = None
+
 # borrow email re pattern from django
 _email_re = re.compile(
     r"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*"  # dot-atom
@@ -32,11 +34,12 @@ _email_re = re.compile(
     r')@(?:[A-Z0-9]+(?:-*[A-Z0-9]+)*\.)+[A-Z]{2,6}$', re.IGNORECASE)  # domain
 
 def send_email(fr, to, subject, body):
+    tt = []
     for t in to:
-        if str(t).startswith('-'):
-            to.remove(t)
-
-    to = '", '.join(to)
+        t = str(t)
+        if not t.startswith('-'):
+            tt.append(str(t))
+    to = '", '.join(tt)
 
     msg = MIMEText(utf8(body))
     msg.set_charset('utf8')
@@ -104,6 +107,4 @@ class _SMTPSession(object):
         if self.user and self.password:
             self.session.login(self.user, self.password)
 
-        self.deadline = datetime.now() + self.duration * 60
-
-_session = None
+        self.deadline = datetime.now() + timedelta(seconds=self.duration * 60)
