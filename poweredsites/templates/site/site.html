@@ -31,6 +31,12 @@
 			    <a class="powered" href="http://{{p.subdomain}}.poweredsites.org/">{{escape(p.project)}}</a>
 			{% end %}
         </div>
+        {% if site.source_url %}
+        <div class="ws-content">            
+            <span class="span-16 last label">Source code:</span>            
+            <a target="_blank" href="{{site.source_url}}">{{escape(site.sitename)}} source code</a>
+        </div>
+        {% end %}
 		<div class="comments">
 		    <div id="disqus_thread"></div>
 		    <script type="text/javascript">
