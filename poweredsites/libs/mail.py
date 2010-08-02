@@ -47,8 +47,8 @@ def send_email(fr, to, subject, body):
     msg['From'] = utf8(fr)
     msg['Subject'] = utf8(subject)
 
+    global _session
     if _session is None:
-        global _session
         _session = _SMTPSession(options.smtp['host'],
                        options.smtp['user'],
                        options.smtp['password'],
