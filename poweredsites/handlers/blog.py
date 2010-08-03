@@ -36,7 +36,7 @@ class BlogBaseHandler(BaseHandler):
     @property
     @cache.mem(6 * 3600, "blog/bloggers")
     def bloggers(self):
-        return self.db.query("select * from user where role > %s", const.Role.STAFF)
+        return self.db.query("select * from user where role >= %s", const.Role.STAFF)
 
 class HomeHandler(BlogBaseHandler):
     @cache.page(condition="select id from entries ORDER BY id DESC")
