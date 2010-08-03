@@ -14,7 +14,7 @@
     <div class="wrapperL">       
 		<h2 class="span-9" style="overflow:hidden;"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a></h2>
 		<div class="span-7 last right">
-			AR:&nbsp;{{"unknown" if site.ar == -1 else site.ar}}&nbsp;&nbsp;
+			AR:&nbsp;{{"unknown" if site.ar >= 100000000 else site.ar}}&nbsp;&nbsp;
 			PR:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
 			Author:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
 		</div>

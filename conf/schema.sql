@@ -147,7 +147,7 @@ CREATE TABLE `site` (
   `source_url` varchar(600) default NULL,
   `logo` varchar(600) default NULL,
   `pr` tinyint(4) NOT NULL default '-1',
-  `ar` int(11) NOT NULL default '-1',
+  `ar` int(11) NOT NULL default '100000000',
   `updated_ss` datetime NOT NULL COMMENT 'snapshot updated',
   `created` datetime NOT NULL,
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
