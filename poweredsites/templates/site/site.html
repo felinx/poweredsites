@@ -18,8 +18,10 @@
 			PR:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
 			Author:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
 		</div>
+        <!--
 		<a class="span-16 last center" style="border:1px solid #ccc;" target="_blank" href="{{site.website}}" title="{{escape(site.sitename)}}"><img width="600" height="450" src="http://static.poweredsites.org/snapshot/{{site.uuid_[0:2]}}/{{site.uuid_}}.png"></a>
-		<div class="ws-content">           
+		-->
+        <div class="ws-content">           
             <span class="span-16 last label">Description:</span>{{site.description}}
         </div>
 		<div class="ws-content">       
