@@ -26,7 +26,7 @@ class MainHandler(BaseHandler):
                 "group by project_id DESC limit 0, 5) as ps "\
                 "left join (select id, subdomain, category_id from project) "\
                 "as p on ps.project_id = p.id) where p.category_id=%s order by ps.c"
-    _category_count_query = "select ps.c from (select count(site_id) as c, project_id from "\
+    _category_count_query = "select sum(ps.c) from (select count(site_id) as c, project_id from "\
                 "project_sites group by project_id) as ps "\
                 "left join (select id, category_id from project) as p on ps.project_id = p.id "\
                 "where p.category_id = %s"
