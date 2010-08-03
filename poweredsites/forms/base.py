@@ -88,10 +88,10 @@ class URL(validators.URL):
     url_re = re.compile(r'''
         ^(http|https)://
         (?:[%:\w]*@)?                           # authenticator
-        (?P<domain>[a-z0-9][a-z0-9\-]{0,62}* # (sub)domain - alpha followed by 62max chars (63 total)
+        (?P<domain>[a-z0-9][a-z0-9\-]{0,62}\.)* # (sub)domain - alpha followed by 62max chars (63 total)
         (?P<tld>[a-z]{2,})                      # TLD
         (?::[0-9]+)?                            # port
-    
+
         # files/delims/etc
         (?P<path>/[a-z0-9\-\._~:/\?#\[\]@!%\$&\'\(\)\*\+,;=]*)?
         $
