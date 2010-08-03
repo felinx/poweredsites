@@ -18,7 +18,7 @@ import logging
 from formencode import validators
 from tornado.options import options
 
-from poweredsites.forms.base import BaseForm
+from poweredsites.forms.base import BaseForm, URL
 from poweredsites.libs import const
 
 class ProfileForm(BaseForm):
@@ -26,7 +26,7 @@ class ProfileForm(BaseForm):
     username = validators.PlainText(not_empty=True, strip=True)
 
     blog_name = validators.String(not_empty=False, max=40, strip=True)
-    blog_url = validators.URL(not_empty=False, max=600, add_http=True)
+    blog_url = URL(not_empty=False, max=600, add_http=True)
 
     def __after__(self):
         try:

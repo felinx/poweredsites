@@ -20,11 +20,11 @@ from formencode import validators
 import markdown
 from tornado import escape
 
-from poweredsites.forms.base import BaseForm
+from poweredsites.forms.base import BaseForm, URL
 from poweredsites.libs import const
 
 class ProjectPreForm(BaseForm):
-    website = validators.URL(not_empty=True, max=600, add_http=True)
+    website = URL(not_empty=True, max=600, add_http=True)
 
 
 class ProjectForm(BaseForm):
@@ -34,8 +34,8 @@ class ProjectForm(BaseForm):
 
     keywords = validators.String(not_empty=False, max=100)
     desc = validators.String(not_empty=False, max=400)
-    website = validators.URL(not_empty=False, max=600, add_http=True)
-    logo = validators.URL(not_empty=False, max=600, add_http=True)
+    website = URL(not_empty=False, max=600, add_http=True)
+    logo = URL(not_empty=False, max=600, add_http=True)
 
     def __after__(self):
         try:
@@ -79,13 +79,13 @@ class SitePreForm(ProjectPreForm):
 
 class SiteForm(BaseForm):
     sitename = validators.String(not_empty=True, min=3, max=100, strip=True)
-    website = validators.URL(not_empty=True, max=600, add_http=True)
+    website = URL(not_empty=True, max=600, add_http=True)
 
     desc = validators.String(not_empty=False, max=400)
     usecase = validators.String(not_empty=False, max=2000)
 
-    source_url = validators.URL(not_empty=False, max=600, add_http=True)
-    logo = validators.URL(not_empty=False, max=600, add_http=True)
+    source_url = URL(not_empty=False, max=600, add_http=True)
+    logo = URL(not_empty=False, max=600, add_http=True)
 
     def __after__(self):
         try:
