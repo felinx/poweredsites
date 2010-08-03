@@ -30,6 +30,7 @@ class HelpHandler(BaseHandler):
 
         self._context.title = entry.title
         self._context.keywords = self._context.keywords + ",help"
+        self._context.is_help = True
 
         self.render("help.html", entry=entry, entries=entries)
 

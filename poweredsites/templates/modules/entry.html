@@ -1,4 +1,4 @@
-{% if not entry.is_help or handler.is_staff%}
+{% if not entry.is_help or handler.is_staff or getattr(context, "is_help", False) %}
 <div class="entry wrapperL">
     <h3 class="span-12">
     	{% if entry.is_help%}

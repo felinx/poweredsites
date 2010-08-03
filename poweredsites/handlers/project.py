@@ -58,23 +58,25 @@ class SubmitProjectHandler(ProjectHandler):
 
         if response.code == 200:
             #encoding = chardet.detect(response.body)["encoding"]
+            try:
+                bs = BeautifulSoup(response.body)
+                metas = bs.findAll("meta")
+                metainfos["title"] = bs.find("title")
+                if metainfos["title"] is None:
+                    metainfos["title"] = ""
+                else:
+                    metainfos["title"] = metainfos["title"].contents[0]
 
-            bs = BeautifulSoup(response.body)
-            metas = bs.findAll("meta")
-            metainfos["title"] = bs.find("title")
-            if metainfos["title"] is None:
-                metainfos["title"] = ""
-            else:
-                metainfos["title"] = metainfos["title"].contents[0]
-
-            for meta in metas:
-                name = meta.get("name")
-                if name is not None:
-                    content = meta.get("content")
-                    if content is None:
-                        content = ""
-                    #metainfos[name] = unicode(content, encoding).encode("utf-8")
-                    metainfos[name] = content
+                for meta in metas:
+                    name = meta.get("name")
+                    if name is not None:
+                        content = meta.get("content")
+                        if content is None:
+                            content = ""
+                        #metainfos[name] = unicode(content, encoding).encode("utf-8")
+                        metainfos[name] = content
+            except Exeption, e:
+                logging.error(str(e))
 
         self._context.metainfos = metainfos
         self.render(self._submit_template)
