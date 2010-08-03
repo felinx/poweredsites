@@ -65,7 +65,7 @@ def main():
     parse_config_file("/mnt/ebs/conf/sites/poweredsites.conf")
     tornado.options.parse_command_line()
 
-    http_server = HTTPServer(Application())
+    http_server = HTTPServer(Application(), xheaders=True)
     port = options.port
     num_processes = options.num_processes
 
