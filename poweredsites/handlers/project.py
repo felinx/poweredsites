@@ -75,7 +75,7 @@ class SubmitProjectHandler(ProjectHandler):
                             content = ""
                         #metainfos[name] = unicode(content, encoding).encode("utf-8")
                         metainfos[name] = content
-            except Exeption, e:
+            except Exception, e:
                 logging.error(str(e))
 
         self._context.metainfos = metainfos
