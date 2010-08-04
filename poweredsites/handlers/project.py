@@ -157,7 +157,9 @@ class ProjectArHandler(ProjectIndexHandler):
 class ProjectOpensourceHandler(ProjectIndexHandler):
     _order_by = "ar ASC"
     _condition = "and site.source_url is not NULL"
-    _ws_count_query = "select count(*) as c from project_sites, site where project_id = %s and source_url is not NULL"
+    _ws_count_query = "select count(*) as c from project_sites, site "\
+            "where project_id = %s and source_url is not NULL and "\
+            "project_sites.site_id=site.id"
     _handler_template = "site/opensource.html"
 
 
