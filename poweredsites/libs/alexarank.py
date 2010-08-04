@@ -36,6 +36,8 @@ class AlexaRankMixin(object):
                 reach_rank = -1
             rank = int(reach_rank)
         else:
-            rank = None
+            rank = -1
 
+        if rank == -1:
+            rank = 100000000
         callback(rank)

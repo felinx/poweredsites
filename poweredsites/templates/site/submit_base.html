@@ -22,11 +22,7 @@
 {% end %}
 {% block content %} 
 <div id="submit-div" class="wrapper">
-    <h3>Submit your site to
-    {% if handler.current_project is not None %}
-       <a target href="http://{{handler.current_project.subdomain}}.poweredsites.org">{{escape(handler.current_project.project)}}</a>
-    {%end%} Powered Sites
-    </h3>
+    <h3>Submit your site to Powered Sites</h3>
 	<form id='submit-fm' action="{{request.full_url()}}" method="post">
     {% block submitform %}
     {% end %}

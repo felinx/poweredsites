@@ -4,7 +4,7 @@
     <div class="label first">
         Sitename:<span class="red">*</span>:
     </div>
-    <input class="span-12" name="sitename" maxlength="100" type="text" value="{{escape(context.metainfos.get('title', ''))}}">                
+    <input class="span-12" name="sitename" maxlength="100" type="text" value="{{escape(context.metainfos.get('sitename', ''))}}">                
 </div>
 <div class="wrapper">                
     <div class="label">
@@ -16,32 +16,33 @@
     <div class="label">
         Description:
     </div>
-    <textarea class="span-12" name="desc" maxlength="400">{{escape(context.metainfos.get('description', ''))[0:400]}}</textarea>
+    <textarea class="span-12" name="desc" maxlength="600">{{escape(context.metainfos.get('description', ''))[0:600]}}</textarea>
 </div>
-<div class="wrapper">              
+<div class="wrapper">
     <div class="label">
         LOGO:
     </div>
-    <input class="span-12" name="logo" maxlength="600" type="text">  
+    <input class="span-12" name="logo" maxlength="600" type="text" value="{{context.metainfos.get('logo', '')}}">  
     <span class="notes">Logo image location(url), be sure smaller than 225 * 120.</span>              
 </div>
 <div class="wrapper">                
     <div class="label">
         Source code(url):
     </div>
-    <input class="span-12" name="source_url" maxlength="600" type="text">                
+    <input class="span-12" name="source_url" maxlength="600" type="text" value="{{context.metainfos.get('source_url', '')}}">                
 </div>
 <div class="wrapper">                
     <div class="label" style="margin-bottom:5px;">
         Use case(technical summary):
     </div>
 	<div class="wrapper">
-        <textarea id="markedit" name="usecase" maxlength="2000"></textarea>
+        <textarea id="markedit" name="usecase" maxlength="2000">{{escape(context.metainfos.get('usecase', ''))}}</textarea>
 	    <div id="preview" class="preview"></div>
 	</div>
 </div>			
 <div class="wrapper">
-    <input id='btnSubmit' value="Submit" class="button" type="submit">
+	<input class="hide" name="site" type="text" value="{{context.metainfos.get('uuid_', '')}}"> 
+    <input id='btnSubmit' value="Next" class="button" type="submit">
 </div>
 {% end %}
 

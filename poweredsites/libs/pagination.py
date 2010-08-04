@@ -24,8 +24,8 @@ class PaginationMixin(object):
         try:
             page = int(page)
             page_size = int(page_size)
-            if page < 0:
-                page = 0
+            if page < 1:
+                page = 1
 
             start = (page - 1) * page_size
 
@@ -35,7 +35,7 @@ class PaginationMixin(object):
 
             # should add a c(count) alias in the count query
             count = self.db.get(count_query)
-            count = int(count.c) if count is not None else 0
+            count = int(count.c) if count else 0
             if start > count:
                 page = (count % page_size)
                 start = (page - 1) * page_size

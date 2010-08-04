@@ -33,7 +33,7 @@ class ProjectForm(BaseForm):
     category = validators.Int(not_empty=True)
 
     keywords = validators.String(not_empty=False, max=100)
-    desc = validators.String(not_empty=False, max=400)
+    desc = validators.String(not_empty=False, max=600)
     website = URL(not_empty=False, max=600, add_http=True)
     logo = URL(not_empty=False, max=600, add_http=True)
 
@@ -81,8 +81,9 @@ class SiteForm(BaseForm):
     sitename = validators.String(not_empty=True, min=3, max=100, strip=True)
     website = URL(not_empty=True, max=600, add_http=True)
 
-    desc = validators.String(not_empty=False, max=400)
+    desc = validators.String(not_empty=False, max=600)
     usecase = validators.String(not_empty=False, max=2000)
+    site = validators.String(not_empty=False, max=32) # uuid_
 
     source_url = URL(not_empty=False, max=600, add_http=True)
     logo = URL(not_empty=False, max=600, add_http=True)
@@ -91,32 +92,40 @@ class SiteForm(BaseForm):
         try:
             v = self._values
             user_id = self._handler.current_user.id
+            usecase_md = markdown.markdown(escape._unicode(v["usecase"]))
 
-            if self._handler.db.get("select * from site where website = %s", v["website"]):
-                self.add_error("website", "This web site already be registered.")
+            if v.get("site", ""):
+                stmt = "UPDATE site SET sitename = %s,website = %s,description = %s, "\
+                        "usecase = %s,usecase_md = %s,source_url = %s, logo = %s "\
+                        "where uuid_ = %s"
+
+                args = (v["sitename"], v["website"], v["desc"], \
+                        v["usecase"], usecase_md, v["source_url"], v["logo"], \
+                        v["site"])
             else:
-                if (not self._handler.is_staff):
-                    user_projects = self._handler.db.get("select count(*) as c from site where user_id = %s", \
-                                                    self._handler.current_user.id)
-
-                    if user_projects is not None and user_projects.c >= 3:
-                        # It will need approve if someone create more than three sites
-                        status = const.Status.PENDING
-                    else:
-                        status = const.Status.UNVERIFIED
+                if self._handler.db.get("select * from site where website = %s", v["website"]):
+                    self.add_error("website", "This web site already be registered.")
                 else:
-                    status = const.Status.ACTIVE
+                    if (not self._handler.is_staff):
+                        user_projects = self._handler.db.get("select count(*) as c from site where user_id = %s", \
+                                                        self._handler.current_user.id)
 
-                usecase_md = markdown.markdown(escape._unicode(v["usecase"]))
-                stmt = "INSERT INTO site (sitename,website,description,usecase,usecase_md,source_url,"\
-                        "user_id,logo,uuid_,created,updated_ss,status_) "\
-                        "VALUES (%s,%s,%s,%s,%s,%s,"\
-                        "%s,%s,%s,UTC_TIMESTAMP(),UTC_TIMESTAMP(),%s)"
+                        if user_projects is not None and user_projects.c >= 3:
+                            # It will need approve if someone create more than three sites
+                            status = const.Status.PENDING
+                        else:
+                            status = const.Status.UNVERIFIED
+                    else:
+                        status = const.Status.ACTIVE
+                    stmt = "INSERT INTO site (sitename,website,description,usecase,usecase_md,source_url,"\
+                            "user_id,logo,uuid_,created,updated_ss,status_) "\
+                            "VALUES (%s,%s,%s,%s,%s,%s,"\
+                            "%s,%s,%s,UTC_TIMESTAMP(),UTC_TIMESTAMP(),%s)"
 
-                args = (v["sitename"], v["website"], v["desc"], v["usecase"], usecase_md, v["source_url"], \
-                        user_id, v["logo"], uuid.uuid4().hex, status)
+                    args = (v["sitename"], v["website"], v["desc"], v["usecase"], usecase_md, v["source_url"], \
+                            user_id, v["logo"], uuid.uuid4().hex, status)
 
-                self._handler.db.execute(stmt, *args)
+            self._handler.db.execute(stmt, *args)
         except Exception, e:
             logging.error(str(e))
             self.add_error("sitename", "Submit project error, please try it later.")

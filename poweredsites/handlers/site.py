@@ -30,14 +30,6 @@ from poweredsites.handlers.project import SubmitProjectHandler
 
 
 class SubmitSitePreHandler(BaseHandler):
-    @property
-    def current_project(self):
-        project = self.get_argument("project", None)
-        if project is not None:
-            return self.db.get("select * from project where subdomain = %s", project)
-        else:
-            return None
-
     @authenticated
     def get(self):
         self._context.title = "Submit a site"
@@ -57,21 +49,42 @@ class SubmitSiteHandler(SubmitProjectHandler, AlexaRankMixin, \
                         PageRankMinxin, SnapShotMinxin):
     _submit_template = "site/submit.html"
 
+    def _authorize(self, author_id):
+        if not (self.is_staff or self.current_user.id == author_id):
+            raise HTTPError(403)
+
     @authenticated
     @asynchronous
-    def get(self, project=""):
-        self._query_project(project)
+    def get(self):
         self._context.css.append("markedit.css")
+        uuid_ = self.get_argument("site", None)
+        if uuid_:
+            website = self.db.get("select * from site where uuid_ = %s", uuid_)
+            if website:
+                self._authorize(website.user_id)
+                for k in website:
+                    if website[k] is None:
+                        website[k] = ""
+                self._context.metainfos = website
+
+                self.render(self._submit_template)
+                return
+
         super(SubmitSiteHandler, self).get()
 
     @authenticated
     @asynchronous
-    def post(self, project=""):
-        self._query_project(project)
+    def post(self):
+        self._context.css.append("markedit.css")
+        self._context.metainfos = {}
+        uuid_ = self.get_argument("site", None)
+        if uuid_:
+            website = self.db.get("select * from site where uuid_ = %s", uuid_)
+            if website:
+                self._authorize(website.user_id)
+                self._context.metainfos = website
 
         fm = SiteForm(self)
-        self._context.metainfos = {}
-
         if fm.validate():
             self._site_record = self.db.get("select * from site where website = %s", \
                                             fm._values["website"])
@@ -85,13 +98,6 @@ class SubmitSiteHandler(SubmitProjectHandler, AlexaRankMixin, \
             self.redirect("/submit/sitepowered?site=" + self._site_record.uuid_)
         else:
             fm.render("site/submit.html")
-
-    def _query_project(self, project):
-        if project:
-            self.current_project = \
-                self.db.get("select * from project where subdomain = %s", project)
-        else:
-            self.current_project = None
 
     def _ar_callback(self, ar):
         self.db.execute("UPDATE site SET ar = %s where id = %s", ar, self._site_record.id)
@@ -114,7 +120,6 @@ class SubmitSitePoweredHandler(BaseHandler):
                 "on p.id = b.project_id) order by b.c DESC")
         self.current_project = None
 
-
     def _authorize(self, author_id):
         if not (self.is_staff or self.current_user.id == author_id):
             raise HTTPError(403)
@@ -130,9 +135,9 @@ class SubmitSitePoweredHandler(BaseHandler):
     def get(self):
         self._context.title = "Powered by"
         uuid_ = self.get_argument("site", None)
-        if uuid_ is not None:
+        if uuid_:
             website = self.db.get("select * from site where uuid_ = %s", uuid_)
-            if website is None:
+            if not website:
                 self.redirect("/")
             else:
                 self._authorize(website.user_id)
@@ -173,7 +178,7 @@ class WebsiteIndexHandler(BaseHandler):
                 "from site, user where site.user_id = user.id %s order by %s" % \
                 (self._condition, self._order_by)
         self._context.ws_query = str(self._context.ws_query)
-        self._context.page = self.get_argument("page", [0, ])[0]
+        self._context.page = self.get_argument("page", 1)
 
         self._context.title = self._context_title
 

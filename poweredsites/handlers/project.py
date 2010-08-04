@@ -62,11 +62,11 @@ class SubmitProjectHandler(ProjectHandler):
             try:
                 bs = BeautifulSoup(response.body)
                 metas = bs.findAll("meta")
-                metainfos["title"] = bs.find("title")
-                if metainfos["title"] is None:
-                    metainfos["title"] = ""
+                metainfos["sitename"] = bs.find("title")
+                if metainfos["sitename"] is None:
+                    metainfos["sitename"] = ""
                 else:
-                    metainfos["title"] = metainfos["title"].contents[0]
+                    metainfos["sitename"] = metainfos["sitename"].contents[0]
 
                 for meta in metas:
                     name = meta.get("name")
@@ -130,7 +130,7 @@ class ProjectIndexHandler(ProjectHandler):
                         "%s order by %s" % \
                         (current_project.id, self._condition, self._order_by)
                 self._context.ws_query = str(self._context.ws_query)
-                self._context.page = self.get_argument("page", [0, ])[0]
+                self._context.page = self.get_argument("page", 1)
 
                 self._context.current_project = current_project
                 self._context.project_name = current_project.project
@@ -139,7 +139,7 @@ class ProjectIndexHandler(ProjectHandler):
                 self._context.title = current_project.project
                 self._context.keywords = self._context.keywords + ",%s,%s" % \
                     (current_project.project, current_project.subdomain)
-                self._context.keywords = current_project.description
+                self._context.description = current_project.description
 
                 self.render(self._handler_template)
             else:
