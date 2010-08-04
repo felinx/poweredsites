@@ -1,15 +1,29 @@
 {% extends websites_index.html %}
 {% block websites_tab %}
-<li>
-    <a href="http://{{subdomain}}.poweredsites.org/">Lateset</a>
-</li>
-<li>
-    <a href="http://{{subdomain}}.poweredsites.org/ar">Top AR</a>
-</li>
-<li>
-    <a href="http://{{subdomain}}.poweredsites.org/pr">Top PR</a>
-</li>
-<li class="selected">
-    <a href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
-</li>
+    <li>
+       {% if context.current_project %}
+           <a href="http://{{subdomain}}.poweredsites.org/">{{subdomain}}</a>
+       {% else %}
+           <a href="http://{{subdomain}}.poweredsites.org/">Lateset</a>
+       {% end %}
+    </li>
+    {% block websites_extra %}
+    {% if context.current_project %}
+    <li>
+        <a href="http://chat.poweredsites.org/{{subdomain}}">Chat</a>
+    </li>
+    <li>
+        <a href="http://{{subdomain}}.poweredsites.org/wiki">Wiki</a>
+    </li>           
+    {% end %}
+    {% end %}           
+    <li>
+        <a href="http://{{subdomain}}.poweredsites.org/ar">Top AR</a>
+    </li>
+    <li>
+        <a href="http://{{subdomain}}.poweredsites.org/pr">Top PR</a>
+    </li>
+    <li>
+        <a class="selected" href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
+    </li>
 {% end %}
