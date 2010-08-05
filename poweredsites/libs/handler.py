@@ -112,17 +112,18 @@ class BaseHandler(RequestHandler):
         else:
             template = "%s.html" % code
 
-            if code == 500:
-                fr = options.email_from
-                to = options.admins
-
-                subject = "[%s]Internal Server Error" % options.sitename
-                body = self.render_string("500_email.html",
-                                      code=code,
-                                      message=message,
-                                      exception=exception)
-
-                self.send_email(fr, to, subject, body)
+            # comment send email for ec2 limit
+#            if code == 500:
+#                fr = options.email_from
+#                to = options.admins
+#
+#                subject = "[%s]Internal Server Error" % options.sitename
+#                body = self.render_string("500_email.html",
+#                                      code=code,
+#                                      message=message,
+#                                      exception=exception)
+#
+#                self.send_email(fr, to, subject, body)
         try:
             return self.render_string(template,
                                       code=code,

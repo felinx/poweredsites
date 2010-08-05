@@ -29,10 +29,6 @@ from poweredsites.libs.decorators import cache
 
 
 class ProjectHandler(BaseHandler):
-    def prepare(self):
-        super(ProjectHandler, self).prepare()
-        self._context.keywords = self._context.keywords + ",project"
-
     @property
     def categories(self):
         return self.db.query("select * from category order by id ASC")
