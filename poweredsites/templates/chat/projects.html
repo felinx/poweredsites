@@ -1,5 +1,4 @@
- {% extends ../base.html %}
- 
+ {% extends ../base.html %} 
  {% block sitelinks %}
 <div id="site-links">                   
     <a href="http://poweredsites.org/">Home</a>
@@ -12,16 +11,31 @@
 {% end %}
 
 {% block body %}
-    <div id="chat-body" class="span-16">	  
-	    <h3>Projects Chatroom</h3>   
-	    {% for project in projects %}
-	    <span class='project'>
-	         <a href="http://chat.poweredsites.org/{{project.subdomain}}" title="{{escape(project.project)}}">{{project.subdomain}}</a>
-	    </span>
-	    {% end %}
+<div id="chat-l" class="span-16">
+    <h3>Projects Chatroom</h3>
+    <div id="chat-body">    	    
+        <div id="inbox">
+            <h4>Latest messages</h4> 
+            {% for message in messages %}
+                {% include "message.html" %}
+            {% end %}
+        </div>
     </div>
-    <div id="chat-r" class="span-6 last">
-        {% include ../submit_links.html %}
-        {% include ../donate.html %}
-    </div>  
+    {{modules.chat_projects()}}
+</div>
+<div id="chat-r" class="span-6 last">
+    {% include ../submit_links.html %}
+    {% include ../donate.html %}
+</div>  
+{% end %}
+
+{% block bottom %}
+<style type='text/css'>
+    #side-projects {
+        width:618px;
+        padding:5px;    
+        border:1px solid #ccc;
+        margin-right:10px;
+    }
+</style>
 {% end %}

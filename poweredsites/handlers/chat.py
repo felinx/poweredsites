@@ -28,11 +28,13 @@ class ChatBaseHandler(BaseHandler):
         self._context.title = "PoweredSites' chat online"
         self._context.keywords = self._context.keywords + ",chat"
 
+
 class MainHandler(ChatBaseHandler):
     @cache.page()
     def get(self):
-        projects = self.db.query("select * from project order by subdomain ASC")
-        self.render("chat/projects.html", projects=projects)
+        messages = self.db.query("select messages.*,username from messages,user "
+                                 "where messages.user_id = user.id order by messages.created limit 0,20")
+        self.render("chat/projects.html", messages=messages)
 
 
 class MessageMixin(object):
@@ -48,9 +50,11 @@ class MessageMixin(object):
 
         messages = cache
         if not messages:
-            messages = self.db.query("select * from messages where project = %s limit 0, 200", project)
+            messages = self.db.query("select messages.*,uername from messages,user "
+                                     "where messages.user_id = user.id and project = %s "
+                                     "order by messages.created limit 0, 200", project)
             if messages:
-                messages = [{"id":m.uuid_, "from":m.from_, "body":m.body} for m in messages]
+                messages = [{"id":m.uuid_, "from_":m.from_, "username":m.username, "body":m.body} for m in messages]
                 cache = messages
 
         return messages
@@ -121,9 +125,11 @@ class MessageNewHandler(BaseHandler, MessageMixin):
         body = self.get_argument("body")
         uuid_ = str(uuid.uuid4().hex)
         from_ = self.current_user.openid_name
+        username = self.current_user.username
         message = {
             "id": uuid_,
-            "from": from_,
+            "from_": from_,
+            "username":username,
             "body": body,
         }
         message["html"] = self.render_string("chat/message.html", message=message)

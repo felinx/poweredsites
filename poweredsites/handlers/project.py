@@ -168,6 +168,7 @@ class ProjectWikiHandler(BaseHandler):
     def get(self):
         self.render("wiki/index.html")
 
+
 class HotProjectsModule(UIModule):
     _cache_key = "project/hot_projects_10"
     @cache.mem(key=_cache_key)
@@ -183,6 +184,7 @@ class HotProjectsModule(UIModule):
 
 class SideProjectsModule(HotProjectsModule):
     _cache_key = "project/hot_projects_15"
+    _module_template = "modules/side_projects.html"
     @cache.cache()
     def render(self):
         projects = self.handler.db.query("select * from project order by subdomain ASC")
@@ -190,8 +192,11 @@ class SideProjectsModule(HotProjectsModule):
 
         hot_projects = [hot.id for hot in hots]
 
-        return self.render_string("modules/side_projects.html",
+        return self.render_string(self._module_template,
                                   projects=projects, hot_projects=hot_projects)
+
+class ChatProjectsModule(SideProjectsModule):
+    _module_template = "modules/chat_projects.html"
 
 
 handlers = [
@@ -208,4 +213,4 @@ sub_handlers = ["^[a-zA-Z_\-0-9]*\.poweredsites.org$",
                ]
             ]
 
-ui_modules = {"side_projects":SideProjectsModule, "hot_projects":HotProjectsModule}
+ui_modules = {"side_projects":SideProjectsModule, "hot_projects":HotProjectsModule, "chat_projects":ChatProjectsModule}
