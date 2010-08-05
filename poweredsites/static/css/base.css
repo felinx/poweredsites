@@ -147,7 +147,7 @@ body {
 #slogan {
 	padding: 25px 40px 25px 0;
 	height: 150px;
-	overflow: hidden;
+	overflow: auto;
 }
 
 #slogan h2 {
@@ -336,7 +336,7 @@ body {
 	text-align: center;
 	float: left;
 	padding: 10px;
-	overflow: hidden;
+	overflow: auto;
 }
 
 #websites .ws-logo a {
