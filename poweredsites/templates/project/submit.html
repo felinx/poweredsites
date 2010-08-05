@@ -70,7 +70,7 @@
             <div class="label">
                 Keywords:
             </div>
-            <textarea style="height:80px;" id="sf-keywords" class="span-12" name="keywords" maxlength="100">
+            <textarea style="height:80px;border:1px solid #BBBBBB;" id="sf-keywords" class="span-12" name="keywords" maxlength="100">
                 {{escape(context.metainfos.get('keywords', ''))[0:100]}}
             </textarea>
         </div>
@@ -78,7 +78,7 @@
             <div class="label">
                 Description:
             </div>
-            <textarea id="sf-desc" class="span-12" name="desc" maxlength="600">
+            <textarea style="height:200px;border:1px solid #BBBBBB;" id="sf-desc" class="span-12" name="desc" maxlength="600">
                 {{escape(context.metainfos.get('description', ''))[0:600]}}
             </textarea>
         </div>

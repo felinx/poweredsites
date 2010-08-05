@@ -16,7 +16,7 @@
     <div class="label">
         Description:
     </div>
-    <textarea class="span-12" name="desc" maxlength="600">{{escape(context.metainfos.get('description', ''))[0:600]}}</textarea>
+    <textarea style="height:150px;border:1px solid #BBBBBB;" class="span-12" name="desc" maxlength="600">{{escape(context.metainfos.get('description', ''))[0:600]}}</textarea>
 </div>
 <div class="wrapper">
     <div class="label">
@@ -36,7 +36,7 @@
         Use case(technical summary):
     </div>
 	<div class="wrapper">
-        <textarea id="markedit" name="usecase" maxlength="2000">{{escape(context.metainfos.get('usecase', ''))}}</textarea>
+        <textarea style="height:200px;border:1px solid #BBBBBB;" id="markedit" name="usecase" maxlength="2000">{{escape(context.metainfos.get('usecase', ''))}}</textarea>
 	    <div id="preview" class="preview"></div>
 	</div>
 </div>			
