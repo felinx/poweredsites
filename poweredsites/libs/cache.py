@@ -160,6 +160,11 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
     if not anonymous and handler.current_user:
         code.update(str(handler.current_user.id))
 
+    # page argument as key by default
+    # Todo: add a argument option for key gen like condition
+    page = handler.get_argument("page", "")
+    code.update(page)
+
     return code.hexdigest(), handler, condition
 
 def remove(key):
