@@ -34,6 +34,7 @@ class HelpHandler(BaseHandler):
 
         self.render("help.html", entry=entry, entries=entries)
 
+
 handlers = [
             (r"/help/([a-z]{2,20})", HelpHandler),
             ]

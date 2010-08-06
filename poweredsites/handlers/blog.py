@@ -40,7 +40,7 @@ class BlogBaseHandler(BaseHandler):
         return self.db.query("select * from user where role >= %s", const.Role.STAFF)
 
 class BlogHomeHandler(BlogBaseHandler):
-    @cache.page(condition="select id from entries ORDER BY id DESC")
+    @cache.page(condition="select id from entries ORDER BY id DESC", key="blog/bloghomehandler")
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY id "
                                 "DESC LIMIT 20")

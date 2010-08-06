@@ -73,6 +73,7 @@ class FrontMainHandler(BaseHandler):
 
         return count
 
+
 class FrontSearchHandler(BaseHandler):
     def get(self):
         self._context.title = "Search"

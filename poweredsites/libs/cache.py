@@ -25,7 +25,7 @@ from poweredsites.db.caches import Page, Cache
 from poweredsites.db import conn
 from poweredsites.libs.utils import NoDefault
 
-__all__ = ("cache", "page")
+__all__ = ("cache", "page", "mem", "key_gen", "remove")
 
 _cache_condition = {}
 _mem_caches = {}
@@ -65,6 +65,7 @@ def cache(expire=7200, condition="", key="", anonymous=False):
             return val
 
     return decorator(wrapper)
+
 
 def page(expire=7200, condition="", key="", anonymous=False):
     """Decorator which caches a whole page(headers + html) in a handler
@@ -167,6 +168,7 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
 
     return code.hexdigest(), handler, condition
 
+
 def remove(key):
     """Remove a cache's value."""
     try:
@@ -178,6 +180,7 @@ def remove(key):
     v = c.findby_key(key)
     if v:
         c.remove(v["_id"])
+
 
 def _valid_cache(k, value, handler, condition, anonymous, now):
     if not options.cache_enabled:

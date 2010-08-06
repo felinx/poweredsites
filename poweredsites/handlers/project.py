@@ -88,6 +88,7 @@ class SubmitProjectHandler(ProjectHandler):
         else:
             fm.render(self._submit_template)
 
+
 class SubmitProjectPreHandler(ProjectHandler):
     @authenticated
     def get(self):
@@ -154,6 +155,7 @@ class ProjectIndexHandler(ProjectHandler):
             else:
                 self.redirect(self._context.options.home_url)
 
+
 class ProjectPrHandler(ProjectIndexHandler):
     _order_by = "pr DESC, ar ASC"
     _handler_template = "site/pr.html"
@@ -162,6 +164,7 @@ class ProjectPrHandler(ProjectIndexHandler):
 class ProjectArHandler(ProjectIndexHandler):
     _order_by = "ar ASC"
     _handler_template = "site/ar.html"
+
 
 class ProjectOpensourceHandler(ProjectIndexHandler):
     _order_by = "ar ASC"
@@ -180,6 +183,7 @@ class ProjectWikiHandler(BaseHandler):
 
 class HotProjectsModule(UIModule):
     _cache_key = "project/hot_projects_10"
+
     @cache.mem(key=_cache_key)
     def get_hot_projects(self, offset=10):
         return self.handler.db.query("select * from ("
@@ -194,6 +198,7 @@ class HotProjectsModule(UIModule):
 class SideProjectsModule(HotProjectsModule):
     _cache_key = "project/hot_projects_15"
     _module_template = "modules/side_projects.html"
+
     @cache.cache()
     def render(self):
         projects = self.handler.db.query("select * from project order by subdomain ASC")
@@ -203,6 +208,7 @@ class SideProjectsModule(HotProjectsModule):
 
         return self.render_string(self._module_template,
                                   projects=projects, hot_projects=hot_projects)
+
 
 class ChatProjectsModule(SideProjectsModule):
     _module_template = "modules/chat_projects.html"
