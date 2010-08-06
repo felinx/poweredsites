@@ -29,7 +29,7 @@ class ChatBaseHandler(BaseHandler):
         self._context.keywords = self._context.keywords + ",chat"
 
 
-class MainHandler(ChatBaseHandler):
+class ChatMainHandler(ChatBaseHandler):
     @cache.page()
     def get(self):
         messages = self.db.query("select messages.*,username from messages,user "
@@ -162,7 +162,7 @@ class MessageUpdatesHandler(BaseHandler, MessageMixin):
 
 sub_handlers = ["^chat.poweredsites.org$",
                 [
-                 (r"/?", MainHandler),
+                 (r"/?", ChatMainHandler),
                  (r"/([a-zA-Z\-_0-9]{3,20})$", ChatHandler),
                  (r"/([a-zA-Z\-_0-9]{3,20})/a/message/new", MessageNewHandler),
                  (r"/([a-zA-Z\-_0-9]{3,20})/a/message/updates", MessageUpdatesHandler),

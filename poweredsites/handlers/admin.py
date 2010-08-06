@@ -17,13 +17,13 @@
 from poweredsites.libs.handler import StaffBaseHandler, AdminBaseHandler
 from poweredsites.db.caches import clearup
 
-class ClearCacheHandler(AdminBaseHandler):
+class AdminClearCacheHandler(AdminBaseHandler):
     def get(self):
         clearup()
         self.write("Clearup cache OK")
 
 
-class NewUsersHandler(AdminBaseHandler):
+class AdminNewUsersHandler(AdminBaseHandler):
     def get(self):
         # New users list, temp
         users = self.db.query("select * from user order by id DESC limit 0, 200")
@@ -36,7 +36,7 @@ class NewUsersHandler(AdminBaseHandler):
 
 
 sub_handlers = ["^admin.poweredsites.org$",
-              [(r"/clearcache", ClearCacheHandler),
-               (r"/newusers", NewUsersHandler),
+              [(r"/clearcache", AdminClearCacheHandler),
+               (r"/newusers", AdminNewUsersHandler),
                ]
             ]

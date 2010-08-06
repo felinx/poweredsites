@@ -39,7 +39,7 @@ class BlogBaseHandler(BaseHandler):
     def bloggers(self):
         return self.db.query("select * from user where role >= %s", const.Role.STAFF)
 
-class HomeHandler(BlogBaseHandler):
+class BlogHomeHandler(BlogBaseHandler):
     @cache.page(condition="select id from entries ORDER BY id DESC")
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY id "
@@ -47,7 +47,7 @@ class HomeHandler(BlogBaseHandler):
         self.render("blog/home.html", entries=entries)
 
 
-class EntryHandler(BlogBaseHandler):
+class BlogEntryHandler(BlogBaseHandler):
     @cache.page(anonymous=True)
     def get(self, slug):
         entry = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
@@ -61,7 +61,7 @@ class EntryHandler(BlogBaseHandler):
         self.render("blog/entry.html", entry=entry)
 
 
-class ArchiveHandler(BlogBaseHandler):
+class BlogArchiveHandler(BlogBaseHandler):
     @cache.page(condition="select id from entries ORDER BY id DESC")
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY id DESC")
@@ -69,7 +69,7 @@ class ArchiveHandler(BlogBaseHandler):
         self.render("blog/archive.html", entries=entries)
 
 
-class FeedHandler(BlogBaseHandler):
+class BlogFeedHandler(BlogBaseHandler):
     @cache.page(condition="select id from entries ORDER BY id DESC")
     def get(self):
         entries = self.db.query("SELECT * FROM entries where is_help = 0 ORDER BY created "
@@ -78,7 +78,7 @@ class FeedHandler(BlogBaseHandler):
         self.render("blog/feed.xml", entries=entries, title="PoweredSites Blog!")
 
 
-class ComposeHandler(BlogBaseHandler):
+class BlogComposeHandler(BlogBaseHandler):
     @staff
     def get(self):
         self._context.css.append("markedit.css")
@@ -123,20 +123,20 @@ class ComposeHandler(BlogBaseHandler):
         self.redirect("/entry/" + slug)
 
 
-class EntryModule(UIModule):
+class BlogEntryModule(UIModule):
     def render(self, entry):
         return self.render_string("modules/entry.html", entry=entry)
 
 
 sub_handlers = ["^blog.poweredsites.org$",
                 [
-                (r"/", HomeHandler),
-                (r"/archive", ArchiveHandler),
-                (r"/feeds", FeedHandler),
-                (r"/entry/([^/]+)", EntryHandler),
-                (r"/compose", ComposeHandler),
+                (r"/", BlogHomeHandler),
+                (r"/archive", BlogArchiveHandler),
+                (r"/feeds", BlogFeedHandler),
+                (r"/entry/([^/]+)", BlogEntryHandler),
+                (r"/compose", BlogComposeHandler),
                 ]
                 ]
 
-ui_modules = {"entry":EntryModule,
+ui_modules = {"entry":BlogEntryModule,
               }

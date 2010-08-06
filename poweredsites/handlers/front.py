@@ -20,7 +20,7 @@ from poweredsites.libs.handler import BaseHandler
 from poweredsites.libs.decorators import cache
 from poweredsites.libs import const
 
-class MainHandler(BaseHandler):
+class FrontMainHandler(BaseHandler):
     _category_top_query = "select * from ("\
                 "(select count(site_id) as c, project_id from project_sites "\
                 "group by project_id) as ps "\
@@ -73,13 +73,13 @@ class MainHandler(BaseHandler):
 
         return count
 
-class SearchHandler(BaseHandler):
+class FrontSearchHandler(BaseHandler):
     def get(self):
         self._context.title = "Search"
         self.render("search.html")
 
 
 handlers = [
-            (r"/?", MainHandler),
-            (r"/search", SearchHandler),
+            (r"/?", FrontMainHandler),
+            (r"/search", FrontSearchHandler),
             ]
