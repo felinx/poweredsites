@@ -27,7 +27,7 @@ class NewUsersHandler(AdminBaseHandler):
     def get(self):
         # New users list, temp
         users = self.db.query("select * from user order by id DESC limit 0, 200")
-        count = self.db.query("select count(*) as c from user")
+        count = self.db.get("select count(*) as c from user")
         if count:
             count = count.c
         else:
