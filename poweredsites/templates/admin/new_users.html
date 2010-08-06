@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+{% block body %}
+<ul>
+    <h3>User count: {{count}}</h3>
+{% for user in users %}
+    <li>
+        <a href="http://poweredsites.org/user/{{user.username}}">{{escape(user.openid_name)}}</a>
+    </li>
+{% end %}
+</ul>
+{% end %}

@@ -23,7 +23,16 @@ class ClearCacheHandler(AdminBaseHandler):
         self.write("Clearup cache OK")
 
 
+class NewUsersHandler(AdminBaseHandler):
+    def get(self):
+        # New users list, temp
+        users = self.db.query("select * from user order by id limit 0, 200")
+        count = self.db.query("select count(*) from user")
+        self.render("admin/new_users.html", users=users, count=count)
+
+
 sub_handlers = ["^admin.poweredsites.org$",
               [(r"/clearcache", ClearCacheHandler),
+               (r"/newusers", NewUsersHandler),
                ]
             ]
