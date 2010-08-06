@@ -1,11 +1,11 @@
 {% for site in pagination['rows'] %}
     <div class='website'>
     	<div class="ws-logo">
-            <a target="_blank" href="{{escape(site.website)}}" title="{{escape(site.sitename)}}">
+            <a target="_blank" href="http://sites.poweredsites.org/{{site.uuid_}}" title="{{escape(site.sitename)}}">
             {% if site.logo is None %}
                 {{escape(site.sitename[0:25])}}
             {% else %}
-                <img src="{{site.logo}}" />
+                <img alt="{{escape(site.sitename[0:25])}}" src="{{site.logo}}" />
             {% end %}
             </a>
     	</div>
