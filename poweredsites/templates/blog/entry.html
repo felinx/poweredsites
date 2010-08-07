@@ -1,6 +1,16 @@
 {% extends "blog.html" %}
 
 {% block blog_content %}
+	<div class="wrapperL right">        
+	    {% if entry_before and entry_next %}
+	        &lt;&nbsp;<a href="http://blog.poweredsites.org/entry/{{entry_before.slug}}">{{escape(entry_before.title)}}</a>&nbsp;
+	        |&nbsp;&nbsp;<a href="http://blog.poweredsites.org/entry/{{entry_next.slug}}">{{escape(entry_next.title)}}</a>&nbsp;&gt;
+	    {% elif entry_before %}
+	        &lt;&nbsp;<a href="http://blog.poweredsites.org/entry/{{entry_before.slug}}">{{escape(entry_before.title)}}</a>
+	    {% elif entry_next %}
+	        <a href="http://blog.poweredsites.org/entry/{{entry_next.slug}}">{{escape(entry_next.title)}}</a>&nbsp;&gt;
+	    {% end %}
+	</div>
     {{ modules.entry(entry) }}  
 	<div class="comments">
 	    <div id="disqus_thread"></div>
@@ -16,8 +26,7 @@
 	    </script>
 	    <a href="{{request.full_url().replace('#disqus_thread', '')}}#disqus_thread">Comments</a>
 	    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-	</div>
-  
+	</div>  
 {% end %}
 
 {% block bottom %}

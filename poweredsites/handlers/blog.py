@@ -42,23 +42,31 @@ class BlogBaseHandler(BaseHandler):
 class BlogHomeHandler(BlogBaseHandler):
     @cache.page(condition="select count(*) from entries", key="blog/bloghomehandler")
     def get(self):
-        entries = self.db.query("SELECT * FROM entries ORDER BY id "
-                                "DESC LIMIT 20")
+        entries = self.db.query("SELECT entries.*,user.username,user.openid_name "
+                                "FROM entries,user WHERE entries.user_id = user.id "
+                                "ORDER BY id DESC LIMIT 20")
         self.render("blog/home.html", entries=entries)
 
 
 class BlogEntryHandler(BlogBaseHandler):
     @cache.page(anonymous=True)
     def get(self, slug):
-        entry = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
+        entry = self.db.get("SELECT entries.*,user.username,user.openid_name "
+                            "FROM entries,user WHERE entries.user_id = user.id and slug = %s", slug)
         if not entry: raise HTTPError(404)
+
+        entry_next = self.db.get("SELECT slug,title FROM entries WHERE id = %s and is_help = 0", entry.id + 1)
+        if entry.id > 1:
+            entry_before = self.db.get("SELECT slug,title FROM entries WHERE id = %s and is_help = 0", entry.id - 1)
+        else:
+            entry_before = None
 
         if entry.is_help and not self.is_staff:
             self.redirect("/")
 
         self._context.title = entry.title
         self._context.description = entry.content[0:200]
-        self.render("blog/entry.html", entry=entry)
+        self.render("blog/entry.html", entry=entry, entry_next=entry_next, entry_before=entry_before)
 
 
 class BlogArchiveHandler(BlogBaseHandler):

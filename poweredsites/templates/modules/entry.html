@@ -1,5 +1,5 @@
 {% if not entry.is_help or handler.is_staff or context.is_help %}
-<div class="entry wrapperL">
+<div class="entry wrapperL">	
     <h3 class="span-12">
     	{% if entry.is_help %}
     	   <a href="http://poweredsites.org/help/{{ entry.slug }}">{{ escape(entry.title) }}</a>
@@ -16,6 +16,7 @@
         {{ entry.markdown }}
     </div>
     <div class="wrapperL right">
+    	<a target="_blank" href="http://poweredsites.org/user/{{entry.username}}">{{escape(entry.openid_name)}}</a>&nbsp;&nbsp;
         {{ locale.format_date(entry.created, full_format=True, shorter=True) }}
     </div>
 </div>
