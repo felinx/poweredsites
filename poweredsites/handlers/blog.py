@@ -63,6 +63,7 @@ class BlogEntryHandler(BlogBaseHandler):
 
         if entry.is_help and not self.is_staff:
             self.redirect("/")
+            return
 
         self._context.title = entry.title
         self._context.description = entry.content[0:200]

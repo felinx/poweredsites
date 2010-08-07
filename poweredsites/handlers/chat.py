@@ -109,6 +109,7 @@ class ChatHandler(ChatBaseHandler, MessageMixin):
     def get(self, project):
         if not project.islower():
             self.redirect("http://chat.poweredsites.org/%s" % project.lower())
+            return
 
         project = self.db.get("select * from project where subdomain = %s", project)
         if not project:
@@ -135,6 +136,7 @@ class MessageNewHandler(BaseHandler, MessageMixin):
         message["html"] = self.render_string("chat/message.html", message=message)
         if self.get_argument("next", None):
             self.redirect(self.get_argument("next"))
+            return
         else:
             self.write(message)
 
