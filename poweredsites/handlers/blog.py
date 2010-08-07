@@ -113,6 +113,7 @@ class BlogComposeHandler(BlogBaseHandler):
                 "WHERE id = %s", self.current_user.id, title, text, html, int(id))
             if entry.is_help:
                 self.redirect(self._context.options.home_url + "help/" + slug)
+                return
         else:
             slug = unicodedata.normalize("NFKD", title).encode(
                 "ascii", "ignore")
