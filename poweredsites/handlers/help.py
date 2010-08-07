@@ -24,7 +24,8 @@ from poweredsites.libs.decorators import cache, staff, authenticated
 class HelpHandler(BaseHandler):
     @cache.page(anonymous=True)
     def get(self, slug):
-        entry = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
+        entry = self.db.get("SELECT entries.*,user.username,user.openid_name "
+                            "FROM entries,user WHERE entries.user_id = user.id and slug = %s", slug)
         entries = self.db.query("SELECT * FROM entries WHERE is_help = 1")
         if not entry: raise HTTPError(404)
 
