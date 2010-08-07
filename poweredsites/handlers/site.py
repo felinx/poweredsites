@@ -171,7 +171,7 @@ class WebsiteIndexHandler(BaseHandler):
     _ws_count_query = "select count(*) as c from site"
     _context_title = "Latest sites"
 
-    @cache.page(3600, condition="select id from site order by id DESC")
+    @cache.page(3600, condition="select count(*) from site")
     def get(self):
         self._context.ws_count_query = self._ws_count_query
         self._context.ws_query = "select site.*, user.username, user.openid_name "\
@@ -239,7 +239,7 @@ class WebsitePoweredsModule(UIModule):
 
 class WebsitesIndexModule(UIModule):
     _module_template = "modules/websites_index.html"
-    @cache.cache(condition="select id from site order by id DESC")
+    @cache.cache(condition="select count(*) from site")
     def render(self, count_query, query, page):
         return self.render_string(self._module_template,
                             count_query=count_query, query=query, page=page)

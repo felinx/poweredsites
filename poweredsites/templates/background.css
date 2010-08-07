@@ -80,3 +80,12 @@
     float: left;
     color: #444;
 }
+
+#websites-tab .rss-bg {	
+    background: #fff url({{static_url('img/iconset.jpg')}})
+        no-repeat -184px -84px;
+    border:0;
+    padding: 6px 0 0;
+    float:right;
+    width:30px;
+}

@@ -34,7 +34,7 @@
 		<div class="ws-content">            
             <span class="span-16 last label">Powered by:</span>
 			{% for p in powereds %}
-			    <a class="powered" href="http://{{p.subdomain}}.poweredsites.org/">{{escape(p.project)}}</a>
+			    <a target="_blank" class="powered" href="http://{{p.subdomain}}.poweredsites.org/">{{escape(p.project)}}</a>
 			{% end %}
         </div>
         {% if site.source_url %}

@@ -27,6 +27,7 @@ from tornado import escape
 from poweredsites.libs.handler import BaseHandler
 from poweredsites.libs import const
 from poweredsites.db.caches import Cache
+from poweredsites.libs.decorators import cache
 from poweredsites.libs.decorators import authenticated
 from poweredsites.forms.profile import ProfileForm
 
@@ -323,6 +324,7 @@ class UserCheckHandler(BaseHandler):
 
 
 class UserHandler(BaseHandler):
+    @cache.page(anonymous=True)
     def get(self, username):
         user = self.db.get("select * from user where username = %s" , username)
         if not user:

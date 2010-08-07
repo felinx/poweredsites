@@ -19,7 +19,17 @@
       <updated>{{ entry.updated.strftime(date_format) }}</updated>
       <published>{{ entry.created.strftime(date_format) }}</published>
       <content type="xhtml" xml:base="http://{{ request.host }}/">
-        <div xmlns="http://www.w3.org/1999/xhtml">{{ entry.markdown }}</div>
+        <div xmlns="http://www.w3.org/1999/xhtml">
+        	<b>Website:</b>			
+			<br/><a target="_blank" href="{{ entry.website }}">{{ entry.website }}</a>
+        	<br/><br/><b>Description:</b> 
+        	<br/>{{ entry.description }}
+			<br/><br/><b>Usecase:</b>  
+			<br/>{{ entry.usecase_md }}			
+			<br/><br/><b>Powered by:</b>	
+			{{modules.website_powereds(entry.id)}}
+			<br/><br/>
+		</div>
       </content>
     </entry>
   {% end %}

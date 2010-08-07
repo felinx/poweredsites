@@ -80,10 +80,10 @@ class FrontSearchHandler(BaseHandler):
         self.render("search.html")
 
 
-class FrontFeedHandler(BaseHandler):
+class FrontFeedsHandler(BaseHandler):
     @cache.page(condition="select count(*) from site")
     def get(self):
-        entries = self.db.query("SELECT * FROM site order by id DESC LIMIT 20")
+        entries = self.db.query("SELECT * FROM site order by id DESC LIMIT 40")
         self.set_header("Content-Type", "application/atom+xml")
         self.render("feed.xml", entries=entries, title="Powered Sites")
 
@@ -91,4 +91,5 @@ class FrontFeedHandler(BaseHandler):
 handlers = [
             (r"/?", FrontMainHandler),
             (r"/search", FrontSearchHandler),
+            (r"/feeds", FrontFeedsHandler),
             ]

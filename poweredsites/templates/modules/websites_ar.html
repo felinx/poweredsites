@@ -6,6 +6,15 @@
        {% else %}
            <a href="http://{{subdomain}}.poweredsites.org/">Lateset</a>
        {% end %}
+    </li>          
+    <li class="selected">
+        <a href="http://{{subdomain}}.poweredsites.org/ar">Top AR</a>
+    </li>
+    <li>
+        <a href="http://{{subdomain}}.poweredsites.org/pr">Top PR</a>
+    </li>
+    <li>
+        <a href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
     </li>
     {% block websites_extra %}
     {% if context.current_project %}
@@ -16,14 +25,5 @@
         <a href="http://{{subdomain}}.poweredsites.org/wiki">Wiki</a>
     </li>           
     {% end %}
-    {% end %}           
-    <li class="selected">
-        <a href="http://{{subdomain}}.poweredsites.org/ar">Top AR</a>
-    </li>
-    <li>
-        <a href="http://{{subdomain}}.poweredsites.org/pr">Top PR</a>
-    </li>
-    <li>
-        <a href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
-    </li>
+    {% end %} 
 {% end %}

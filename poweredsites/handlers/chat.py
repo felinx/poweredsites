@@ -30,7 +30,7 @@ class ChatBaseHandler(BaseHandler):
 
 
 class ChatMainHandler(ChatBaseHandler):
-    @cache.page()
+    @cache.page(600)
     def get(self):
         messages = self.db.query("select messages.*,username from messages,user "
                                  "where messages.user_id = user.id order by messages.created limit 0,20")

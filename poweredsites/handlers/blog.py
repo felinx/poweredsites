@@ -40,7 +40,7 @@ class BlogBaseHandler(BaseHandler):
         return self.db.query("select * from user where role >= %s", const.Role.STAFF)
 
 class BlogHomeHandler(BlogBaseHandler):
-    @cache.page(condition="select id from entries ORDER BY id DESC", key="blog/bloghomehandler")
+    @cache.page(condition="select count(*) from entries", key="blog/bloghomehandler")
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY id "
                                 "DESC LIMIT 20")
@@ -62,7 +62,7 @@ class BlogEntryHandler(BlogBaseHandler):
 
 
 class BlogArchiveHandler(BlogBaseHandler):
-    @cache.page(condition="select id from entries ORDER BY id DESC")
+    @cache.page(condition="select count(*) from entries")
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY id DESC")
         self._context.title = "PoweredSites' Archive Blog | poweredsites.org"
@@ -70,7 +70,7 @@ class BlogArchiveHandler(BlogBaseHandler):
 
 
 class BlogFeedHandler(BlogBaseHandler):
-    @cache.page(condition="select id from entries ORDER BY id DESC")
+    @cache.page(condition="select count(*) from entries")
     def get(self):
         entries = self.db.query("SELECT * FROM entries where is_help = 0 ORDER BY created "
                                 "DESC LIMIT 10")

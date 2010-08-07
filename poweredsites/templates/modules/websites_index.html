@@ -8,21 +8,11 @@
 	     {% block websites_tab %}
 			 <li class="selected">
 			 	{% if context.current_project %}
-				    <a href="http://{{subdomain}}.poweredsites.org/">{{subdomain}}</a>
+				    <a href="http://{{subdomain}}.poweredsites.org/">{{subdomain[0].upper() + subdomain[1:]}}</a>
 				{% else %}
 			 	    <a href="http://{{subdomain}}.poweredsites.org/">Lateset</a>
 				{% end %}
-			 </li>
-			{% block websites_extra %}
-	             {% if context.current_project %}
-	             <li>
-	                 <a href="http://chat.poweredsites.org/{{subdomain}}">Chat</a>
-	             </li>
-	             <li>
-	                 <a href="http://{{subdomain}}.poweredsites.org/wiki">Wiki</a>
-	             </li>           
-	             {% end %}
-	         {% end %}			 
+			 </li>		 
 			  <li>
 	             <a href="http://{{subdomain}}.poweredsites.org/ar">Top AR</a>
 	         </li>
@@ -32,8 +22,21 @@
 			  <li>
 	             <a href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
 	         </li>
-		 {% end %} 
-	 </ul>
+			 {% block websites_extra %}
+                 {% if context.current_project %}
+                 <li>
+                     <a href="http://chat.poweredsites.org/{{subdomain}}">Chat</a>
+                 </li>
+                 <li>
+                     <a href="http://{{subdomain}}.poweredsites.org/wiki">Wiki</a>
+                 </li>           
+                 {% end %}
+             {% end %}
+		 {% end %}
+			 <li class="rss-bg">
+			     <a target="_blank" href="http://poweredsites.org/feeds" class="span-1 last">&nbsp;</a>
+			 </li>
+	 </ul>	 
 	<div id="websites-content">
         {{modules.websites(context.ws_count_query,context.ws_query, context.page)}}
 	</div>
