@@ -291,7 +291,10 @@ class ProfileHandler(BaseHandler):
     def post(self):
         fm = ProfileForm(self)
         self._context.openid_name = const.OpenID.NAME[self.current_user.openid_api]
-        self._context.next = fm._values.get("next", "/")
+        next = escape.url_unescape(fm._parmas.get("next", ""))
+        if not next:
+            next = "/"
+        self._context.next = next
 
         if fm.validate():
             self.redirect(self._context.next)
