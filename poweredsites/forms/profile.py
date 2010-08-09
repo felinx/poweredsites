@@ -27,6 +27,7 @@ class ProfileForm(BaseForm):
 
     blog_name = validators.String(not_empty=False, max=40, strip=True)
     blog_url = URL(not_empty=False, max=600, add_http=True)
+    next = validators.String(not_empty=False, max=600)
 
     def __after__(self):
         try:
