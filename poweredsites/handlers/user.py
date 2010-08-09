@@ -331,7 +331,7 @@ class UserHandler(BaseHandler):
             raise HTTPError(404)
 
         sites = self.db.query("select * from site where user_id = %s order by id DESC", user.id)
-        self._context.title = user.openid_name + "'s " + "sites"
+        self._context.title = user.openid_name + " submitted sites"
         self._context.keywords = self._context.keywords + ",%s,%s" % (user.openid_name, user.username)
         self.render("user/user.html", sites=sites, user=user)
 

@@ -16,7 +16,7 @@
             </div>
             <div class="ws-desc">
                 <a target="_blank" href="http://sites.poweredsites.org/{{site.uuid_}}" title="{{escape(site.sitename)}}">
-                {{escape(site.description)}}
+                {{escape(site.description if site.description.strip() else site.sitename)}}
                 </a>
             </div>
         </div>
@@ -26,8 +26,7 @@
         <div class="ws-user">
             <div class="span-7 left">
                 <span>AR:{{"unknown" if site.ar >= 100000000 else site.ar}}</span>
-                <span>PR:{{"unknown" if site.pr == -1 else site.pr}}</span>
-                <span><a target="_blank" href="http://sites.poweredsites.org/{{site.uuid_}}">Comments</a></span>
+                <span>PR:{{"unknown" if site.pr == -1 else site.pr}}</span>                
             </div>
             <div class="span-8 fright">
                 {{site.created}}
