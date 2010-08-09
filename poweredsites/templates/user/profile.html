@@ -59,6 +59,7 @@
             </div>
             {% end %}
             <div class="wrapper label">
+                <input type="hidden" name="next" value="{{ context.next }}"/>
                 <input id='btnSubmit' value="Save" class="button" type="submit">
             </div>{{ xsrf_form_html() }}
         </form>

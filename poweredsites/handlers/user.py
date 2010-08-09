@@ -290,12 +290,11 @@ class ProfileHandler(BaseHandler):
     @authenticated
     def post(self):
         fm = ProfileForm(self)
-        next = self.get_argument("next", "/")
-        self._context.next = next
         self._context.openid_name = const.OpenID.NAME[self.current_user.openid_api]
+        self._context.next = fm._values.get("next", "/")
 
         if fm.validate():
-            self.redirect(next)
+            self.redirect(self._context.next)
         else:
             fm.render("user/profile.html", const=const)
 
