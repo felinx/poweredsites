@@ -5,6 +5,9 @@
 {% for user in users %}
     <li>
         <a href="http://poweredsites.org/user/{{user.username}}">{{escape(user.openid_name)}}</a>
+        {{user.email}}&nbsp;&nbsp;        
+        {{user.username}}&nbsp;&nbsp;
+        {{user.openid_api}}
     </li>
 {% end %}
 </ul>

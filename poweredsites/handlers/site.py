@@ -87,13 +87,13 @@ class SubmitSiteHandler(SubmitProjectHandler, AlexaRankMixin, \
         if fm.validate():
             self._site_record = self.db.get("select * from site where website = %s", \
                                             fm._values["website"])
-            # a chain of asynchronous operations            
+            ### a chain of asynchronous operations            
             self.get_alexa_rank(fm._values["website"], self._ar_callback)
-            self.grab_shapshot(self._site_record.website, self._site_record.uuid_, \
-                               self._snapshot_callback)
+            ##self.grab_shapshot(self._site_record.website, self._site_record.uuid_, \
+            ##                   self._snapshot_callback)
             self.get_pagerank(self._site_record.website, self._pr_callback)
 
-            #self.redirect("http://sites.poweredsites.org/" + self._site_record.sitename.lower())
+            ##self.redirect("http://sites.poweredsites.org/" + self._site_record.sitename.lower())
             self.redirect("/submit/sitepowered?site=" + self._site_record.uuid_)
         else:
             fm.render("site/submit.html")
@@ -113,11 +113,7 @@ class SubmitSitePoweredHandler(BaseHandler):
     def prepare(self):
         super(SubmitSitePoweredHandler, self).prepare()
 
-        self.projects = self.db.query("select p.*, b.c from ( "
-                "(select * from project) as p left join "
-                "(select count(*) as c, project_id from project_sites group by project_id) as b "
-                "on p.id = b.project_id) order by b.c DESC")
-        self.current_project = None
+        self.projects = self.db.query("select * from project order by subdomain ASC")
 
     def _authorize(self, author_id):
         if not (self.is_staff or self.current_user.id == author_id):
