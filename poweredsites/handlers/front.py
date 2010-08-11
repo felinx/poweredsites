@@ -14,64 +14,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from tornado import escape
+from tornado.web import UIModule
 
 from poweredsites.libs.handler import BaseHandler
 from poweredsites.libs.decorators import cache
-from poweredsites.libs import const
-
-class FrontMainHandler(BaseHandler):
-    _category_top_query = "select * from ("\
-                "(select count(site_id) as c, project_id from project_sites "\
-                "group by project_id) as ps "\
-                "left join (select id, subdomain, category_id from project) "\
-                "as p on ps.project_id = p.id) where p.category_id=%s order by ps.c DESC limit 0, 5"
-    _category_count_query = "select sum(ps.c) as c from (select count(site_id) as c, project_id from "\
-                "project_sites group by project_id) as ps "\
-                "left join (select id, category_id from project) as p on ps.project_id = p.id "\
-                "where p.category_id = %s"
-
-    @cache.page()
-    def get(self):
-
-        top_projects = self.db.query("select * from ("
-                "(select count(site_id) as c, project_id from project_sites "
-                "group by project_id order by c DESC limit 0, 10) as ps "
-                "left join (select id, subdomain from project) as p on ps.project_id = p.id)")
-        top_projects_count = self._get_count("select count(*) as c from project_sites")
-
-        top_frameworks = self.db.query(self._category_top_query, const.Category.FRAMEWORK)
-        top_frameworks_count = self._get_count(self._category_count_query % const.Category.FRAMEWORK)
-
-#        top_databases = self.db.query(self._category_top_query, const.Category.DATABASE)
-#        top_databases_count = self._get_count(self._category_count_query % const.Category.DATABASE)
-#
-#        top_toolkits = self.db.query(self._category_top_query, const.Category.TOOLKIT)
-#        top_toolkits_count = self._get_count(self._category_count_query % const.Category.TOOLKIT)
-
-        top_projects = escape.json_encode(top_projects)
-        top_frameworks = escape.json_encode(top_frameworks)
-#        top_databases = escape.json_encode(top_databases)
-#        top_toolkits = escape.json_encode(top_toolkits)
-
-        self.render("index.html", top_projects_count=top_projects_count,
-                    top_projects=top_projects,
-                    top_frameworks=top_frameworks,
-                    top_frameworks_count=top_frameworks_count,
-#                    top_databases=top_databases,
-#                    top_databases_count=top_databases_count,
-#                    top_toolkits=top_toolkits,
-#                    top_toolkits_count=top_toolkits_count,
-                    )
-
-    def _get_count(self, query):
-        count = self.db.get(query)
-        if count:
-            count = count.c
-        else:
-            count = 0
-
-        return count
+from poweredsites.libs.pagination import PaginationMixin
 
 
 class FrontSearchHandler(BaseHandler):
@@ -88,8 +35,73 @@ class FrontFeedsHandler(BaseHandler):
         self.render("feed.xml", entries=entries, title="Powered Sites")
 
 
+class FrontIndexHandler(BaseHandler):
+    _order_by = "id DESC"
+    _condition = ""
+    _handler_template = "index.html"
+    _ws_count_query = "select count(*) as c from site"
+    _context_title = "Latest sites"
+
+    @cache.page(3600, condition="select count(*) from site")
+    def get(self):
+        self._context.ws_count_query = self._ws_count_query
+        self._context.ws_query = "select site.*, user.username, user.openid_name "\
+                "from site, user where site.user_id = user.id %s order by %s" % \
+                (self._condition, self._order_by)
+        self._context.ws_query = str(self._context.ws_query)
+        self._context.page = self.get_argument("page", 1)
+
+        self._context.title = self._context_title
+        self.render(self._handler_template)
+
+
+class FrontTopHandler(FrontIndexHandler):
+    _order_by = "click DESC, pr DESC, ar ASC"
+    _handler_template = "top.html"
+    _context_title = "Top sites"
+
+
+class FrontOpensourceHandler(FrontIndexHandler):
+    _order_by = "ar ASC"
+    _condition = "and site.source_url is not NULL"
+    _ws_count_query = "select count(*) as c from site where source_url is not NULL"
+    _handler_template = "opensource.html"
+    _context_title = "Open source sites"
+
+
+class WebsitesModule(UIModule, PaginationMixin):
+    def render(self, count_query, query, page):
+        pagination = self.get_pagination(count_query, query, page)
+
+        return self.render_string("modules/websites.html", pagination=pagination)
+
+
+class WebsitesIndexModule(UIModule):
+    _module_template = "modules/websites_index.html"
+    @cache.cache(condition="select count(*) from site")
+    def render(self, count_query, query, page):
+        return self.render_string(self._module_template,
+                            count_query=count_query, query=query, page=page)
+
+
+class WebsitesTopModule(WebsitesIndexModule):
+    _module_template = "modules/websites_top.html"
+
+
+class WebsitesOpensourceModule(WebsitesIndexModule):
+    _module_template = "modules/websites_opensource.html"
+
+
 handlers = [
-            (r"/?", FrontMainHandler),
+            (r"/?", FrontIndexHandler),
+            (r"/top", FrontTopHandler),
+            (r"/opensource", FrontOpensourceHandler),
             (r"/search", FrontSearchHandler),
             (r"/feeds", FrontFeedsHandler),
             ]
+
+ui_modules = {"websites":WebsitesModule,
+              "websites_index":WebsitesIndexModule,
+              "websites_top":WebsitesTopModule,
+              "websites_opensource":WebsitesOpensourceModule,
+              }

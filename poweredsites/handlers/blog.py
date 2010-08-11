@@ -39,7 +39,7 @@ class BlogBaseHandler(BaseHandler):
     def bloggers(self):
         return self.db.query("select * from user where role >= %s", const.Role.STAFF)
 
-class BlogHomeHandler(BlogBaseHandler):
+class BlogIndexHandler(BlogBaseHandler):
     @cache.page(condition="select count(*) from entries", key="blog/bloghomehandler")
     def get(self):
         entries = self.db.query("SELECT entries.*,user.username,user.openid_name "
@@ -140,7 +140,7 @@ class BlogEntryModule(UIModule):
 
 sub_handlers = ["^blog.poweredsites.org$",
                 [
-                (r"/", BlogHomeHandler),
+                (r"/", BlogIndexHandler),
                 (r"/archive", BlogArchiveHandler),
                 (r"/feeds", BlogFeedHandler),
                 (r"/entry/([^/]+)", BlogEntryHandler),

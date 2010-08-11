@@ -26,15 +26,59 @@ from BeautifulSoup import BeautifulSoup
 from poweredsites.libs.handler import BaseHandler
 from poweredsites.forms.submit import ProjectForm, ProjectPreForm
 from poweredsites.libs.decorators import cache, authenticated
+from poweredsites.libs import const
 
 
-class ProjectHandler(BaseHandler):
+class ProjectBaseHandler(BaseHandler):
     @property
     def categories(self):
         return self.db.query("select * from category order by id ASC")
 
 
-class SubmitProjectHandler(ProjectHandler):
+class ProjectMainHandler(ProjectBaseHandler):
+    _category_top_query = "select * from ("\
+                "(select count(site_id) as c, project_id from project_sites "\
+                "group by project_id) as ps "\
+                "left join (select id, subdomain, category_id from project) "\
+                "as p on ps.project_id = p.id) where p.category_id=%s order by ps.c DESC limit 0, 5"
+
+    _category_count_query = "select sum(ps.c) as c from (select count(site_id) as c, project_id from "\
+                "project_sites group by project_id) as ps "\
+                "left join (select id, category_id from project) as p on ps.project_id = p.id "\
+                "where p.category_id = %s"
+
+    @cache.page()
+    def get(self):
+
+        top_projects = self.db.query("select * from ("
+                "(select count(site_id) as c, project_id from project_sites "
+                "group by project_id order by c DESC limit 0, 10) as ps "
+                "left join (select id, subdomain from project) as p on ps.project_id = p.id)")
+        top_projects_count = self._get_count("select count(*) as c from project_sites")
+
+        top_frameworks = self.db.query(self._category_top_query, const.Category.FRAMEWORK)
+        top_frameworks_count = self._get_count(self._category_count_query % const.Category.FRAMEWORK)
+
+        top_projects = escape.json_encode(top_projects)
+        top_frameworks = escape.json_encode(top_frameworks)
+
+        self.render("project/main.html", top_projects_count=top_projects_count,
+                    top_projects=top_projects,
+                    top_frameworks=top_frameworks,
+                    top_frameworks_count=top_frameworks_count,
+                    )
+
+    def _get_count(self, query):
+        count = self.db.get(query)
+        if count:
+            count = count.c
+        else:
+            count = 0
+
+        return count
+
+
+class SubmitProjectHandler(ProjectBaseHandler):
     _submit_template = "project/submit.html"
 
     @authenticated
@@ -89,7 +133,7 @@ class SubmitProjectHandler(ProjectHandler):
             fm.render(self._submit_template)
 
 
-class SubmitProjectPreHandler(ProjectHandler):
+class SubmitProjectPreHandler(ProjectBaseHandler):
     @authenticated
     def get(self):
         self._context.title = "Submit a project"
@@ -105,11 +149,12 @@ class SubmitProjectPreHandler(ProjectHandler):
             fm.render("project/submit_pre.html")
 
 
-class ProjectIndexHandler(ProjectHandler):
+class ProjectIndexHandler(ProjectBaseHandler):
     _order_by = "id DESC"
     _condition = ""
     _handler_template = "site/index.html"
     _ws_count_query = "select count(*) as c from project_sites where project_id = %s"
+    _context_title = " - latest sites"
 
     @property
     def cache_condition(self):
@@ -146,7 +191,7 @@ class ProjectIndexHandler(ProjectHandler):
                 self._context.project_name = current_project.project
                 self._context.project_slogan = current_project.description
 
-                self._context.title = current_project.project
+                self._context.title = current_project.project + self._context_title
                 self._context.keywords = self._context.keywords + ",%s,%s" % \
                     (current_project.project, current_project.subdomain)
                 self._context.description = current_project.description
@@ -156,14 +201,11 @@ class ProjectIndexHandler(ProjectHandler):
                 self.redirect(self._context.options.home_url)
 
 
-class ProjectPrHandler(ProjectIndexHandler):
-    _order_by = "pr DESC, ar ASC"
-    _handler_template = "site/pr.html"
-
-
-class ProjectArHandler(ProjectIndexHandler):
-    _order_by = "ar ASC"
-    _handler_template = "site/ar.html"
+class ProjectTopHandler(ProjectIndexHandler):
+    _order_by = "click DESC, pr DESC, ar ASC"
+    _condition = "and site.source_url is not NULL"
+    _handler_template = "site/top.html"
+    _context_title = " - top sites"
 
 
 class ProjectOpensourceHandler(ProjectIndexHandler):
@@ -173,12 +215,7 @@ class ProjectOpensourceHandler(ProjectIndexHandler):
             "where project_id = %s and source_url is not NULL and "\
             "project_sites.site_id=site.id"
     _handler_template = "site/opensource.html"
-
-
-class ProjectWikiHandler(BaseHandler):
-    @cache.page(3600 * 24)
-    def get(self):
-        self.render("wiki/index.html")
+    _context_title = " - open source sites"
 
 
 class HotProjectsModule(UIModule):
@@ -210,25 +247,19 @@ class SideProjectsModule(HotProjectsModule):
                                   projects=projects, hot_projects=hot_projects)
 
 
-class ChatProjectsModule(SideProjectsModule):
-    _module_template = "modules/chat_projects.html"
-
-
 handlers = [
+            (r"/projects", ProjectMainHandler),
             (r"/submit/project", SubmitProjectHandler),
             (r"/submit/projectpre", SubmitProjectPreHandler),
             ]
 
 sub_handlers = ["^[a-zA-Z_\-0-9]*\.poweredsites.org$",
               [(r"/", ProjectIndexHandler),
-               ##(r"/wiki", ProjectWikiHandler),
-               ##(r"/pr", ProjectPrHandler),
-               ##(r"/ar", ProjectArHandler),
+               (r"/top", ProjectTopHandler),
                (r"/opensource", ProjectOpensourceHandler),
                ]
             ]
 
 ui_modules = {"side_projects":SideProjectsModule,
               "hot_projects":HotProjectsModule,
-              ##"chat_projects":ChatProjectsModule
               }

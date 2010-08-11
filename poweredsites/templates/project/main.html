@@ -1,0 +1,75 @@
+{% extends ../base.html %}
+
+{% block body %}
+<div id="home-charts" class="span-22">
+    <div id="chart_all" class="chart"></div>
+    <div id="chart_framework" class="chart"></div>
+</div>
+<div id="home-projects" class="span-22">    
+    {{modules.side_projects()}}
+    <div class="span-6 last">
+    {% include submit_links.html %}
+    {% include donate.html %}
+    </div>
+</div>
+{% end %}
+
+{% block bottom %}
+<style type='text/css'>
+    #side-projects {
+        width:618px;
+        padding:5px;    
+        border:1px solid #ccc;
+        margin-right:10px;
+    }
+</style>
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {
+        packages: ["corechart"]
+    });
+    google.setOnLoadCallback(drawChart);
+    function drawChart(){
+        var top_projects = {{top_projects}};
+        var top_projects_count = {{top_projects_count}};
+        var top_frameworks = {{top_frameworks}};
+        var top_frameworks_count = {{top_frameworks_count}};
+        
+        draw("chart_all", "Top 10 projects in PoweredSites", top_projects, top_projects_count);
+        draw("chart_framework", "Top 5 web frameworks in PoweredSites", top_frameworks, top_frameworks_count);
+    }
+    
+    function draw(div, title, projects, count)
+    {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Project');
+        data.addColumn('number', 'Project powered sites');
+        length = projects.length
+        data.addRows(length + 1);
+        var c = 0;      
+        for (var i = 0; i< length; i++)
+        {
+            data.setValue(i, 0, projects[i]["subdomain"]);
+            data.setValue(i, 1, projects[i]["c"]);
+            c += projects[i]["c"];
+        }
+        data.setValue(length, 0, 'Others');
+        data.setValue(length, 1, count - c);
+        
+        var chart = new google.visualization.PieChart(document.getElementById(div));
+        chart.draw(data, {
+            width: 420,
+            height: 300,
+            title: title
+        });
+        google.visualization.events.addListener(chart, 'select', function(){
+            var row = chart.getSelection()[0].row;
+            var subdomain = data.getValue(row, 0).toLowerCase();
+            if ("others"!= subdomain){
+                window.location = "http://" +  subdomain + ".poweredsites.org";
+            }
+        });
+    }
+</script>
+{% end %}

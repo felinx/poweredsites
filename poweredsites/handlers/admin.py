@@ -16,6 +16,13 @@
 
 from poweredsites.libs.handler import StaffBaseHandler, AdminBaseHandler
 from poweredsites.db.caches import clearup
+from poweredsites.libs import const
+
+
+class AdminIndexHandler(AdminBaseHandler):
+       def get(self):
+        self.render("admin/index.html")
+
 
 class AdminClearCacheHandler(AdminBaseHandler):
     def get(self):
@@ -32,11 +39,12 @@ class AdminNewUsersHandler(AdminBaseHandler):
             count = count.c
         else:
             count = 0
-        self.render("admin/new_users.html", users=users, count=count)
+        self.render("admin/newusers.html", users=users, count=count, const=const)
 
 
 sub_handlers = ["^admin.poweredsites.org$",
-              [(r"/clearcache", AdminClearCacheHandler),
-               (r"/newusers", AdminNewUsersHandler),
+                [(r"/?", AdminIndexHandler),
+                 (r"/clearcache", AdminClearCacheHandler),
+                 (r"/newusers", AdminNewUsersHandler),
                ]
             ]
