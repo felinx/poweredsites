@@ -248,7 +248,7 @@ class SideProjectsModule(HotProjectsModule):
 
 
 handlers = [
-            (r"/projects", ProjectMainHandler),
+            (r"/project", ProjectMainHandler),
             (r"/submit/project", SubmitProjectHandler),
             (r"/submit/projectpre", SubmitProjectPreHandler),
             ]

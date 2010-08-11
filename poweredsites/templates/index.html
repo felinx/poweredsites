@@ -1,16 +1,5 @@
 {% extends base.html %}
 
-{% block sitelinks %}
-<div id="site-links">
-    <a href="http://poweredsites.org/">Home</a>
-    <a class="select" href="http://sites.poweredsites.org">Sites</a>
-    <a href="http://chat.poweredsites.org">Chat</a>
-    <a href="http://blog.poweredsites.org">Blog</a>
-    <a href="http://wiki.poweredsites.org">Wiki</a>
-    <a target="_blank" href="http://groups.google.com/group/poweredsites">Group</a>
-</div>
-{% end %}
-
 {% block body %}
     {{modules.websites_index(context.ws_count_query,context.ws_query, context.page)}}
 {% end %}

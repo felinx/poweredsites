@@ -1,5 +1,14 @@
 {% extends ../base.html %}
 
+{% block sitelinks %}
+    <div id="site-links">
+        <a href="http://poweredsites.org/">Home</a>
+        <a class="select" href="http://poweredsites.org/project">Project</a>
+        <a href="http://blog.poweredsites.org">Blog</a>
+        <a href="http://poweredsites.org/help/about">About</a>
+    </div>
+{% end %}
+
 {% block body %}
 <div id="home-charts" class="span-22">
     <div id="chart_all" class="chart"></div>
@@ -8,8 +17,8 @@
 <div id="home-projects" class="span-22">    
     {{modules.side_projects()}}
     <div class="span-6 last">
-    {% include submit_links.html %}
-    {% include donate.html %}
+    {% include ../submit_links.html %}
+    {% include ../donate.html %}
     </div>
 </div>
 {% end %}

@@ -22,31 +22,27 @@ handlers = []
 sub_handlers = []
 ui_modules = {}
 
-if options.chat_app:
-    from poweredsites.handlers import chat, project, site, blog
-    sub_handlers.append(chat.sub_handlers)
-else:
-    from poweredsites.handlers import admin, user, front, \
-                project, site, help, wiki, blog
 
-    handlers.extend(front.handlers)
-    handlers.extend(user.handlers)
-    handlers.extend(site.handlers)
-    handlers.extend(project.handlers)
-    handlers.extend(help.handlers)
+from poweredsites.handlers import admin, user, front, \
+            project, site, help, blog
 
-    # Append default 404 handler, and make sure it is the last one.
-    handlers.append((r".*", ErrorHandler))
+handlers.extend(front.handlers)
+handlers.extend(user.handlers)
+handlers.extend(site.handlers)
+handlers.extend(project.handlers)
+handlers.extend(help.handlers)
+
+# Append default 404 handler, and make sure it is the last one.
+handlers.append((r".*", ErrorHandler))
 
 
-    sub_handlers.append(site.sub_handlers)
-    ##sub_handlers.append(wiki.sub_handlers)
-    sub_handlers.append(blog.sub_handlers)
-    sub_handlers.append(admin.sub_handlers)
-    # wildcat subdomain handler for project should be the last one.
-    sub_handlers.append(project.sub_handlers)
+sub_handlers.append(site.sub_handlers)
+sub_handlers.append(blog.sub_handlers)
+sub_handlers.append(admin.sub_handlers)
+# wildcat subdomain handler for project should be the last one.
+sub_handlers.append(project.sub_handlers)
 
-
+ui_modules.update(front.ui_modules)
 ui_modules.update(site.ui_modules)
 ui_modules.update(project.ui_modules)
 ui_modules.update(blog.ui_modules)

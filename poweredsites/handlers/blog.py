@@ -39,6 +39,7 @@ class BlogBaseHandler(BaseHandler):
     def bloggers(self):
         return self.db.query("select * from user where role >= %s", const.Role.STAFF)
 
+
 class BlogIndexHandler(BlogBaseHandler):
     @cache.page(condition="select count(*) from entries", key="blog/bloghomehandler")
     def get(self):

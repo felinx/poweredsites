@@ -10,28 +10,15 @@
 			 	{% if context.current_project %}
 				    <a href="http://{{subdomain}}.poweredsites.org/">{{subdomain[0].upper() + subdomain[1:]}}</a>
 				{% else %}
-			 	    <a href="http://{{subdomain}}.poweredsites.org/">Lateset</a>
+			 	    <a href="http://{{subdomain}}.poweredsites.org/">Lateset sites</a>
 				{% end %}
 			 </li>		 
 			  <li>
-	             <a href="http://{{subdomain}}.poweredsites.org/ar">Top AR</a>
-	         </li>
-			 <li>
-	             <a href="http://{{subdomain}}.poweredsites.org/pr">Top PR</a>
+	             <a href="http://{{subdomain}}.poweredsites.org/top">Top sites</a>
 	         </li>
 			  <li>
 	             <a href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
 	         </li>
-			 {% block websites_extra %}
-                 {% if context.current_project %}
-                 <li>
-                     <a href="http://chat.poweredsites.org/{{subdomain}}">Chat</a>
-                 </li>
-                 <li>
-                     <a href="http://{{subdomain}}.poweredsites.org/wiki">Wiki</a>
-                 </li>           
-                 {% end %}
-             {% end %}
 		 {% end %}
 			 <li class="rss-bg">
 			     <a target="_blank" title="RSS Feeds" href="http://poweredsites.org/feeds" class="span-1 last">&nbsp;</a>
