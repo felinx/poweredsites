@@ -14,11 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from datetime import datetime
-from tornado.web import HTTPError
-
 from poweredsites.libs.handler import BaseHandler
-from poweredsites.libs.decorators import cache, authenticated
+from poweredsites.libs.decorators import cache
 
 class WikiIndexHandler(BaseHandler):
     @cache.page(3600 * 24)

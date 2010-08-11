@@ -16,10 +16,9 @@
 
 from tornado.web import asynchronous, HTTPError
 from tornado import escape
-from tornado.options import options
 from tornado.web import UIModule
 
-from poweredsites.libs.handler import BaseHandler, StaffBaseHandler
+from poweredsites.libs.handler import BaseHandler
 from poweredsites.libs.alexarank import AlexaRankMixin
 from poweredsites.libs.pagerank import PageRankMinxin
 from poweredsites.libs.snapshot import SnapShotMinxin
@@ -268,8 +267,8 @@ handlers = [
 
 sub_handlers = ["^sites.poweredsites.org$",
               [(r"/", WebsiteIndexHandler),
-               (r"/pr", WebsitePrHandler),
-               (r"/ar", WebsiteArHandler),
+               ##(r"/pr", WebsitePrHandler),
+               ##(r"/ar", WebsiteArHandler),
                (r"/opensource", WebsiteOpensourceHandler),
                (r"/([a-z0-9]{32})", WebsiteHandler),
                ]
@@ -277,8 +276,8 @@ sub_handlers = ["^sites.poweredsites.org$",
 
 ui_modules = {"websites":WebsitesModule,
               "websites_index":WebsitesIndexModule,
-              "websites_ar":WebsitesArModule,
-              "websites_pr":WebsitesPrModule,
+              ##"websites_ar":WebsitesArModule,
+              ##"websites_pr":WebsitesPrModule,
               "websites_opensource":WebsitesOpensourceModule,
               "website_powereds":WebsitePoweredsModule,
               }

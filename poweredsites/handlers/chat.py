@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 #
+# Borrow from tornado demo, modify it to support multiple chat room
+#
 # Copyright 2009 Facebook
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may

@@ -23,7 +23,7 @@ from tornado.web import UIModule
 #import chardet
 from BeautifulSoup import BeautifulSoup
 
-from poweredsites.libs.handler import BaseHandler, StaffBaseHandler
+from poweredsites.libs.handler import BaseHandler
 from poweredsites.forms.submit import ProjectForm, ProjectPreForm
 from poweredsites.libs.decorators import cache, authenticated
 
@@ -221,11 +221,14 @@ handlers = [
 
 sub_handlers = ["^[a-zA-Z_\-0-9]*\.poweredsites.org$",
               [(r"/", ProjectIndexHandler),
-               (r"/wiki", ProjectWikiHandler),
-               (r"/pr", ProjectPrHandler),
-               (r"/ar", ProjectArHandler),
+               ##(r"/wiki", ProjectWikiHandler),
+               ##(r"/pr", ProjectPrHandler),
+               ##(r"/ar", ProjectArHandler),
                (r"/opensource", ProjectOpensourceHandler),
                ]
             ]
 
-ui_modules = {"side_projects":SideProjectsModule, "hot_projects":HotProjectsModule, "chat_projects":ChatProjectsModule}
+ui_modules = {"side_projects":SideProjectsModule,
+              "hot_projects":HotProjectsModule,
+              ##"chat_projects":ChatProjectsModule
+              }

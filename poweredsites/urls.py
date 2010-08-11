@@ -40,7 +40,7 @@ else:
 
 
     sub_handlers.append(site.sub_handlers)
-    sub_handlers.append(wiki.sub_handlers)
+    ##sub_handlers.append(wiki.sub_handlers)
     sub_handlers.append(blog.sub_handlers)
     sub_handlers.append(admin.sub_handlers)
     # wildcat subdomain handler for project should be the last one.
