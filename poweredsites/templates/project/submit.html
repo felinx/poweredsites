@@ -1,16 +1,23 @@
 {% extends ../submit.html %} 
+
+{% block sitelinks %}
+<div id="site-links">
+    <a href="http://poweredsites.org/">Home</a>
+    <a class="select" href="http://poweredsites.org/project">Project</a>
+    <a href="http://blog.poweredsites.org">Blog</a>
+    <a href="http://poweredsites.org/help">Help</a>
+</div>
+{% end %}
+
 {% block sidebar %}
 <div class="sidebar">
-    <h3>Submit something</h3>
+    <h3>Submit to PoweredSites</h3>
     <ul>
         <li>
             <a href="http://poweredsites.org/submit/sitepre">Submit Website</a>
         </li>
         <li>
             <a class="select" href="http://poweredsites.org/submit/projectpre">Submit Project</a>
-        </li>
-        <li>
-            <a href="http://wiki.poweredsites.org/compose">Compose Wiki</a>
         </li>
         {% if handler.is_staff %}
         <li>

@@ -39,10 +39,15 @@
 <div id="site-tab" class="center">
     {% block sitelinks %}
     <div id="site-links">
-		<a class="select" href="http://poweredsites.org/">Home</a>
-        <a href="http://poweredsites.org/project">Project</a>
+        {% if context.current_project %}
+    		<a href="http://poweredsites.org/">Home</a>
+            <a class="select" href="http://poweredsites.org/project">Project</a>
+        {% else %}
+            <a class="select" href="http://poweredsites.org/">Home</a>
+            <a href="http://poweredsites.org/project">Project</a>
+        {% end %}
         <a href="http://blog.poweredsites.org">Blog</a>
-        <a href="http://poweredsites.org/help/about">About</a>
+        <a href="http://poweredsites.org/help">Help</a>
     </div>
     {% end %}
     {% include search_form.html %}

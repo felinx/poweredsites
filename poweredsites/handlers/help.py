@@ -21,7 +21,7 @@ from poweredsites.libs.decorators import cache
 
 class HelpHandler(BaseHandler):
     @cache.page(anonymous=True)
-    def get(self, slug):
+    def get(self, slug="about"):
         entry = self.db.get("SELECT entries.*,user.username,user.openid_name "
                             "FROM entries,user WHERE entries.user_id = user.id and slug = %s", slug)
         entries = self.db.query("SELECT * FROM entries WHERE is_help = 1")
@@ -34,6 +34,6 @@ class HelpHandler(BaseHandler):
         self.render("help.html", entry=entry, entries=entries)
 
 
-handlers = [
+handlers = [(r"/help", HelpHandler),
             (r"/help/([a-z]{2,20})", HelpHandler),
             ]

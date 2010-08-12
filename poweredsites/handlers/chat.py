@@ -106,7 +106,7 @@ class MessageMixin(object):
             cache = cache[-self.cache_size:]
 
 
-class ChatHandler(ChatBaseHandler, MessageMixin):
+class ChatIndexHandler(ChatBaseHandler, MessageMixin):
     @authenticated
     def get(self, project):
         if not project.islower():
@@ -121,6 +121,7 @@ class ChatHandler(ChatBaseHandler, MessageMixin):
         self._context.title = project.project + " chat online"
         self._context.keywords = self._context.keywords + ",%s,%s" % (project.subdomain, project.project)
         self.render("chat/index.html", messages=self.get_messages(project.subdomain))
+
 
 class MessageNewHandler(BaseHandler, MessageMixin):
     @authenticated
@@ -167,7 +168,7 @@ class MessageUpdatesHandler(BaseHandler, MessageMixin):
 sub_handlers = ["^chat.poweredsites.org$",
                 [
                  (r"/?", ChatMainHandler),
-                 (r"/([a-zA-Z\-_0-9]{3,20})$", ChatHandler),
+                 (r"/([a-zA-Z\-_0-9]{3,20})$", ChatIndexHandler),
                  (r"/([a-zA-Z\-_0-9]{3,20})/a/message/new", MessageNewHandler),
                  (r"/([a-zA-Z\-_0-9]{3,20})/a/message/updates", MessageUpdatesHandler),
                  ],

@@ -149,5 +149,5 @@ sub_handlers = ["^blog.poweredsites.org$",
                 ]
                 ]
 
-ui_modules = {"entry":BlogEntryModule,
-              }
+ui_modules = {"entry":BlogEntryModule, }
+

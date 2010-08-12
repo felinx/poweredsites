@@ -1,22 +1,24 @@
 {% extends base.html %} 
+
 {% block body %}
-{% block sidebar %}
-<div class="sidebar">
-    <h3>Submit something</h3>
-    <ul>
-        <li>
-            <a class="select" href="http://poweredsites.org/submit/sitepre">Submit Website</a>
-        </li>
-        <li>
-            <a href="http://poweredsites.org/submit/projectpre">Submit Project</a>
-        </li>
-        {% if handler.is_staff %}
-        <li>
-            <a href="http://blog.poweredsites.org/compose">Compose Blog</a>
-        </li>
-        {% end %}
-    </ul>
-</div>
-{% end %}
-{% block content %}{% end %}
+    {% block sidebar %}
+    <div class="sidebar">
+        <h3>Submit to PoweredSites</h3>
+        <ul>
+            <li>
+                <a class="select" href="http://poweredsites.org/submit/sitepre">Submit Website</a>
+            </li>
+            <li>
+                <a href="http://poweredsites.org/submit/projectpre">Submit Project</a>
+            </li>
+            {% if handler.is_staff %}
+            <li>
+                <a href="http://blog.poweredsites.org/compose">Compose Blog</a>
+            </li>
+            {% end %}
+        </ul>
+    </div>
+    {% end %}
+
+    {% block content %}{% end %}
 {% end %} 

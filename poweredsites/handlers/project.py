@@ -152,7 +152,7 @@ class SubmitProjectPreHandler(ProjectBaseHandler):
 class ProjectIndexHandler(ProjectBaseHandler):
     _order_by = "id DESC"
     _condition = ""
-    _handler_template = "site/index.html"
+    _handler_template = "project/index.html"
     _ws_count_query = "select count(*) as c from project_sites where project_id = %s"
     _context_title = " - latest sites"
 
@@ -204,7 +204,7 @@ class ProjectIndexHandler(ProjectBaseHandler):
 class ProjectTopHandler(ProjectIndexHandler):
     _order_by = "click DESC, pr DESC, ar ASC"
     _condition = "and site.source_url is not NULL"
-    _handler_template = "site/top.html"
+    _handler_template = "project/top.html"
     _context_title = " - top sites"
 
 
@@ -214,7 +214,7 @@ class ProjectOpensourceHandler(ProjectIndexHandler):
     _ws_count_query = "select count(*) as c from project_sites, site "\
             "where project_id = %s and source_url is not NULL and "\
             "project_sites.site_id=site.id"
-    _handler_template = "site/opensource.html"
+    _handler_template = "project/opensource.html"
     _context_title = " - open source sites"
 
 
@@ -254,11 +254,11 @@ handlers = [
             ]
 
 sub_handlers = ["^[a-zA-Z_\-0-9]*\.poweredsites.org$",
-              [(r"/", ProjectIndexHandler),
-               (r"/top", ProjectTopHandler),
-               (r"/opensource", ProjectOpensourceHandler),
-               ]
-            ]
+                [(r"/", ProjectIndexHandler),
+                 (r"/top", ProjectTopHandler),
+                 (r"/opensource", ProjectOpensourceHandler),
+                 ]
+                ]
 
 ui_modules = {"side_projects":SideProjectsModule,
               "hot_projects":HotProjectsModule,

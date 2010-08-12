@@ -3,16 +3,16 @@
 {% block websites_tab %}
     <li>
        {% if context.current_project %}
-           <a href="http://{{subdomain}}.poweredsites.org/">{{subdomain}}</a>
+           <a href="http://{{subdomain}}poweredsites.org/">{{subdomain[0:-1]}}</a>
        {% else %}
-           <a href="http://{{subdomain}}.poweredsites.org/">Lateset sites</a>
+           <a href="http://{{subdomain}}poweredsites.org/">Lateset sites</a>
        {% end %}
     </li>          
     <li>
-        <a href="http://{{subdomain}}.poweredsites.org/ar">Top sites</a>
+        <a href="http://{{subdomain}}poweredsites.org/ar">Top sites</a>
     </li>
     <li class="selected">
-        <a href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
+        <a href="http://{{subdomain}}poweredsites.org/opensource">Open Source</a>
     </li>
     {% end %} 
 {% end %}

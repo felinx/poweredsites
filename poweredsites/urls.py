@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from tornado.options import options
-
 from poweredsites.libs.handler import ErrorHandler
 
 handlers = []
@@ -23,8 +21,8 @@ sub_handlers = []
 ui_modules = {}
 
 
-from poweredsites.handlers import admin, user, front, \
-            project, site, help, blog
+from poweredsites.handlers import admin, blog, front, \
+            help, project, site, user
 
 handlers.extend(front.handlers)
 handlers.extend(user.handlers)

@@ -1,28 +1,29 @@
  <div id="websites" class="span-16"> 	 
 	 <ul id="websites-tab" class="span-16 last">
 	 	 {% if context.current_project %}
-		     {% set subdomain = context.current_project.subdomain %}
+		     {% set subdomain = context.current_project.subdomain[0].upper() +  context.current_project.subdomain[1:] + "." %}
 		 {% else %}
-		     {% set subdomain = "sites" %}
+		     {% set subdomain = "" %}
 		 {% end %}
+         
 	     {% block websites_tab %}
 			 <li class="selected">
 			 	{% if context.current_project %}
-				    <a href="http://{{subdomain}}.poweredsites.org/">{{subdomain[0].upper() + subdomain[1:]}}</a>
+				    <a href="http://{{subdomain}}poweredsites.org/">{{subdomain[0:-1]}}</a>
 				{% else %}
-			 	    <a href="http://{{subdomain}}.poweredsites.org/">Lateset sites</a>
+			 	    <a href="http://poweredsites.org/">Lateset sites</a>
 				{% end %}
 			 </li>		 
 			  <li>
-	             <a href="http://{{subdomain}}.poweredsites.org/top">Top sites</a>
+	             <a href="http://{{subdomain}}poweredsites.org/top">Top sites</a>
 	         </li>
 			  <li>
-	             <a href="http://{{subdomain}}.poweredsites.org/opensource">Open Source</a>
+	             <a href="http://{{subdomain}}poweredsites.org/opensource">Open Source</a>
 	         </li>
 		 {% end %}
-			 <li class="rss-bg">
-			     <a target="_blank" title="RSS Feeds" href="http://poweredsites.org/feeds" class="span-1 last">&nbsp;</a>
-			 </li>
+		 <li class="rss-bg">
+		     <a target="_blank" title="RSS Feeds" href="http://poweredsites.org/feeds" class="span-1 last">&nbsp;</a>
+		 </li>
 	 </ul>	 
 	<div id="websites-content">
         {{modules.websites(context.ws_count_query,context.ws_query, context.page)}}

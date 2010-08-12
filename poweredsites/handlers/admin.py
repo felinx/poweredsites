@@ -20,7 +20,7 @@ from poweredsites.libs import const
 
 
 class AdminIndexHandler(AdminBaseHandler):
-       def get(self):
+    def get(self):
         self.render("admin/index.html")
 
 

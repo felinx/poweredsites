@@ -168,6 +168,12 @@ class WebsiteHandler(BaseHandler):
         self.render("site/site.html", site=site, powereds=powereds)
 
 
+class WebsiteIndexHandler(BaseHandler):
+    def get(self):
+        # redirect old sites page to home page
+        self.redirect(self._context.home_url)
+
+
 class WebsitePoweredsModule(UIModule):
     @cache.cache()
     def render(self, site_id):
@@ -175,6 +181,7 @@ class WebsitePoweredsModule(UIModule):
                                  "where project_sites.site_id = %s and project_sites.project_id = project.id", site_id)
 
         return self.render_string("modules/website_powereds.html", powereds=powereds)
+
 
 handlers = [
             (r"/submit/sitepre", SubmitSitePreHandler),
@@ -186,11 +193,11 @@ handlers = [
             ]
 
 sub_handlers = ["^sites.poweredsites.org$",
-              [
-               (r"/([a-z0-9]{32})", WebsiteHandler),
-               ]
-            ]
+                [
+                 (r"/?", WebsiteIndexHandler),
+                 (r"/([a-z0-9]{32})", WebsiteHandler),
+                 ]
+                ]
 
-ui_modules = {
-              "website_powereds":WebsitePoweredsModule,
-              }
+ui_modules = {"website_powereds":WebsitePoweredsModule, }
+
