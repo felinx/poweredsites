@@ -415,7 +415,7 @@ body {
 
 .ws-user span {
 	padding: 0 5px;
-	width: 70px;
+	width: 150px;
 	float: left;
 }
 
@@ -428,7 +428,7 @@ body {
 }
 
 #websites .label{
-    color:#06c;
+    color:#222;
     font-size:16px;
     font-weight:bold;
 }

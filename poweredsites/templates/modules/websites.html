@@ -20,11 +20,10 @@
 			Powered by:{{modules.website_powereds(site.id)}}
 		</div>
 		<div class="ws-user">
-			<div class="span-7 left">
-				<span>AR:{{"unknown" if site.ar >= 100000000 else site.ar}}</span>
-				<span>PR:{{"unknown" if site.pr == -1 else site.pr}}</span>				
+			<div class="span-5 left">				
+				<span>Page Rank:{{"unknown" if site.pr == -1 else site.pr}}</span>				
 			</div>
-			<div class="span-8 fright">
+			<div class="span-10 fright">
                 <a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>{{site.created}} 
 			</div>                
         </div>

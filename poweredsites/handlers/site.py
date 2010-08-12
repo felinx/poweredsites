@@ -157,21 +157,25 @@ class WebsiteHandler(BaseHandler):
                  "site, user where site.user_id = user.id and site.uuid_ = %s", uuid_)
         if not site:
             raise HTTPError(404)
+        else:
+            self.db.execute("UPDATE site SET click = %s where id = %s", site.click + 1, site.id)
 
         powereds = self.db.query("select project.* from project_sites, project "\
                                  "where project_sites.site_id = %s and project_sites.project_id = project.id", site.id)
 
         powereds_desc = ",".join([p.project for p in powereds])
         self._context.title = site.sitename
-        self._context.keywords = self._context.keywords + "," + powereds_desc
-        self._context.description = powereds_desc + ",PoweredSites" + "," + site.description[0:100]
+        self._context.keywords = "%s,%s,%s" % (site.sitename, powereds_desc,
+                                        self._context.keywords)
+        self._context.description = "%s,%s,%s,%s" % (site.sitename, powereds_desc,
+                                        "PoweredSites", site.description[0:100])
         self.render("site/site.html", site=site, powereds=powereds)
 
 
 class WebsiteIndexHandler(BaseHandler):
     def get(self):
         # redirect old sites page to home page
-        self.redirect(self._context.home_url)
+        self.redirect(self._context.options.home_url)
 
 
 class WebsitePoweredsModule(UIModule):

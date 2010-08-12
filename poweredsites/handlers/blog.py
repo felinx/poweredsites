@@ -46,7 +46,7 @@ class BlogIndexHandler(BlogBaseHandler):
         entries = self.db.query("SELECT entries.*,user.username,user.openid_name "
                                 "FROM entries,user WHERE entries.user_id = user.id "
                                 "ORDER BY id DESC LIMIT 20")
-        self.render("blog/home.html", entries=entries)
+        self.render("blog/index.html", entries=entries)
 
 
 class BlogEntryHandler(BlogBaseHandler):

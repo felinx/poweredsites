@@ -3,7 +3,7 @@
 {% block websites_tab %}
     <li>
        {% if context.current_project %}
-           <a href="http://{{subdomain}}poweredsites.org/">{{subdomain[0:-1]}}</a>
+           <a href="http://{{subdomain}}poweredsites.org/">{{escape(context.current_project.project)}}</a>
        {% else %}
            <a href="http://{{subdomain}}poweredsites.org/">Lateset sites</a>
        {% end %}
@@ -14,5 +14,4 @@
     <li>
         <a href="http://{{subdomain}}poweredsites.org/opensource">Open Source</a>
     </li>
-    {% end %} 
 {% end %}

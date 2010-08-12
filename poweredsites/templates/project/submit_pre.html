@@ -1,7 +1,6 @@
 {% extends submit.html %}
 
 {% block submitform %}
-<form id='submit-fm' action="http://poweredsites.org/submit/projectpre" method="post">
     <div class="wrapper">
         <div class="label first">
             Website(url):
@@ -10,5 +9,5 @@
     </div>
     <div class="wrapper">
         <input id='btnSubmit' value="Next" class="button" type="submit"><a class='prepend-1 gray' style="text-decoration:underline;" href="http://poweredsites.org/submit/project">No website yet, Go to next.</a>
-    </div>{{ xsrf_form_html() }}
-</form>{% end %}.
+    </div>
+{% end %}

@@ -191,9 +191,13 @@ class ProjectIndexHandler(ProjectBaseHandler):
                 self._context.project_name = current_project.project
                 self._context.project_slogan = current_project.description
 
-                self._context.title = current_project.project + self._context_title
-                self._context.keywords = self._context.keywords + ",%s,%s" % \
-                    (current_project.project, current_project.subdomain)
+                self._context.title = current_project.project + \
+                    " powered sites" + self._context_title
+                self._context.keywords = self._context.keywords + ",%s,%s,%s" % \
+                    (current_project.project,
+                     current_project.project + " powered sites",
+                     current_project.subdomain
+                     )
                 self._context.description = current_project.description
 
                 self.render(self._handler_template)

@@ -11,7 +11,7 @@
 
 {% block sidebar %}
 <div class="sidebar">
-    <h3>Submit to PoweredSites</h3>
+    <h3>Submit</h3>
     <ul>
         <li>
             <a href="http://poweredsites.org/submit/sitepre">Submit Website</a>
@@ -27,11 +27,12 @@
     </ul>
 </div>
 {% end %}
+
 {% block content %} 
 <div id="submit-div" class="wrapper">
-    <h3>Submit a powerful project to Powered Sites</h3>
-    {% block submitform %}
-    <form id='submit-fm' action="http://poweredsites.org/submit/project" method="post">
+    <h3>Submit a powerful project to Powered Sites</h3>    
+    <form id='submit-fm' action="{{request.full_url()}}" method="post">
+        {% block submitform %}
         <div class="wrapper">
             <div class="label first">
                 Category:<span class="red">*</span>
@@ -92,7 +93,7 @@
         <div class="wrapper">
             <input id='btnSubmit' value="Submit" class="button" type="submit">
         </div>
+        {% end %}
 		{{ xsrf_form_html() }}
-    </form>
-	{% end %}
+    </form>	
 </div>{% end %}

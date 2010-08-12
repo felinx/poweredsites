@@ -9,7 +9,7 @@
 	     {% block websites_tab %}
 			 <li class="selected">
 			 	{% if context.current_project %}
-				    <a href="http://{{subdomain}}poweredsites.org/">{{subdomain[0:-1]}}</a>
+				    <a href="http://{{subdomain}}poweredsites.org/">{{escape(context.current_project.project)}}</a>
 				{% else %}
 			 	    <a href="http://poweredsites.org/">Lateset sites</a>
 				{% end %}
