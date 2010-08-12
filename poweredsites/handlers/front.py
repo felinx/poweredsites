@@ -62,7 +62,7 @@ class FrontTopHandler(FrontIndexHandler):
 
 
 class FrontOpensourceHandler(FrontIndexHandler):
-    _order_by = "ar ASC"
+    _order_by = "click DESC, pr DESC, ar ASC"
     _condition = "and site.source_url is not NULL"
     _ws_count_query = "select count(*) as c from site where source_url is not NULL"
     _handler_template = "opensource.html"
