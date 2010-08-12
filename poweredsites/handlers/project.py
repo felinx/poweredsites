@@ -207,7 +207,6 @@ class ProjectIndexHandler(ProjectBaseHandler):
 
 class ProjectTopHandler(ProjectIndexHandler):
     _order_by = "click DESC, pr DESC, ar ASC"
-    _condition = "and site.source_url is not NULL"
     _handler_template = "project/top.html"
     _context_title = " - top sites"
 
