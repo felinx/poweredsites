@@ -153,6 +153,7 @@ CREATE TABLE `site` (
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `uuid_` varchar(32) NOT NULL,
   `status_` tinyint(4) NOT NULL default '0',
+  `click` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `uuid` (`uuid_`),
   UNIQUE KEY `website` (`website`),

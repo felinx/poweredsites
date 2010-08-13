@@ -152,7 +152,6 @@ class SubmitSitePoweredHandler(BaseHandler):
 
 
 class WebsiteHandler(BaseHandler):
-    @cache.page(anonymous=True)
     def get(self, uuid_):
         site = self.db.get("select site.*, user.username, user.openid_name from "\
                  "site, user where site.user_id = user.id and site.uuid_ = %s", uuid_)
