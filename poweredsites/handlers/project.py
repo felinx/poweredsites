@@ -84,7 +84,7 @@ class SubmitProjectHandler(ProjectBaseHandler):
     @authenticated
     @asynchronous
     def get(self):
-        self._context.title = "Submit a project"
+        self._context.title = "Submit project"
 
         website = self.request.arguments.get("url", [""])[0]
         if website:
@@ -136,7 +136,7 @@ class SubmitProjectHandler(ProjectBaseHandler):
 class SubmitProjectPreHandler(ProjectBaseHandler):
     @authenticated
     def get(self):
-        self._context.title = "Submit a project"
+        self._context.title = "Submit project"
         self.render("project/submit_pre.html")
 
     @authenticated

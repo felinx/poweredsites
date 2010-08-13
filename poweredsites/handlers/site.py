@@ -30,7 +30,7 @@ from poweredsites.handlers.project import SubmitProjectHandler
 class SubmitSitePreHandler(BaseHandler):
     @authenticated
     def get(self):
-        self._context.title = "Submit a site"
+        self._context.title = "Submit site"
         self.render("site/submit_pre.html")
 
     @authenticated
