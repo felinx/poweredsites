@@ -347,5 +347,5 @@ handlers = [
             (r"/login/friendfeed", FriendfeedLoginHandler),
             (r"/user/profile", ProfileHandler),
             (r"/user/check", UserCheckHandler),
-            (r"/user/([a-z0-9\-_]{3,20})", UserHandler),
+            (r"/user/([a-z0-9\-_]{3,32})", UserHandler),
             ]
