@@ -166,6 +166,9 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
     page = handler.get_argument("page", "")
     code.update(page)
 
+    # cache for different host(the same uri may have different subdomain)
+    code.update(handler.request.host)
+
     return code.hexdigest(), handler, condition
 
 

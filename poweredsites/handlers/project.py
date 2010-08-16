@@ -49,7 +49,6 @@ class ProjectMainHandler(ProjectBaseHandler):
 
     @cache.page()
     def get(self):
-
         top_projects = self.db.query("select * from ("
                 "(select count(site_id) as c, project_id from project_sites "
                 "group by project_id order by c DESC limit 0, 10) as ps "
@@ -169,7 +168,7 @@ class ProjectIndexHandler(ProjectBaseHandler):
 
         return ""
 
-    @cache.page(3600)
+    @cache.page(1200, condition="select count(*) from site")
     def get(self):
         subdomain = self.request.host.split(".")[0]
         if not subdomain.islower():

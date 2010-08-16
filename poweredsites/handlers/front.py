@@ -42,7 +42,7 @@ class FrontIndexHandler(BaseHandler):
     _ws_count_query = "select count(*) as c from site"
     _context_title = "Latest sites"
 
-    @cache.page(3600, condition="select count(*) from site")
+    @cache.page(1200, condition="select count(*) from site")
     def get(self):
         self._context.ws_count_query = self._ws_count_query
         self._context.ws_query = "select site.*, user.username, user.openid_name "\
