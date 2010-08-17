@@ -155,19 +155,6 @@ class ProjectIndexHandler(ProjectBaseHandler):
     _ws_count_query = "select count(*) as c from project_sites where project_id = %s"
     _context_title = " - latest sites"
 
-    @property
-    def cache_condition(self):
-        subdomain = self.request.host.split(".")[0]
-        if not subdomain.islower():
-            self.redirect(self.request.host.lower())
-        else:
-            current_project = self.db.get("select * from project where subdomain = %s", subdomain)
-            if current_project:
-                condition = "select id from project_sites where project_id = %s order by id DESC" % current_project.id
-                return str(condition)
-
-        return ""
-
     @cache.page(1200, condition="select count(*) from site")
     def get(self):
         subdomain = self.request.host.split(".")[0]
