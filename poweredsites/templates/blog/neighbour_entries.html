@@ -1,0 +1,10 @@
+<div class="wrapperL last right">        
+    {% if entry_before and entry_next %}
+        &lt;&nbsp;<a class="highlight" title="{{escape(entry_next.title)}}" href="http://blog.poweredsites.org/entry/{{entry_next.slug}}">{{escape(entry_next.title[0:40])}}</a>&nbsp;&nbsp;
+        |&nbsp;&nbsp;&nbsp;<a class="highlight" title="{{escape(entry_before.title)}}" href="http://blog.poweredsites.org/entry/{{entry_before.slug}}">{{escape(entry_before.title[0:40])}}</a>&nbsp;&gt;
+    {% elif entry_before %}
+        <a class="highlight" title="{{escape(entry_before.title)}}" href="http://blog.poweredsites.org/entry/{{entry_before.slug}}">{{escape(entry_before.title[0:40])}}</a>&nbsp;&gt;
+    {% elif entry_next %}
+        &lt;&nbsp;<a class="highlight" title="{{escape(entry_next.title)}}" href="http://blog.poweredsites.org/entry/{{entry_next.slug}}">{{escape(entry_next.title[0:40])}}</a>
+    {% end %}
+</div>
