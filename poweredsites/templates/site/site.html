@@ -3,7 +3,7 @@
 {% block body %}
 <div id="websites">
     <div class="wrapperL">
-        <div class="wrapperL right">        
+        <div class="wrapperL last right">        
             {% if site_before and site_next %}
                 &lt;&nbsp;<a href="http://sites.poweredsites.org/{{site_before.uuid_}}">{{escape(site_before.sitename)}}</a>&nbsp;
                 |&nbsp;&nbsp;<a href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
@@ -13,7 +13,7 @@
                 <a href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
             {% end %}
         </div>
-        <div class="wrapperL right">   
+        <div class="wrapperL last">   
     		<h2 class="span-8" style="overflow:hidden;"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a>
     		{% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
                 &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
