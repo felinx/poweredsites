@@ -1,0 +1,10 @@
+<div class="wrapperL last right">        
+    {% if site_before and site_next %}
+        &lt;&nbsp;<a class="highlight" href="http://sites.poweredsites.org/{{site_before.uuid_}}">{{escape(site_before.sitename)}}</a>&nbsp;
+        |&nbsp;&nbsp;<a class="highlight" href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
+    {% elif site_before %}
+        &lt;&nbsp;<a class="highlight" href="http://sites.poweredsites.org/{{site_before.uuid_}}">{{escape(site_before.sitename)}}</a>
+    {% elif site_next %}
+        <a class="highlight" href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
+    {% end %}
+</div>

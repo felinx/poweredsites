@@ -3,16 +3,7 @@
 {% block body %}
 <div id="websites">
     <div class="wrapperL">
-        <div class="wrapperL last right">        
-            {% if site_before and site_next %}
-                &lt;&nbsp;<a href="http://sites.poweredsites.org/{{site_before.uuid_}}">{{escape(site_before.sitename)}}</a>&nbsp;
-                |&nbsp;&nbsp;<a href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
-            {% elif site_before %}
-                &lt;&nbsp;<a href="http://sites.poweredsites.org/{{site_before.uuid_}}">{{escape(site_before.sitename)}}</a>
-            {% elif site_next %}
-                <a href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
-            {% end %}
-        </div>
+        {% include neighbour_sites.html %}
         <div class="wrapperL last">   
     		<h2 class="span-8" style="overflow:hidden;"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a>
     		{% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
@@ -45,6 +36,7 @@
             <a target="_blank" href="{{site.source_url}}">{{site.source_url}}</a>
         </div>
         {% end %}
+        {% include neighbour_sites.html %}
 		<div class="comments">
 		    <div id="disqus_thread"></div>
 		    <script type="text/javascript">
