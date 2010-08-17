@@ -93,7 +93,7 @@ class WebsitesOpensourceModule(WebsitesIndexModule):
 
 
 handlers = [
-            (r"/?", FrontIndexHandler),
+            (r"/", FrontIndexHandler),
             (r"/top", FrontTopHandler),
             (r"/opensource", FrontOpensourceHandler),
             (r"/search", FrontSearchHandler),

@@ -37,6 +37,11 @@ def cache(expire=7200, condition="", key="", anonymous=False):
     condition: If the result of sql condition has changed, then cache expired. 
     key: The unique key of the cache identify in the DB 
     
+    cache_pre: A method which is defined in self(handler or module), 
+                it always be executed before cache or get from cache.
+                
+    cache_condition: A property which is defined in self(handler or module), it
+                is used to construct a complex condition.
     """
     def wrapper(func, self, *args, **kwargs):
         now = datetime.now()
@@ -148,14 +153,20 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
     if isinstance(self, BaseHandler):
         handler = self
     else:
-        handler = getattr(self, "handler", None)
+        handler = getattr(self, "handler")
 
-    if not condition and handler is not None:
-        condition = getattr(handler, "cache_condition", "")
+    # execute cache_pre before get cache_condition
+    # so we can construct a complex condition.
+    cache_pre = getattr(self, "cache_pre", None)
+    if cache_pre:
+        cache_pre(*args, **kwargs)
+
+    if not condition:
+        condition = getattr(self, "cache_condition", "")
 
     # also update condition to key, so the same func 
     # has diff caches if there condition is diff(cache_condtion)
-    code.update(condition)
+    code.update(str(condition))
 
     # cache for every users if anonymous is False
     if not anonymous and handler.current_user:
@@ -170,7 +181,6 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
     code.update(handler.request.host)
 
     return code.hexdigest(), handler, condition
-
 
 def remove(key):
     """Remove a cache's value."""

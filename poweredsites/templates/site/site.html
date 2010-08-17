@@ -2,16 +2,28 @@
 
 {% block body %}
 <div id="websites">
-    <div class="wrapperL">       
-		<h2 class="span-8" style="overflow:hidden;"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a>
-		{% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
-            &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
-        {% end %}
-		</h2>
-		<div class="span-8 last right">			
-			Page Rank:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
-			Submitted by:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
-		</div>
+    <div class="wrapperL">
+        <div class="wrapperL right">        
+            {% if site_before and site_next %}
+                &lt;&nbsp;<a href="http://sites.poweredsites.org/{{site_before.uuid_}}">{{escape(site_before.sitename)}}</a>&nbsp;
+                |&nbsp;&nbsp;<a href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
+            {% elif site_before %}
+                &lt;&nbsp;<a href="http://sites.poweredsites.org/{{site_before.uuid_}}">{{escape(site_before.sitename)}}</a>
+            {% elif site_next %}
+                <a href="http://sites.poweredsites.org/{{site_next.uuid_}}">{{escape(site_next.sitename)}}</a>&nbsp;&gt;
+            {% end %}
+        </div>
+        <div class="wrapperL right">   
+    		<h2 class="span-8" style="overflow:hidden;"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a>
+    		{% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
+                &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
+            {% end %}
+    		</h2>
+    		<div class="span-8 last right">			
+    			Page Rank:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
+    			Submitted by:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
+    		</div>
+        </div>
         <div class="ws-content">            
             <span class="span-16 last label">Powered by:</span>
             {% for p in powereds %}
