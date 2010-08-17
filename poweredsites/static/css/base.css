@@ -332,10 +332,10 @@ body {
 }
 
 #websites .ws-logo {
-	width: 250px;
+	width: 300px;
 	text-align: center;
 	float: left;
-	padding: 10px;
+	padding: 5px 0;
 	overflow: auto;
 }
 
@@ -345,7 +345,7 @@ body {
 
 #websites .ws-desc {
 	float: left;
-	width: 350px;
+	width: 320px;
 	margin: 3px 0 3px 10px;
 }
 
