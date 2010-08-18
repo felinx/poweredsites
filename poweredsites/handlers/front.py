@@ -78,7 +78,6 @@ class WebsitesModule(UIModule, PaginationMixin):
 
 class WebsitesIndexModule(UIModule):
     _module_template = "modules/websites_index.html"
-    @cache.cache(condition="select count(*) from site")
     def render(self, count_query, query, page):
         return self.render_string(self._module_template,
                             count_query=count_query, query=query, page=page)
