@@ -170,12 +170,15 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
 
     # cache for every users if anonymous is False
     if not anonymous and handler.current_user:
-        code.update(str(handler.current_user.id))
+        # add userid= prefix to avoid key conflict
+        # (eg. siteid + userid maybe equal another siteid)
+        code.update(str("userid=%s" % handler.current_user.id))
 
     # page argument as key by default
     # Todo: add a argument option for key gen like condition
     page = handler.get_argument("page", "")
-    code.update(page)
+    if page:
+        code.update(str("page=%s" % page))
 
     # cache for different host(the same uri may have different subdomain)
     code.update(handler.request.host)
