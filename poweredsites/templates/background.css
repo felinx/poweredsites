@@ -49,7 +49,7 @@
     height:100px;
     text-align:center;
     float:left;
-    overflow:auto; 
+    overflow:hidden; 
     font-size:32px;
     font-weight:bold;
     color:#222;
