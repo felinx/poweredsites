@@ -55,6 +55,7 @@ class SubmitSiteHandler(SubmitProjectHandler, AlexaRankMixin, \
     @asynchronous
     def get(self):
         self._context.css.append("markedit.css")
+        self._context.title = "Submit site"
         uuid_ = self.get_argument("site", None)
         if uuid_:
             website = self.db.get("select * from site where uuid_ = %s", uuid_)
