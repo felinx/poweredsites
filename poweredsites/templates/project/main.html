@@ -54,17 +54,17 @@
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Project');
         data.addColumn('number', 'Project powered sites');
-        length = projects.length
-        data.addRows(length + 1);
+        var len = projects.length
+        data.addRows(len + 1);
         var c = 0;      
-        for (var i = 0; i< length; i++)
+        for (var i = 0; i< len; i++)
         {
             data.setValue(i, 0, projects[i]["subdomain"]);
             data.setValue(i, 1, projects[i]["c"]);
             c += projects[i]["c"];
         }
-        data.setValue(length, 0, 'Others');
-        data.setValue(length, 1, count - c);
+        data.setValue(len, 0, 'Others');
+        data.setValue(len, 1, count - c);
         
         var chart = new google.visualization.PieChart(document.getElementById(div));
         chart.draw(data, {
