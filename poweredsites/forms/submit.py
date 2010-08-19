@@ -14,6 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import re
+import unicodedata
 import uuid
 import logging
 from formencode import validators
@@ -22,6 +24,8 @@ from tornado import escape
 
 from poweredsites.forms.base import BaseForm, URL
 from poweredsites.libs import const
+
+_domain_prefix_re = re.compile("(http://www\.|http://)")
 
 class ProjectPreForm(BaseForm):
     website = URL(not_empty=True, max=600, add_http=True)
@@ -117,13 +121,26 @@ class SiteForm(BaseForm):
                             status = const.Status.UNVERIFIED
                     else:
                         status = const.Status.ACTIVE
+                        slug = v["website"].lower().strip()
+                        slug = _domain_prefix_re.sub("", slug)
+                        slug = unicodedata.normalize("NFKD", slug).encode("ascii", "ignore")
+                        slug = re.sub(r"[^\w]+", " ", slug)
+                        slug = "-".join(slug.split())
+                        if not slug:
+                            slug = "site"
+                        while True:
+                            e = self.db.get("SELECT * FROM site WHERE slug = %s", slug)
+                            if not e:
+                                break
+                            slug += "-" + uuid.uuid4().hex[0:2]
+
                     stmt = "INSERT INTO site (sitename,website,description,usecase,usecase_md,source_url,"\
-                            "user_id,logo,uuid_,created,updated_ss,status_) "\
+                            "user_id,logo,uuid_,created,updated_ss,status_,slug) "\
                             "VALUES (%s,%s,%s,%s,%s,%s,"\
-                            "%s,%s,%s,UTC_TIMESTAMP(),UTC_TIMESTAMP(),%s)"
+                            "%s,%s,%s,UTC_TIMESTAMP(),UTC_TIMESTAMP(),%s,%s)"
 
                     args = (v["sitename"], v["website"], v["desc"], v["usecase"], usecase_md, v["source_url"], \
-                            user_id, v["logo"], uuid.uuid4().hex, status)
+                            user_id, v["logo"], uuid.uuid4().hex, status, slug)
 
             self._handler.db.execute(stmt, *args)
         except Exception, e:

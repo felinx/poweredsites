@@ -13,9 +13,9 @@
   <author><name>{{ escape(title) }}</name></author>
   {% for entry in entries %}
     <entry>
-      <id>http://sites.{{ request.host }}/{{ entry.uuid_ }}</id>
+      <id>http://sites.{{ request.host }}/{{ entry.slug }}</id>
       <title type="text">{{ escape(entry.sitename) }}</title>
-      <link href="http://sites.{{ request.host }}/{{ entry.uuid_ }}" rel="alternate" type="text/html"/>
+      <link href="http://sites.{{ request.host }}/{{ entry.slug }}" rel="alternate" type="text/html"/>
       <updated>{{ entry.updated.strftime(date_format) }}</updated>
       <published>{{ entry.created.strftime(date_format) }}</published>
       <content type="xhtml" xml:base="http://{{ request.host }}/">

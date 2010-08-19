@@ -152,10 +152,24 @@ class SubmitSitePoweredHandler(BaseHandler):
             fm.render("site/submit_powered.html")
 
 
-class WebsiteHandler(BaseHandler):
-    def cache_pre(self, uuid_):
+class _WebsiteHandler(BaseHandler):
+    """Back compatible for old site page (uuid_ as path info)"""
+    def get(self, uuid_):
         site = self.db.get("select site.*, user.username, user.openid_name from "\
                  "site, user where site.user_id = user.id and site.uuid_ = %s", uuid_)
+        if not site:
+            site = self.db.get("select site.*, user.username, user.openid_name from "\
+                 "site, user where site.user_id = user.id and site.slug = %s", uuid_)
+            if not site:
+                raise HTTPError(404)
+
+        self.redirect("/" + site.slug, permanent=True)
+
+
+class WebsiteHandler(BaseHandler):
+    def cache_pre(self, slug):
+        site = self.db.get("select site.*, user.username, user.openid_name from "\
+                 "site, user where site.user_id = user.id and site.slug = %s", slug)
         if not site:
             raise HTTPError(404)
         else:
@@ -168,12 +182,12 @@ class WebsiteHandler(BaseHandler):
         return "select updated from site where id = %s" % self._website.id
 
     @cache.page()
-    def get(self, uuid_):
+    def get(self, slug):
         site = self._website
 
-        site_next = self.db.get("SELECT sitename,uuid_ FROM site WHERE id = %s", site.id + 1)
+        site_next = self.db.get("SELECT sitename,slug FROM site WHERE id = %s", site.id + 1)
         if site.id > 1:
-            site_before = self.db.get("SELECT sitename,uuid_ FROM site WHERE id = %s", site.id - 1)
+            site_before = self.db.get("SELECT sitename,slug FROM site WHERE id = %s", site.id - 1)
         else:
             site_before = None
 
@@ -216,7 +230,8 @@ handlers = [
 sub_handlers = ["^sites.poweredsites.org$",
                 [
                  (r"/?", WebsiteIndexHandler),
-                 (r"/([a-z0-9]{32})", WebsiteHandler),
+                 (r"/([a-z0-9]{32})", _WebsiteHandler),
+                 (r"/([^/]+)", WebsiteHandler),
                  ]
                 ]
 

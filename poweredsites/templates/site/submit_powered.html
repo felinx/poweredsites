@@ -3,7 +3,7 @@
 {% block submitform %}
 <div class="wrapper">
     <div class="label first">
-        Your site:&nbsp;&nbsp;<a target="_blank" href="http://sites.poweredsites.org/{{context.website.uuid_}}">{{escape(context.website.sitename)}}</a>
+        Your site:&nbsp;&nbsp;<a target="_blank" href="http://sites.poweredsites.org/{{context.website.slug}}">{{escape(context.website.sitename)}}</a>
     </div>
     <input class="hide" name="site_id" value="{{context.website.id}}" type="text">
 </div>
