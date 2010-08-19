@@ -123,13 +123,13 @@ class SiteForm(BaseForm):
                         status = const.Status.ACTIVE
                         slug = v["website"].lower().strip()
                         slug = _domain_prefix_re.sub("", slug)
-                        slug = unicodedata.normalize("NFKD", slug).encode("ascii", "ignore")
+                        slug = unicodedata.normalize("NFKD", escape._unicode(slug)).encode("ascii", "ignore")
                         slug = re.sub(r"[^\w]+", " ", slug)
                         slug = "-".join(slug.split())
                         if not slug:
                             slug = "site"
                         while True:
-                            e = self.db.get("SELECT * FROM site WHERE slug = %s", slug)
+                            e = self._handler.db.get("SELECT * FROM site WHERE slug = %s", slug)
                             if not e:
                                 break
                             slug += "-" + uuid.uuid4().hex[0:2]
