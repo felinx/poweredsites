@@ -4,22 +4,17 @@
 <div id="websites">
     <div class="wrapperL">
         {% include neighbour_sites.html %}
-        <div class="wrapperL last">   
-    		<h2 class="span-8" style="overflow:hidden;"><a class="sitethumbshot" target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a>
-    		{% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
-                &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
-            {% end %}
-    		</h2>
-    		<div class="span-8 last right">			
-    			Page Rank:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
-    			Submitted by:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
+        <div class="wrapperL last">
+        	<div class="span-10" style="overflow:hidden;">
+	    		<h2 class="span-10 last"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a></h2>
+				<div class="span-10 last label" style="width:380px;padding:5px">Powered by:</div>
+	            {% for p in powereds %}
+	                <a target="_blank" class="powered" href="http://{{p.subdomain}}.poweredsites.org/">{{escape(p.project)}}</a>
+	            {% end %}
+			</div>
+    		<div class="span-6 last right" style="padding-top:10px;">
+				<a target="_blank" href="{{site.website}}"><img src="http://images.sitethumbshot.com/?url={{site.website}}&size=M&key=097c92c0b0fad6571b92bd541aec6f62" alt="{{site.sitename}}"/></a>
     		</div>
-        </div>
-        <div class="ws-content">            
-            <span class="span-16 last label">Powered by:</span>
-            {% for p in powereds %}
-                <a target="_blank" class="powered" href="http://{{p.subdomain}}.poweredsites.org/">{{escape(p.project)}}</a>
-            {% end %}
         </div>
         <!--
 		<a class="span-16 last center" style="border:1px solid #ccc;" target="_blank" href="{{site.website}}" title="{{escape(site.sitename)}}"><img width="600" height="450" src="http://static.poweredsites.org/snapshot/{{site.uuid_[0:2]}}/{{site.uuid_}}.png"></a>
@@ -36,6 +31,14 @@
             <a target="_blank" href="{{site.source_url}}">{{site.source_url}}</a>
         </div>
         {% end %}
+        <div class="ws-content">
+            Page Rank:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
+            Submitted by:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
+            {% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
+                &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
+            {% end %}
+        </div>		
+		
         {% include neighbour_sites.html %}
 		<div class="comments">
 		    <div id="disqus_thread"></div>
@@ -75,6 +78,5 @@
 	<script>
 		  hljs.tabReplace = '    ';
 		  hljs.initHighlightingOnLoad();
-    </script>
-	<script type="text/javascript" src="http://www.sitethumbshot.com/popup/scl_hover.php?key=097c92c0b0fad6571b92bd541aec6f62"></script>
+    </script>	
 {% end %}

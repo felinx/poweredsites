@@ -13,9 +13,6 @@
 			<div class="ws-desc">
 				<a target="_blank" href="http://sites.poweredsites.org/{{site.slug}}">
 	            {{escape(site.description if site.description.strip() else site.sitename)}}
-                {% if site.source_url %}
-                    &nbsp;&nbsp;<a target="_blank" href="{{site.source_url}}">Source Code</a>
-                {% end %}
 				</a>
 			</div>
 		</div>
@@ -24,7 +21,10 @@
 		</div>
 		<div class="ws-user">
 			<div class="span-5 left">				
-				<span>Page Rank:{{"unknown" if site.pr == -1 else site.pr}}</span>				
+				<span>Page Rank:{{"unknown" if site.pr == -1 else site.pr}}</span>
+				{% if site.source_url %}
+                    &nbsp;&nbsp;<a target="_blank" href="{{site.source_url}}">Source Code</a>
+                {% end %}				
 			</div>
 			<div class="span-10 fright">
                 <a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>{{site.created}} 
