@@ -5,7 +5,7 @@
     <div class="wrapperL">
         {% include neighbour_sites.html %}
         <div class="wrapperL last">   
-    		<h2 class="span-8" style="overflow:hidden;"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a>
+    		<h2 class="span-8" style="overflow:hidden;"><a class="sitethumbshot" target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a>
     		{% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
                 &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
             {% end %}
@@ -75,5 +75,6 @@
 	<script>
 		  hljs.tabReplace = '    ';
 		  hljs.initHighlightingOnLoad();
-    </script>                        
+    </script>
+	<script type="text/javascript" src="http://www.sitethumbshot.com/popup/scl_hover.php?key=097c92c0b0fad6571b92bd541aec6f62"></script>
 {% end %}
