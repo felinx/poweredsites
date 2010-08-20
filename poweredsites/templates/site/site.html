@@ -7,6 +7,13 @@
         <div class="wrapperL last">
         	<div class="span-10" style="overflow:hidden;">
 	    		<h2 class="span-10 last"><a target="_blank" href="{{site.website}}">{{escape(site.sitename)}}</a></h2>
+				<div class="span-10 last" style="width:380px;padding:0 5px 5px 5px">
+		            Page Rank:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
+		            Submitted by:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
+		            {% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
+		                &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
+		            {% end %}
+		        </div>  
 				<div class="span-10 last label" style="width:380px;padding:5px">Powered by:</div>
 	            {% for p in powereds %}
 	                <a target="_blank" class="powered" href="http://{{p.subdomain}}.poweredsites.org/">{{escape(p.project)}}</a>
@@ -30,15 +37,7 @@
             <span class="span-16 last label">Source code:</span>            
             <a target="_blank" href="{{site.source_url}}">{{site.source_url}}</a>
         </div>
-        {% end %}
-        <div class="ws-content">
-            Page Rank:&nbsp;{{"unknown" if site.pr == -1 else site.pr}}&nbsp;&nbsp;
-            Submitted by:&nbsp;<a href="http://poweredsites.org/user/{{site.username}}">{{escape(site.openid_name)}}</a>
-            {% if handler.is_staff or (current_user and current_user.id == site.user_id) %}
-                &nbsp;&nbsp;<a style="text-decoration:underline;" class="highlight" href="http://poweredsites.org/submit/site?site={{site.uuid_}}">Edit</a>
-            {% end %}
-        </div>		
-		
+        {% end %}		
         {% include neighbour_sites.html %}
 		<div class="comments">
 		    <div id="disqus_thread"></div>
