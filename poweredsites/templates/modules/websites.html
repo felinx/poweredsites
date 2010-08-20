@@ -13,6 +13,9 @@
 			<div class="ws-desc">
 				<a target="_blank" href="http://sites.poweredsites.org/{{site.slug}}">
 	            {{escape(site.description if site.description.strip() else site.sitename)}}
+                {% if site.source_url %}
+                    &nbsp;&nbsp;<a target="_blank" href="{{site.source_url}}">Source Code</a>
+                {% end %}
 				</a>
 			</div>
 		</div>
