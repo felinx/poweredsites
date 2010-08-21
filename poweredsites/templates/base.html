@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="keywords" content="{{escape(context.keywords)}}" />
-        <meta name="description" content="{{escape(context.description)}}" />
+        <meta name="description" content="{{escape(context.description[0:200])}}" />
         <meta name="author" content="{{context.options.author}}" />
         <title>{{escape(context.title + context.options.title_suffix if context.title else context.options.default_title)}}</title>
         <style type='text/css'>

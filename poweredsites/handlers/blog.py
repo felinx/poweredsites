@@ -31,7 +31,7 @@ class BlogBaseHandler(BaseHandler):
     def prepare(self):
         super(BlogBaseHandler, self).prepare()
         self._context.title = "Blog"
-        self._context.keywords = self._context.keywords + ",blog"
+        self._context.keywords = "Blog," + self._context.keywords
         self._context.is_help = False
 
     @property
@@ -54,7 +54,8 @@ class BlogEntryHandler(BlogBaseHandler):
     def get(self, slug):
         entry = self.db.get("SELECT entries.*,user.username,user.openid_name "
                             "FROM entries,user WHERE entries.user_id = user.id and slug = %s", slug)
-        if not entry: raise HTTPError(404)
+        if not entry:
+            raise HTTPError(404)
 
         entry_next = self.db.get("SELECT slug,title FROM entries WHERE id = %s and is_help = 0", entry.id + 1)
         if entry.id > 1:
@@ -66,7 +67,8 @@ class BlogEntryHandler(BlogBaseHandler):
             self.redirect("/")
             return
 
-        self._context.title = entry.title
+        self._context.title = " | ".join(entry.title, self._context.title)
+        self._context.keywords = ",".join(entry.title, self._context.keywords)
         self._context.description = entry.content[0:200]
         self.render("blog/entry.html", entry=entry, entry_next=entry_next, entry_before=entry_before)
 
@@ -75,7 +77,8 @@ class BlogArchiveHandler(BlogBaseHandler):
     @cache.page(condition="select count(*) from entries")
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY id DESC")
-        self._context.title = "PoweredSites' Archive Blog | poweredsites.org"
+        self._context.title = "Archive Blog"
+        self._context.description = "Archive Blog," + self._context.description
         self.render("blog/archive.html", entries=entries)
 
 

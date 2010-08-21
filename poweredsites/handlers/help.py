@@ -34,7 +34,8 @@ class HelpHandler(BaseHandler):
         if not entry: raise HTTPError(404)
 
         self._context.title = entry.title
-        self._context.keywords = self._context.keywords + ",help"
+        self._context.keywords = ",".join(entry.title, self._context.keywords)
+        self._context.description = ",".join(entry.title, self._context.description)
         self._context.is_help = True
 
         self.render("help.html", entry=entry, entries=entries)

@@ -7,7 +7,8 @@
         <a href="http://poweredsites.org/user/{{user.username}}">{{escape(user.openid_name)}}</a>
         {{user.email}}&nbsp;&nbsp;        
         {{user.username}}&nbsp;&nbsp;
-        {{const.OpenID.NAME[user.openid_api]}}
+        {{const.OpenID.NAME[user.openid_api]}}&nbsp;&nbsp;
+        {{user.login_date}}
     </li>
 {% end %}
 </ul>

@@ -41,38 +41,39 @@ class AdminNewUsersHandler(AdminBaseHandler):
             count = 0
         self.render("admin/newusers.html", users=users, count=count, const=const)
 
-
-class AdminAddSiteSlugHandler(AdminBaseHandler):
-    def get(self):
-        import re
-        import unicodedata
-        import uuid
-
-        _domain_prefix_re = re.compile("(http://www\.|http://)")
-        sites = self.db.query("select * from site")
-        if sites:
-            for site in sites:
-                slug = site.website.lower().strip()
-                slug = _domain_prefix_re.sub("", slug)
-                slug = unicodedata.normalize("NFKD", slug).encode("ascii", "ignore")
-                slug = re.sub(r"[^\w]+", " ", slug)
-                slug = "-".join(slug.split())
-                if not slug:
-                    slug = "site"
-                while True:
-                    e = self.db.get("SELECT * FROM site WHERE slug = %s", slug)
-                    if not e:
-                        break
-                    slug += "-" + uuid.uuid4().hex[0:2]
-
-                self.db.execute("UPDATE site SET slug = %s where id = %s", slug, site.id)
-
-        self.write("Update slug OK")
+## this is just for back compatible, it has been done.
+## keep this code as a reference.
+#class AdminAddSiteSlugHandler(AdminBaseHandler):
+#    def get(self):
+#        import re
+#        import unicodedata
+#        import uuid
+#
+#        _domain_prefix_re = re.compile("(http://www\.|http://)")
+#        sites = self.db.query("select * from site")
+#        if sites:
+#            for site in sites:
+#                slug = site.website.lower().strip()
+#                slug = _domain_prefix_re.sub("", slug)
+#                slug = unicodedata.normalize("NFKD", slug).encode("ascii", "ignore")
+#                slug = re.sub(r"[^\w]+", " ", slug)
+#                slug = "-".join(slug.split())
+#                if not slug:
+#                    slug = "site"
+#                while True:
+#                    e = self.db.get("SELECT * FROM site WHERE slug = %s", slug)
+#                    if not e:
+#                        break
+#                    slug += "-" + uuid.uuid4().hex[0:2]
+#
+#                self.db.execute("UPDATE site SET slug = %s where id = %s", slug, site.id)
+#
+#        self.write("Update slug OK")
 
 sub_handlers = ["^admin.poweredsites.org$",
                 [(r"/?", AdminIndexHandler),
                  (r"/clearcache", AdminClearCacheHandler),
                  (r"/newusers", AdminNewUsersHandler),
-                 (r"/addsiteslug", AdminAddSiteSlugHandler),
+                 ##(r"/addsiteslug", AdminAddSiteSlugHandler),
                ]
             ]

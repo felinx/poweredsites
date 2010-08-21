@@ -153,7 +153,7 @@ class ProjectIndexHandler(ProjectBaseHandler):
     _condition = ""
     _handler_template = "project/index.html"
     _ws_count_query = "select count(*) as c from project_sites where project_id = %s"
-    _context_title = " - latest sites"
+    _context_title = "Latest sites"
 
     @cache.page(condition="select max(updated) from site")
     def get(self):
@@ -177,14 +177,27 @@ class ProjectIndexHandler(ProjectBaseHandler):
                 self._context.project_name = current_project.project
                 self._context.project_slogan = current_project.description
 
-                self._context.title = current_project.project + \
-                    " powered sites" + self._context_title
-                self._context.keywords = self._context.keywords + ",%s,%s,%s" % \
-                    (current_project.project,
-                     current_project.project + " powered sites",
-                     current_project.subdomain
-                     )
-                self._context.description = current_project.description
+                self._context.title = "%s%s%s%s%s" % (
+                            current_project.project,
+                            " powered sites - ",
+                            self._context_title,
+                            " | Powered by ",
+                            current_project.project
+                        )
+
+                meta_info = ",".join(
+                             current_project.project,
+                             current_project.project + " powered sites",
+                             self._context_title,
+                             "Powered by " + current_project.project,
+                             current_project.subdomain
+                        )
+                self._context.keywords = ",".join(meta_info,
+                             self._context.keywords,
+                        )
+                self._context.description = ",".join(meta_info,
+                             current_project.description
+                        )
 
                 self.render(self._handler_template)
             else:
@@ -194,7 +207,7 @@ class ProjectIndexHandler(ProjectBaseHandler):
 class ProjectTopHandler(ProjectIndexHandler):
     _order_by = "click DESC, pr DESC, ar ASC"
     _handler_template = "project/top.html"
-    _context_title = " - top sites"
+    _context_title = "Top sites"
 
 
 class ProjectOpensourceHandler(ProjectIndexHandler):
@@ -204,7 +217,7 @@ class ProjectOpensourceHandler(ProjectIndexHandler):
             "where project_id = %s and source_url is not NULL and "\
             "project_sites.site_id=site.id"
     _handler_template = "project/opensource.html"
-    _context_title = " - open source sites"
+    _context_title = "Open source sites"
 
 
 class HotProjectsModule(UIModule):
