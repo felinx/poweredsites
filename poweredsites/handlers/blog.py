@@ -30,8 +30,8 @@ from poweredsites.libs import const
 class BlogBaseHandler(BaseHandler):
     def prepare(self):
         super(BlogBaseHandler, self).prepare()
-        self._context.title = "PoweredSites' Blog"
-        self._context.keywords = self._context.keywords + ", blog"
+        self._context.title = "Blog"
+        self._context.keywords = self._context.keywords + ",blog"
         self._context.is_help = False
 
     @property
@@ -41,7 +41,7 @@ class BlogBaseHandler(BaseHandler):
 
 
 class BlogIndexHandler(BlogBaseHandler):
-    @cache.page(condition="select count(*) from entries", key="blog/bloghomehandler")
+    @cache.page(condition="select max(updated) from entries")
     def get(self):
         entries = self.db.query("SELECT entries.*,user.username,user.openid_name "
                                 "FROM entries,user WHERE entries.user_id = user.id "

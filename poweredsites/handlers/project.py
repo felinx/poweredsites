@@ -155,7 +155,7 @@ class ProjectIndexHandler(ProjectBaseHandler):
     _ws_count_query = "select count(*) as c from project_sites where project_id = %s"
     _context_title = " - latest sites"
 
-    @cache.page(1200, condition="select count(*) from site")
+    @cache.page(condition="select max(updated) from site")
     def get(self):
         subdomain = self.request.host.split(".")[0]
         if not subdomain.islower():

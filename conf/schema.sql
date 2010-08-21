@@ -56,6 +56,7 @@ CREATE TABLE `entries` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
   KEY `FK_blog_user` (`user_id`),
+  KEY `updated` (`updated`),
   CONSTRAINT `FK_blog_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -130,7 +131,7 @@ CREATE TABLE `project_sites` (
   KEY `FK_project_sites_project` (`project_id`),
   CONSTRAINT `FK_project_sites_project` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`),
   CONSTRAINT `FK_project_sites_site` FOREIGN KEY (`site_id`) REFERENCES `site` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=383 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=397 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `site` */
 
@@ -161,8 +162,9 @@ CREATE TABLE `site` (
   UNIQUE KEY `slug` (`slug`),
   KEY `FK_site_user` (`user_id`),
   KEY `updated_ss` (`updated_ss`),
+  KEY `updated` (`updated`),
   CONSTRAINT `FK_site_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 /*Table structure for table `user` */
 
@@ -190,7 +192,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `uuid` (`uuid_`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

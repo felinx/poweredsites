@@ -210,7 +210,6 @@ class WebsiteIndexHandler(BaseHandler):
 
 
 class WebsitePoweredsModule(UIModule):
-    @cache.cache()
     def render(self, site_id):
         powereds = self.handler.db.query("select project.* from project_sites, project "\
                                  "where project_sites.site_id = %s and project_sites.project_id = project.id", site_id)
