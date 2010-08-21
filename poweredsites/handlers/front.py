@@ -52,8 +52,8 @@ class FrontIndexHandler(BaseHandler):
         self._context.page = self.get_argument("page", 1)
 
         self._context.title = self._context_title
-        self._context.keywords = ",".join(self._context_title, self._context.keywords)
-        self._context.description = ",".join(self._context_title, self._context.description)
+        self._context.keywords = ",".join((self._context_title, self._context.keywords))
+        self._context.description = ",".join((self._context_title, self._context.description))
         self.render(self._handler_template)
 
 

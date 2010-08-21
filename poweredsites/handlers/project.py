@@ -185,19 +185,19 @@ class ProjectIndexHandler(ProjectBaseHandler):
                             current_project.project
                         )
 
-                meta_info = ",".join(
+                meta_info = ",".join((
                              current_project.project,
                              current_project.project + " powered sites",
                              self._context_title,
                              "Powered by " + current_project.project,
                              current_project.subdomain
-                        )
-                self._context.keywords = ",".join(meta_info,
+                        ))
+                self._context.keywords = ",".join((meta_info,
                              self._context.keywords,
-                        )
-                self._context.description = ",".join(meta_info,
+                        ))
+                self._context.description = ",".join((meta_info,
                              current_project.description
-                        )
+                        ))
 
                 self.render(self._handler_template)
             else:

@@ -196,15 +196,15 @@ class WebsiteHandler(BaseHandler):
 
         powereds_desc = ",".join([p.project for p in powereds])
         self._context.title = site.sitename
-        self._context.keywords = ",".join(site.sitename,
+        self._context.keywords = ",".join((site.sitename,
                                         powereds_desc,
                                         self._context.keywords
-                                    )
-        self._context.description = ",".join(site.sitename,
+                                    ))
+        self._context.description = ",".join((site.sitename,
                                         "powered sites",
                                         powereds_desc,
                                         site.description,
-                                    )
+                                    ))
         self.render("site/site.html", site=site, site_before=site_before, site_next=site_next, powereds=powereds)
 
 
