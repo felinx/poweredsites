@@ -67,8 +67,8 @@ class BlogEntryHandler(BlogBaseHandler):
             self.redirect("/")
             return
 
-        self._context.title = " | ".join(entry.title, self._context.title)
-        self._context.keywords = ",".join(entry.title, self._context.keywords)
+        self._context.title = " | ".join((entry.title, self._context.title))
+        self._context.keywords = ",".join((entry.title, self._context.keywords))
         self._context.description = entry.content[0:200]
         self.render("blog/entry.html", entry=entry, entry_next=entry_next, entry_before=entry_before)
 

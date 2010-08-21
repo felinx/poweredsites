@@ -27,8 +27,12 @@
         	<br/><br/><b>Description:</b> 
         	<br/>{{escape(entry.description if entry.description.strip() else entry.sitename)}}
             {% if entry.usecase_md %}
-            <br/><br/><b>Usecase:</b>  
-            <br/>{{ entry.usecase_md }}
+	            <br/><br/><b>Usecase:</b>  
+	            <br/>{{ entry.usecase_md }}
+            {% end %}
+			{% if entry.source_url %}
+                <br/><br/><b>Source Code:</b>        
+                <br/><a target="_blank" href="{{entry.source_url}}">{{entry.source_url}}</a>            
             {% end %}
 			<br/>
 		</div>
