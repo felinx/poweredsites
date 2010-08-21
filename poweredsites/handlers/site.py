@@ -208,10 +208,16 @@ class WebsiteHandler(BaseHandler):
         self.render("site/site.html", site=site, site_before=site_before, site_next=site_next, powereds=powereds)
 
 
-class WebsiteIndexHandler(BaseHandler):
+class _WebsiteIndexHandler(BaseHandler):
     def get(self):
         # redirect old sites page to home page
         self.redirect(self._context.options.home_url)
+
+
+class _WebsitesFeedsHandler(BaseHandler):
+    def get(self):
+        # redirect feeds page to root domain for google webmasters tools
+        self.redirect(self._context.options.home_url + "feeds")
 
 
 class WebsitePoweredsModule(UIModule):
@@ -233,7 +239,8 @@ handlers = [
 
 sub_handlers = ["^sites.poweredsites.org$",
                 [
-                 (r"/?", WebsiteIndexHandler),
+                 (r"/", _WebsiteIndexHandler),
+                 (r"/feeds", _WebsitesFeedsHandler),
                  (r"/([a-z0-9]{32})", _WebsiteHandler),
                  (r"/([^/]+)", WebsiteHandler),
                  ]
