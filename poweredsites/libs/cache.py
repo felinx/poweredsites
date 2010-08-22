@@ -226,8 +226,6 @@ def _valid_cache(value, handler, condition, new_condtion, anonymous, now):
         new_cond = utf8(new_cond)
         old_cond = utf8(old_cond if old_cond else "")
 
-        print "old_cond:", old_cond
-        print "new_cond:", new_cond
         if old_cond != new_cond:
             new_condtion["condition"] = new_cond
             return False
