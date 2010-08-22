@@ -24,7 +24,7 @@ class Cache(MongodbModel):
         return _collection
 
     def attributes(self):
-        return ["key", "value", "expire"]
+        return ["key", "value", "expire", "condition"]
 
     def findby_key(self, key):
         return self.db.find_one({"key":key})
@@ -35,7 +35,7 @@ class Page(Cache):
         return "caches_page"
 
     def attributes(self):
-        return ["key", "status", "headers", "chunk", "expire"]
+        return ["key", "status", "headers", "chunk", "expire", "condition"]
 
 
 def setup():

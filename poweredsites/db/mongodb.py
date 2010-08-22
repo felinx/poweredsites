@@ -80,7 +80,7 @@ class MongodbModel(dict):
                                    % (key, self.name()))
 
     def insert(self):
-        self.db.insert(self.record())
+        return self.db.insert(self.record())
 
     def save(self, _id=None):
         if _id is not None:
@@ -88,10 +88,10 @@ class MongodbModel(dict):
 
         assert self._id is not None, "_id should be set."
 
-        self.db.save(self.record())
+        return self.db.save(self.record())
 
     def remove(self, _id=None):
         if _id is not None:
             self._id = _id
 
-        self.db.remove(self._id)
+        return self.db.remove(self._id)

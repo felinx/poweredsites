@@ -23,11 +23,9 @@ from tornado.options import options
 from poweredsites.libs.handler import BaseHandler
 from poweredsites.db.caches import Page, Cache
 from poweredsites.db import conn
-from poweredsites.libs.utils import NoDefault
 
 __all__ = ("cache", "page", "mem", "key_gen", "remove")
 
-_cache_condition = {}
 _mem_caches = {}
 
 def cache(expire=7200, condition="", key="", anonymous=False):
@@ -52,15 +50,24 @@ def cache(expire=7200, condition="", key="", anonymous=False):
         k, handler, cond = key_gen(self, condition, anonymous, c, *args, **kwargs)
 
         value = Cache().findby_key(k)
-        if _valid_cache(k, value, handler, cond, anonymous, now):
+        new_cond = {}
+
+        if _valid_cache(value, handler, cond, new_cond, anonymous, now):
+            if new_cond:
+                c = Cache()
+                c.key = k
+                c.condition = new_cond["condition"]
+                c.save(value["_id"])
             return value["value"]
         else:
             val = func(self, *args, **kwargs)
 
             c = Cache()
+            # need key, or save will not work
             c.key = k
             c.value = val
             c.expire = now + timedelta(seconds=expire)
+            c.condition = new_cond.get("condition", "")
 
             if value:
                 c.save(value["_id"])
@@ -70,7 +77,6 @@ def cache(expire=7200, condition="", key="", anonymous=False):
             return val
 
     return decorator(wrapper)
-
 
 def page(expire=7200, condition="", key="", anonymous=False):
     """Decorator which caches a whole page(headers + html) in a handler
@@ -89,8 +95,17 @@ def page(expire=7200, condition="", key="", anonymous=False):
         k, handler, cond = key_gen(self, condition, anonymous, c, *args, **kwargs)
 
         value = Cache().findby_key(k)
-        if _valid_cache(k, value, handler, cond, anonymous, now) and value["status"] in (200, 304):
-            # finish request with cache chunk and headers         
+        new_cond = {}
+
+        is_valid = _valid_cache(value, handler, cond, new_cond, anonymous, now)
+        if is_valid and value["status"] in (200, 304):
+            if new_cond:
+                c = Page()
+                c.key = k
+                c.condition = new_cond["condition"]
+                c.save(value["_id"])
+
+            # finish request with cache chunk and headers
             self.set_status(value["status"])
             self.set_header("Content-Type", utf8(value["headers"]["Content-Type"]))
             self.write(utf8("".join(value["chunk"])))
@@ -103,13 +118,14 @@ def page(expire=7200, condition="", key="", anonymous=False):
             c.headers = self._headers
             c.chunk = self._write_buffer
             c.expire = now + timedelta(seconds=expire)
+            c.condition = new_cond.get("condition", "")
+
             if value:
                 c.save(value["_id"])
             else:
                 c.insert()
 
     return decorator(wrapper)
-
 
 def mem(expire=7200, key=""):
     """Mem cache to python dict by key"""
@@ -122,7 +138,7 @@ def mem(expire=7200, key=""):
         k, handler, cond = key_gen(self, "", False, c, *args, **kwargs)
 
         value = _mem_caches.get(k, None)
-        if _valid_cache(k, value, handler, cond, False, now):
+        if _valid_cache(value, handler, cond, [], False, now):
             return value["value"]
         else:
             val = func(self, *args, **kwargs)
@@ -131,7 +147,6 @@ def mem(expire=7200, key=""):
             return val
 
     return decorator(wrapper)
-
 
 def key_gen(self, condition, anonymous, key, *args, **kwargs):
     code = hashlib.md5()
@@ -187,36 +202,37 @@ def key_gen(self, condition, anonymous, key, *args, **kwargs):
 
 def remove(key):
     """Remove a cache's value."""
-    try:
-        del _cache_condition[key]
-    except KeyError:
-        pass
-
     c = Cache()
     v = c.findby_key(key)
     if v:
         c.remove(v["_id"])
 
-
-def _valid_cache(k, value, handler, condition, anonymous, now):
+def _valid_cache(value, handler, condition, new_condtion, anonymous, now):
     if not options.cache_enabled:
         return False
 
     if anonymous and handler.current_user:
         return False
 
-    if value:
-        if condition:
-            cond = _cache_condition.get(k, NoDefault)
-            if cond is NoDefault:
-                # update condition result                
-                _cache_condition[k] = conn.mysql.query(condition)
-            else:
-                new_cond = conn.mysql.query(condition)
-                if cond != new_cond:
-                    _cache_condition[k] = new_cond
-                    return False
+    if condition:
+        old_cond = value.get("condition", "") if value else ""
+        rows = conn.mysql.query(condition)
 
+        new_cond = ""
+        for r in rows:
+            new_cond += str(r)
+
+        # unify to utf8, the string result return by pymongo is unicode
+        new_cond = utf8(new_cond)
+        old_cond = utf8(old_cond if old_cond else "")
+
+        print "old_cond:", old_cond
+        print "new_cond:", new_cond
+        if old_cond != new_cond:
+            new_condtion["condition"] = new_cond
+            return False
+
+    if value:
         if value["expire"] > now:
             return True
         else:
