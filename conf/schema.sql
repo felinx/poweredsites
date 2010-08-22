@@ -151,7 +151,7 @@ CREATE TABLE `site` (
   `ar` int(11) NOT NULL DEFAULT '100000000',
   `updated_ss` datetime NOT NULL COMMENT 'snapshot updated',
   `created` datetime NOT NULL,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL,
   `uuid_` varchar(32) NOT NULL,
   `status_` tinyint(4) NOT NULL DEFAULT '0',
   `click` int(11) NOT NULL DEFAULT '0',

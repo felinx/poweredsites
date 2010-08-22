@@ -100,8 +100,8 @@ class SiteForm(BaseForm):
 
             if v.get("site", ""):
                 stmt = "UPDATE site SET sitename = %s,website = %s,description = %s, "\
-                        "usecase = %s,usecase_md = %s,source_url = %s, logo = %s "\
-                        "where uuid_ = %s"
+                        "usecase = %s,usecase_md = %s,source_url = %s, logo = %s, "\
+                        "updated = UTC_TIMESTAMP() where uuid_ = %s"
 
                 args = (v["sitename"], v["website"], v["desc"], \
                         v["usecase"], usecase_md, v["source_url"], v["logo"], \
@@ -135,9 +135,9 @@ class SiteForm(BaseForm):
                             slug += "-" + uuid.uuid4().hex[0:2]
 
                     stmt = "INSERT INTO site (sitename,website,description,usecase,usecase_md,source_url,"\
-                            "user_id,logo,uuid_,created,updated_ss,status_,slug) "\
+                            "user_id,logo,uuid_,created,updated,updated_ss,status_,slug) "\
                             "VALUES (%s,%s,%s,%s,%s,%s,"\
-                            "%s,%s,%s,UTC_TIMESTAMP(),UTC_TIMESTAMP(),%s,%s)"
+                            "%s,%s,%s,UTC_TIMESTAMP(),UTC_TIMESTAMP(),UTC_TIMESTAMP(),%s,%s)"
 
                     args = (v["sitename"], v["website"], v["desc"], v["usecase"], usecase_md, v["source_url"], \
                             user_id, v["logo"], uuid.uuid4().hex, status, slug)
@@ -174,6 +174,10 @@ class SitePoweredForm(BaseForm):
                                          "VALUES (%s, %s)", values)
             if del_values:
                 self._handler.db.executemany("DELETE from project_sites where site_id = %s and project_id = %s", del_values)
+
+            if values or del_values:
+                self._handler.db.execute("UPDATE site SET updated = UTC_TIMESTAMP() where id = %s", self._values["site_id"])
+
         except Exception, e:
             logging.error(str(e))
             self.add_error("projects", "Submit powered by information error, please try it later.")
