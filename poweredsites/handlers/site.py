@@ -145,7 +145,7 @@ class SubmitSitePoweredHandler(BaseHandler):
         self._authorize(website.user_id)
 
         if fm.validate():
-            self.redirect("http://sites.poweredsites.org/%s" % website.uuid_)
+            self.redirect("http://sites.poweredsites.org/%s" % website.slug)
         else:
             self._context.website = website
             self._context.powered_projects = self.get_powered_project(website.id)
