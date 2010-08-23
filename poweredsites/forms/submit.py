@@ -106,6 +106,7 @@ class SiteForm(BaseForm):
                 args = (v["sitename"], v["website"], v["desc"], \
                         v["usecase"], usecase_md, v["source_url"], v["logo"], \
                         v["site"])
+                self._handler.db.execute(stmt, *args)
             else:
                 if self._handler.db.get("select * from site where website = %s", v["website"]):
                     self.add_error("website", "This web site already be registered.")
@@ -121,18 +122,19 @@ class SiteForm(BaseForm):
                             status = const.Status.UNVERIFIED
                     else:
                         status = const.Status.ACTIVE
-                        slug = v["website"].lower().strip()
-                        slug = _domain_prefix_re.sub("", slug)
-                        slug = unicodedata.normalize("NFKD", escape._unicode(slug)).encode("ascii", "ignore")
-                        slug = re.sub(r"[^\w]+", " ", slug)
-                        slug = "-".join(slug.split())
-                        if not slug:
-                            slug = "site"
-                        while True:
-                            e = self._handler.db.get("SELECT * FROM site WHERE slug = %s", slug)
-                            if not e:
-                                break
-                            slug += "-" + uuid.uuid4().hex[0:2]
+
+                    slug = v["website"].lower().strip()
+                    slug = _domain_prefix_re.sub("", slug)
+                    slug = unicodedata.normalize("NFKD", escape._unicode(slug)).encode("ascii", "ignore")
+                    slug = re.sub(r"[^\w]+", " ", slug)
+                    slug = "-".join(slug.split())
+                    if not slug:
+                        slug = "site"
+                    while True:
+                        e = self._handler.db.get("SELECT * FROM site WHERE slug = %s", slug)
+                        if not e:
+                            break
+                        slug += "-" + uuid.uuid4().hex[0:2]
 
                     stmt = "INSERT INTO site (sitename,website,description,usecase,usecase_md,source_url,"\
                             "user_id,logo,uuid_,created,updated,updated_ss,status_,slug) "\
@@ -142,7 +144,7 @@ class SiteForm(BaseForm):
                     args = (v["sitename"], v["website"], v["desc"], v["usecase"], usecase_md, v["source_url"], \
                             user_id, v["logo"], uuid.uuid4().hex, status, slug)
 
-            self._handler.db.execute(stmt, *args)
+                    self._handler.db.execute(stmt, *args)
         except Exception, e:
             logging.error(str(e))
             self.add_error("sitename", "Submit project error, please try it later.")
