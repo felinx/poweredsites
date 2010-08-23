@@ -160,8 +160,8 @@ class BaseHandler(RequestHandler):
 
     def _prepare_context(self):
         self._context = _Context()
-        self._context.css = options.css
-        self._context.js = options.js
+        self._context.css = ['base.css', ]
+        self._context.js = ['base.js', ]
         self._context.title = options.title
         self._context.keywords = options.keywords
         self._context.description = options.description
