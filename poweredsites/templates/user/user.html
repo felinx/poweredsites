@@ -1,7 +1,16 @@
 {% extends ../base.html %}
 {% block body %}
  <div id="websites" class="span-16">
- 	<h3>{{escape(user.openid_name)}} submitted sites</h3>
+ 	<h3>{{escape(user.openid_name)}}
+    {% if user.blog_url %}
+        {% if user.blog_name %}
+            (<a target="_blank" href="{{user.blog_url}}" alt="{{escape(user.blog_name)}}">{{escape(user.blog_name)}}</a>)
+        {% else %}
+            (<a target="_blank" href="{{user.blog_url}}">{{user.blog_url}}</a>)
+        {% end %}
+    {% end %}
+    submitted sites
+    </h3>
 	{% for site in sites %}
     <div class='website'>
         <div>
