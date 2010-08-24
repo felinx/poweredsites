@@ -17,6 +17,7 @@
 import functools
 import urllib
 from tornado.web import HTTPError
+from tornado.options import options
 
 from poweredsites.libs import cache # cache decorator alias
 
@@ -34,7 +35,7 @@ def admin(method):
             raise HTTPError(403)
         elif not self.is_admin:
             if self.request.method == "GET":
-                self.redirect("/")
+                self.redirect(options.home_url)
                 return
             raise HTTPError(403)
         else:
@@ -55,7 +56,7 @@ def staff(method):
             raise HTTPError(403)
         elif not self.is_staff:
             if self.request.method == "GET":
-                self.redirect("/")
+                self.redirect(options.home_url)
                 return
             raise HTTPError(403)
         else:

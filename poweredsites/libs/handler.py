@@ -70,7 +70,7 @@ class BaseHandler(RequestHandler):
         return super(BaseHandler, self).render_string(template_name, **kwargs)
 
     def flush(self, include_footers=False):
-        """Flushes the current output buffer to the nextwork."""
+        """Flushes the current output buffer to the network."""
         if self.application._wsgi:
             raise Exception("WSGI applications do not support flush()")
 
@@ -206,7 +206,7 @@ class AdminBaseHandler(BaseHandler):
             raise HTTPError(403)
         elif not self.is_admin:
             if self.request.method == "GET":
-                self.redirect("/")
+                self.redirect(options.home_url)
                 return
             raise HTTPError(403)
         else:
@@ -232,7 +232,7 @@ class StaffBaseHandler(BaseHandler):
             raise HTTPError(403)
         elif not self.is_staff:
             if self.request.method == "GET":
-                self.redirect("/")
+                self.redirect(options.home_url)
                 return
             raise HTTPError(403)
         else:
