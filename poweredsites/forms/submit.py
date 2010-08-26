@@ -95,6 +95,10 @@ class SiteForm(BaseForm):
     def __after__(self):
         try:
             v = self._values
+            # strip / to avoid treating http://example.com and http://example.com/ 
+            # as different sites
+            v["website"] = v["website"].strip("/")
+
             user_id = self._handler.current_user.id
             usecase_md = markdown.markdown(escape._unicode(v["usecase"]))
 
