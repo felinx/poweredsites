@@ -98,7 +98,7 @@ def page(expire=7200, condition="", key="", anonymous=False):
         new_cond = {}
 
         is_valid = _valid_cache(value, handler, cond, new_cond, anonymous, now)
-        if is_valid and value["status"] in (200, 304):
+        if is_valid and value["status"] in (200, 304) and value["chunk"]:
             if new_cond:
                 c = Page()
                 c.key = k
