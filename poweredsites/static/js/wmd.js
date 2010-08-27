@@ -1197,7 +1197,7 @@ Attacklab.wmdBase = function(){
 			if (inputBox.form) {
 				var submitCallback = inputBox.form.onsubmit;
 				inputBox.form.onsubmit = function(){
-					convertToHtml();
+					////convertToHtml();
 					if (submitCallback) {
 						return submitCallback.apply(this, arguments);
 					}
