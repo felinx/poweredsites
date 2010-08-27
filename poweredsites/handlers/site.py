@@ -54,7 +54,7 @@ class SubmitSiteHandler(SubmitProjectHandler, AlexaRankMixin, \
     @authenticated
     @asynchronous
     def get(self):
-        self._context.css.append("markedit.css")
+        self._context.css.append("wmd.css")
         self._context.title = "Submit site"
         uuid_ = self.get_argument("site", None)
         if uuid_:
@@ -74,7 +74,7 @@ class SubmitSiteHandler(SubmitProjectHandler, AlexaRankMixin, \
     @authenticated
     @asynchronous
     def post(self):
-        self._context.css.append("markedit.css")
+        self._context.css.append("wmd.css")
         self._context.metainfos = {}
         uuid_ = self.get_argument("site", None)
         if uuid_:

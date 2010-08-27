@@ -94,7 +94,7 @@ class BlogFeedHandler(BlogBaseHandler):
 class BlogComposeHandler(BlogBaseHandler):
     @staff
     def get(self):
-        self._context.css.append("markedit.css")
+        self._context.css.append("wmd.css")
         id = self.get_argument("id", None)
         entry = None
         if id:
@@ -114,8 +114,8 @@ class BlogComposeHandler(BlogBaseHandler):
             if not entry: raise HTTPError(404)
             slug = entry.slug
             self.db.execute(
-                "UPDATE entries SET user_id = %s, title = %s, content = %s, markdown = %s "
-                "WHERE id = %s", self.current_user.id, title, text, html, int(id))
+                "UPDATE entries SET title = %s, content = %s, markdown = %s "
+                "WHERE id = %s", title, text, html, int(id))
             if entry.is_help:
                 self.redirect(self._context.options.home_url + "help/" + slug)
                 return

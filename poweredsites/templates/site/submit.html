@@ -37,8 +37,9 @@
         Use case(technical summary):
     </div>
 	<div class="wrapper">
-        <textarea style="height:200px;border:1px solid #BBBBBB;" id="markedit" name="usecase" maxlength="2000">{{escape(context.metainfos.get('usecase', ''))}}</textarea>
-	    <div id="preview" class="preview"></div>
+	    <div id="wmd-button-bar"></div>
+        <textarea style="height:200px;border:1px solid #BBBBBB;" id="wmd-input" name="usecase" maxlength="2000">{{escape(context.metainfos.get('usecase', ''))}}</textarea>
+	    <div id="wmd-preview" class="preview"></div>
 	</div>
 </div>			
 <div class="wrapper">
@@ -47,26 +48,7 @@
 </div>
 {% end %}
 
-{% block head %}
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
-{% end %}
-
 {% block bottom %}
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="{{static_url('js/showdown.js')}}"></script>
-    <script type="text/javascript" src="{{static_url('js/markedit.js')}}"></script>
-	<script type="text/javascript">//<![CDATA[		
-        // Create a MarkEdit editor on page load
-        $(function(){
-            $('#markedit').markedit({
-                'preview' : false,
-                'postload' : function() {
-                    $('div.preview').each(function() {
-                       $('#markedit').markeditBindAutoPreview(this); 
-                    });
-                }
-            });
-        });
-		//]]>
-    </script>
+    <script type="text/javascript" src="{{static_url('js/wmd.js')}}"></script>
 {% end %}
