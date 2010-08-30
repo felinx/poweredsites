@@ -34,13 +34,6 @@ _email_re = re.compile(
     r')@(?:[A-Z0-9]+(?:-*[A-Z0-9]+)*\.)+[A-Z]{2,6}$', re.IGNORECASE)  # domain
 
 def send_email(fr, to, subject, body):
-    tt = []
-    for t in to:
-        t = str(t)
-        if not t.startswith('-'):
-            tt.append(str(t))
-    to = '", '.join(tt)
-
     msg = MIMEText(utf8(body))
     msg.set_charset('utf8')
     msg['To'] = utf8(to)
@@ -56,6 +49,7 @@ def send_email(fr, to, subject, body):
 
     _session.send_mail(fr, to, msg.as_string())
 
+
 class Address(object):
     def __init__(self, addr, name=""):
         assert _email_re.match(addr), "Email address(%s) is invalid." % addr
@@ -67,7 +61,7 @@ class Address(object):
             self.name = addr.split("@")[0]
 
     def __str__(self):
-        return '"%s" <%s>' % (self.name, self.addr)
+        return '%s <%s>' % (self.name, self.addr)
 
 
 class _SMTPSession(object):

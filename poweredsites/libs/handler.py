@@ -107,48 +107,33 @@ class BaseHandler(RequestHandler):
         message = httplib.responses[status_code]
         exception = kwargs["exception"]
 
-        if options.debug:
-            template = "%s_debug.html" % code
-            # add exception stack trace for debug
-            exception = traceback.format_exc()
-        else:
-            template = "%s.html" % code
-
-            # comment send email for ec2 limit
-#            if code == 500:
-#                fr = options.email_from
-#                to = options.admins
-#
-#                subject = "[%s]Internal Server Error" % options.sitename
-#                body = self.render_string("500_email.html",
-#                                      code=code,
-#                                      message=message,
-#                                      exception=exception)
-#
-#                self.send_email(fr, to, subject, body)
         try:
+            if options.debug:
+                template = "%s_debug.html" % code
+                # add exception stack trace for debug
+                exception = traceback.format_exc()
+            else:
+                template = "%s.html" % code
+
+                ## comment send email for ec2 smtp limit
+                if code == 500:
+                    fr = options.email_from
+                    to = options.admins
+
+                    subject = "[%s]Internal Server Error" % options.sitename
+                    body = self.render_string("500_email.html",
+                                          code=code,
+                                          message=message,
+                                          exception=exception)
+
+                    mail.send_email(fr, to, subject, body)
+
             return self.render_string(template,
                                       code=code,
                                       message=message,
                                       exception=exception)
         except Exception:
             return super(BaseHandler, self).get_error_html(status_code, **kwargs)
-
-    def send_email(self, fr, to, subject, body):
-        to = to.split(";")
-        to_addr = []
-        for t in to:
-            t = t.split(":")
-            try:
-                if len(t) == 1:
-                    to_addr.append(mail.Address(t[0]))
-                else:
-                    to_addr.append(mail.Address(t[0], t[1]))
-            except AssertionError:
-                pass
-
-        if to_addr:
-            mail.send_email(fr, to_addr, subject, body)
 
     @property
     def is_admin(self):
