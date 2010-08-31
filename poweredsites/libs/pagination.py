@@ -22,8 +22,13 @@ from webhelpers.util import update_params
 class PaginationMixin(object):
     def get_pagination(self, count_query, query, page, page_size=options.page_size, *args):
         try:
-            page = int(page)
-            page_size = int(page_size)
+            try:
+                page = int(page)
+                page_size = int(page_size)
+            except ValueError:
+                page = 1
+                page_size = 20
+
             if page < 1:
                 page = 1
 
