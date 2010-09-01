@@ -35,7 +35,7 @@ class ProfileForm(BaseForm):
             length = len(v["username"])
 
             if length < 3 or length > 40:
-                self.add_error("username", "Username should be more than three and less than forty charaters.")
+                self.add_error("username", "Username should be more than three and less than forty characters.")
 
             self._handler.db.execute(
                             "UPDATE user SET username = %s, email = %s, status_ = %s, \

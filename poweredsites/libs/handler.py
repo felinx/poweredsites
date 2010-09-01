@@ -105,13 +105,13 @@ class BaseHandler(RequestHandler):
         """
         code = status_code
         message = httplib.responses[status_code]
-        exception = kwargs["exception"]
 
         try:
+            # add stack trace information
+            exception = "%s\n\n%s" % (kwargs["exception"], traceback.format_exc())
+
             if options.debug:
                 template = "%s_debug.html" % code
-                # add exception stack trace for debug
-                exception = traceback.format_exc()
             else:
                 template = "%s.html" % code
 
