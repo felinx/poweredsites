@@ -43,6 +43,8 @@ class BlogBaseHandler(BaseHandler):
 class BlogIndexHandler(BlogBaseHandler):
     @cache.page(condition="select max(updated) from entries")
     def get(self):
+        self._context.css.append("highlight.css")
+
         entries = self.db.query("SELECT entries.*,user.username,user.openid_name "
                                 "FROM entries,user WHERE entries.user_id = user.id "
                                 "ORDER BY id DESC LIMIT 20")
@@ -52,6 +54,8 @@ class BlogIndexHandler(BlogBaseHandler):
 class BlogEntryHandler(BlogBaseHandler):
     @cache.page(anonymous=True)
     def get(self, slug):
+        self._context.css.append("highlight.css")
+
         entry = self.db.get("SELECT entries.*,user.username,user.openid_name "
                             "FROM entries,user WHERE entries.user_id = user.id and slug = %s", slug)
         if not entry:

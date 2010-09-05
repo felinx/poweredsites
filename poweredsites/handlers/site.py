@@ -183,6 +183,7 @@ class WebsiteHandler(BaseHandler):
 
     @cache.page()
     def get(self, slug):
+        self._context.css.append("highlight.css")
         site = self._website
 
         site_next = self.db.get("SELECT sitename,slug FROM site WHERE id = %s", site.id + 1)

@@ -1,11 +1,19 @@
 {% extends "blog.html" %}
 
 {% block blog_content %}
-{% for entry in entries %}
-    {{ modules.entry(entry) }}
+    {% for entry in entries %}
+        {{ modules.entry(entry) }}
+    {% end %}
+    <div>
+        <a href="/archive">{{ _("Archive") }}</a>&nbsp;&nbsp;
+    	<a href="/feeds">{{ _("Feeds") }}</a>
+    </div>
 {% end %}
-<div>
-    <a href="/archive">{{ _("Archive") }}</a>&nbsp;&nbsp;
-	<a href="/feeds">{{ _("Feeds") }}</a>
-</div>
+
+{% block bottom %}
+    <script type="text/javascript" src="{{static_url('js/highlight.js')}}"> </script>    
+    <script>
+          hljs.tabReplace = '    ';
+          hljs.initHighlightingOnLoad();
+    </script>              
 {% end %}
