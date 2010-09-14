@@ -28,9 +28,9 @@ class _NoDefault:
         return '(No Default)'
 NoDefault = _NoDefault()
 
-def find_models(models_dir):
+def find_modules(modules_dir):
     try:
-        return [f[:-3] for f in os.listdir(models_dir)
+        return [f[:-3] for f in os.listdir(modules_dir)
                 if not f.startswith('_') and f.endswith('.py')]
     except OSError:
         return []

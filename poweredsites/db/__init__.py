@@ -18,7 +18,7 @@ import os
 from tornado.options import options
 
 from poweredsites.libs.importlib import import_module
-from poweredsites.libs.utils import find_models
+from poweredsites.libs.utils import find_modules
 
 def connect():
     """Connect to databases"""
@@ -28,7 +28,7 @@ def connect():
 
     # Setup date base(eg. index for the first time)
     if options.setup_db:
-        mds = find_models(os.path.dirname(__file__))
+        mds = find_modules(os.path.dirname(__file__))
         for m in mds:
             try:
                 mod = import_module("." + m, package="poweredsites.db")
