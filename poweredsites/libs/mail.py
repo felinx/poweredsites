@@ -45,7 +45,8 @@ def send_email(fr, to, subject, body):
         _session = _SMTPSession(options.smtp['host'],
                        options.smtp['user'],
                        options.smtp['password'],
-                       options.smtp['duration'])
+                       options.smtp['duration'],
+                       options.smtp['tls'])
 
     _session.send_mail(fr, to, msg.as_string())
 
@@ -65,11 +66,12 @@ class Address(object):
 
 
 class _SMTPSession(object):
-    def __init__(self, host, user='', password='', duration=30):
+    def __init__(self, host, user='', password='', duration=30, tls=False):
         self.host = host
         self.user = user
         self.password = password
         self.duration = duration
+        self.tls = tls
 
         self.renew()
 
@@ -99,6 +101,8 @@ class _SMTPSession(object):
 
         self.session = smtplib.SMTP(self.host)
         if self.user and self.password:
+            if self.tls:
+                self.session.starttls()
             self.session.login(self.user, self.password)
 
         self.deadline = datetime.now() + timedelta(seconds=self.duration * 60)
